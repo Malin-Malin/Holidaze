@@ -1,4 +1,5 @@
-import type { Media, Profile } from "./common.types";
+import type { Media } from "./common.types";
+import type { Profile } from "./profile.types";
 
 export interface VenueMeta {
   wifi: boolean;
@@ -35,6 +36,8 @@ export interface Venue {
   };
 }
 
+export type VenueData = Omit<Venue, "id" | "created" | "updated">;
+
 export interface Booking {
   id: string;
   dateFrom: string;
@@ -45,3 +48,12 @@ export interface Booking {
   venue: Venue;
   customer: Profile;
 }
+
+export type BookingCreateData = {
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
+  venueId: string;
+};
+
+export type BookingUpdateData = Omit<BookingCreateData, "venueId">;
