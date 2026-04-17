@@ -1,11 +1,8 @@
 import "./App.css";
+import VenuesPage from "./pages/VenuesPage";
 
 function App() {
-  return (
-    <>
-      <div>to be continued...</div>
-    </>
-  );
+  return <VenuesPage />;
 }
 
 export default App;

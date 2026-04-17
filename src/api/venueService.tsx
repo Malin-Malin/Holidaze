@@ -20,7 +20,7 @@ async function createVenue(venueData: VenueData) {
 async function getVenues() {
   try {
     const response = await get<ApiResponse<Venue[]>>(VENUES_ENDPOINT);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error fetching venues:", error);
     throw error; // Let the caller handle the error
