@@ -19,7 +19,7 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
 
   return (
     <div
-      className="mx-auto my-4 w-full max-w-sm border border-gray-200 bg-white p-1 text-left shadow-sm transition hover:shadow-md"
+      className="mx-auto my-4 w-full max-w-sm border border-black bg-white p-1 text-left shadow-sm transition hover:shadow-md"
       aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}. Rating: ${filledStarCount} out of 5 stars.`}
     >
       {primaryMedia && (
