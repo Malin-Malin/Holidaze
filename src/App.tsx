@@ -1,5 +1,5 @@
 import "./App.css";
-import VenuesPage from "./pages/VenuesPage";
+import VenuesPage from "./pages/venueGrid";
 
 function App() {
   return <VenuesPage />;
