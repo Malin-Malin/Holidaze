@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import type { Media } from "../../types/common.types";
 import type { VenueLocation } from "../../types/venue.types";
 
 type VenueCardData = {
+  id: string;
   name: string;
   description: string;
   media: Media[];
@@ -14,12 +16,17 @@ type VenueCardProps = {
 };
 
 export const VenueCard = ({ venue }: VenueCardProps) => {
+  const navigate = useNavigate();
   const primaryMedia = venue.media[0];
   const filledStarCount = Math.floor(Math.max(0, Math.min(5, venue.rating)));
 
   return (
     <div
-      className="mx-auto my-4 w-full max-w-sm border border-black bg-white p-1 text-left shadow-sm transition hover:shadow-md"
+      role="button"
+      tabIndex={0}
+      onClick={() => navigate(`/venue/${venue.id}`)}
+      onKeyDown={(e) => e.key === "Enter" && navigate(`/venue/${venue.id}`)}
+      className="mx-auto my-4 w-full max-w-sm cursor-pointer border border-black bg-white p-1 text-left shadow-sm transition hover:shadow-md"
       aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}. Rating: ${filledStarCount} out of 5 stars.`}
     >
       {primaryMedia && (

@@ -1,7 +1,7 @@
 import { VenueCard } from "../components/venue/card";
 import { useVenues } from "../hooks/useVenues";
 
-export default function VenuesPage() {
+export default function VenuesGrid() {
   const { venues, isLoading, errorMessage } = useVenues();
 
   if (isLoading) {
