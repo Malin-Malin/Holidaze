@@ -36,7 +36,10 @@ export interface Venue {
   };
 }
 
-export type VenueData = Omit<Venue, "id" | "created" | "updated">;
+export type VenueData = Omit<
+  Venue,
+  "id" | "created" | "updated" | "owner" | "_count"
+>;
 
 export interface Booking {
   id: string;
