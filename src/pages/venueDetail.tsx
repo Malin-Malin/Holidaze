@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
+import { Amenities } from "../components/venue/amenities";
+import { Rating } from "../components/venue/rating";
 
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
@@ -17,8 +19,6 @@ export default function VenueDetail() {
     return <p>Venue not found.</p>;
   }
 
-  const filledStarCount = Math.floor(Math.max(0, Math.min(5, venue.rating)));
-
   return (
     <section>
       <div>
@@ -27,21 +27,16 @@ export default function VenueDetail() {
         <img src={venue.media[2]?.url} alt={venue.media[2]?.alt || ""} />
       </div>
       <h1>{venue.name}</h1>
-      <p
-        className="mt-3 text-lg tracking-wide text-amber-500 text-end p-1"
-        aria-label={`Rating ${filledStarCount} out of 5`}
-      >
-        {"★".repeat(filledStarCount)}
-      </p>
+      <Rating
+        rating={venue.rating}
+        className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
+      />
       <p>
         {venue.location.city}, {venue.location.country}
       </p>
       <p>Price per night: {venue.price}</p>
 
-      <div>
-        {/* TODO:icons for amenities, e.g. wifi, parking, breakfast included, etc. */}
-        <h2>Amenities</h2>
-      </div>
+      <Amenities meta={venue.meta} />
       <p>Max guests: {venue.maxGuests}</p>
       <h2>Details</h2>
       <p>{venue.description}</p>

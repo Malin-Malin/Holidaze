@@ -7,7 +7,7 @@ const PROFILES_ENDPOINT = "/holidaze/profiles";
 async function getProfiles() {
   try {
     const response = await get<ApiResponse<Profile[]>>(PROFILES_ENDPOINT);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error fetching profiles:", error);
     throw error; // Let the caller handle the error
@@ -26,10 +26,7 @@ async function getProfileByName(name: string) {
   }
 }
 
-async function updateProfile(
-  name: string,
-  profileData: Omit<Profile, "name" | "created" | "updated">,
-) {
+async function updateProfile(name: string, profileData: ProfileData) {
   try {
     const response = await put<ProfileData, ApiResponse<Profile>>(
       `${PROFILES_ENDPOINT}/${name}`,
