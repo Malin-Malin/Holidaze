@@ -43,6 +43,7 @@ export default function VenueDetail() {
       enabled: venue.meta?.breakfast,
     },
   ];
+  const visibleAmenities = amenities.filter((item) => item.enabled);
 
   return (
     <section>
@@ -63,23 +64,27 @@ export default function VenueDetail() {
       </p>
       <p>Price per night: {venue.price}</p>
 
-      <div style={{ backgroundColor: "#957161" }}>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4 p-6">
-          {amenities.map((item) => {
-            const Icon = item.icon;
+      {visibleAmenities.length > 0 ? (
+        <div style={{ backgroundColor: "#957161" }}>
+          <div className="mt-3 flex flex-wrap justify-center gap-3 p-6">
+            {visibleAmenities.map((item) => {
+              const Icon = item.icon;
 
-            return (
-              <div
-                key={item.key}
-                className="flex flex-col items-center justify-center gap-2 text-center p-3"
-              >
-                <Icon className="text-white text-2xl" />
-                <p className="text-black text-lg">{item.label}</p>
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={item.key}
+                  className="flex w-32 flex-col items-center justify-center gap-2 p-3 text-center"
+                >
+                  <Icon className="text-white text-2xl" />
+                  <p className="text-black text-lg">{item.label}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-lg font-bold">No amenities included</p>
+      )}
       <p>Max guests: {venue.maxGuests}</p>
       <h2>Details</h2>
       <p>{venue.description}</p>
