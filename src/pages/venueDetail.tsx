@@ -1,5 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
+import { CiWifiOn } from "react-icons/ci";
+import { PiCat } from "react-icons/pi";
+import { BsForkKnife } from "react-icons/bs";
+import { IoCarOutline } from "react-icons/io5";
 
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +22,27 @@ export default function VenueDetail() {
   }
 
   const filledStarCount = Math.floor(Math.max(0, Math.min(5, venue.rating)));
+  const amenities = [
+    { key: "wifi", label: "WiFi", icon: CiWifiOn, enabled: venue.meta?.wifi },
+    {
+      key: "pets",
+      label: "Pets allowed",
+      icon: PiCat,
+      enabled: venue.meta?.pets,
+    },
+    {
+      key: "parking",
+      label: "Parking",
+      icon: IoCarOutline,
+      enabled: venue.meta?.parking,
+    },
+    {
+      key: "breakfast",
+      label: "Breakfast included",
+      icon: BsForkKnife,
+      enabled: venue.meta?.breakfast,
+    },
+  ];
 
   return (
     <section>
@@ -38,9 +63,22 @@ export default function VenueDetail() {
       </p>
       <p>Price per night: {venue.price}</p>
 
-      <div>
-        {/* TODO:icons for amenities, e.g. wifi, parking, breakfast included, etc. */}
-        <h2>Amenities</h2>
+      <div style={{ backgroundColor: "#957161" }}>
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4 p-6">
+          {amenities.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <div
+                key={item.key}
+                className="flex flex-col items-center justify-center gap-2 text-center p-3"
+              >
+                <Icon className="text-white text-2xl" />
+                <p className="text-black text-lg">{item.label}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <p>Max guests: {venue.maxGuests}</p>
       <h2>Details</h2>
