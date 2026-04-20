@@ -1,16 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import type { Media } from "../../types/common.types";
-import type { VenueLocation } from "../../types/venue.types";
+import type { Venue } from "../../types/venue.types";
 import { Rating } from "./rating";
 
-type VenueCardData = {
-  id: string;
-  name: string;
-  description: string;
-  media: Media[];
-  location: VenueLocation;
-  rating: number;
-};
+type VenueCardData = Pick<
+  Venue,
+  "id" | "name" | "description" | "media" | "location" | "rating"
+>;
 
 type VenueCardProps = {
   venue: VenueCardData;

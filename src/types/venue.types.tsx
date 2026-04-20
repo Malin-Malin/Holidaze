@@ -41,10 +41,6 @@ export type VenueData = Omit<
   "id" | "created" | "updated" | "owner" | "_count"
 >;
 
-export type AmenitiesProps = {
-  meta?: VenueMeta;
-};
-
 export interface Booking {
   id: string;
   dateFrom: string;
