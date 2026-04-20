@@ -29,7 +29,7 @@ export function Amenities({ meta }: AmenitiesProps) {
   }
 
   return (
-    <div style={{ backgroundColor: "#957161" }}>
+    <div style={{ backgroundColor: "var(--surface-primary)" }}>
       <div className="mt-3 flex flex-wrap justify-center gap-3 p-2">
         {visibleAmenities.map((item) => {
           const Icon = item.icon;
@@ -37,10 +37,10 @@ export function Amenities({ meta }: AmenitiesProps) {
           return (
             <div
               key={item.key}
-              className="flex h-32 w-40 flex-col items-center justify-center gap-2 p-3 text-center"
+              className="flex h-32 w-42 flex-col items-center justify-center gap-2 p-3 text-center"
             >
               <Icon className="text-white text-2xl" />
-              <p className="flex min-h-[2.5rem] w-full items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap text-black text-sm leading-tight">
+              <p className="flex min-h-[2.5rem] w-full items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap text-black text-md leading-tight">
                 {item.label}
               </p>
             </div>
