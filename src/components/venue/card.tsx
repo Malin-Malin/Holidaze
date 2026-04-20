@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { Media } from "../../types/common.types";
 import type { VenueLocation } from "../../types/venue.types";
+import { Rating } from "./rating";
 
 type VenueCardData = {
   id: string;
@@ -18,7 +19,6 @@ type VenueCardProps = {
 export const VenueCard = ({ venue }: VenueCardProps) => {
   const navigate = useNavigate();
   const primaryMedia = venue.media[0];
-  const filledStarCount = Math.floor(Math.max(0, Math.min(5, venue.rating)));
 
   return (
     <div
@@ -27,7 +27,7 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       onClick={() => navigate(`/venue/${venue.id}`)}
       onKeyDown={(e) => e.key === "Enter" && navigate(`/venue/${venue.id}`)}
       className="mx-auto my-4 w-full max-w-sm cursor-pointer border border-black bg-white p-1 text-left shadow-sm transition hover:shadow-md"
-      aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}. Rating: ${filledStarCount} out of 5 stars.`}
+      aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}.`}
     >
       {primaryMedia && (
         <img
@@ -45,12 +45,10 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       <p className="mt-2 text-sm leading-6 text-gray-700 px-1 line-clamp-2">
         {venue.description}
       </p>
-      <p
-        className="mt-3 text-lg tracking-wide text-amber-500 text-end p-1"
-        aria-label={`Rating ${filledStarCount} out of 5`}
-      >
-        {"★".repeat(filledStarCount)}
-      </p>
+      <Rating
+        rating={venue.rating}
+        className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
+      />
     </div>
   );
 };
