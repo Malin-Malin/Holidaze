@@ -1,7 +1,7 @@
 import "./banner.css";
 
 // TODO: this bannerinfo should change from side to side
-
+// TODO: The font looks a bit off, check the font-family and make sure it is applied correctly
 export const Banner = () => {
   return (
     <section
