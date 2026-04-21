@@ -27,8 +27,32 @@ export default function Gallery({ media }: GalleryProps) {
   }
 
   return (
-    <section className="space-y-4">
-      <div className="relative overflow-hidden rounded-lg">
+    <section className="flex flex-col gap-4 md:flex-row md:items-stretch">
+      {media.length > 1 && (
+        <div className="flex gap-3 overflow-x-auto md:h-80 md:w-24 md:flex-col md:overflow-x-visible">
+          {media.map((image, index) => (
+            <button
+              key={`${image.url}-${index}`}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`shrink-0 overflow-hidden rounded-md border md:flex-1 ${
+                index === activeIndex
+                  ? "border-[var(--color-honey)]"
+                  : "border-transparent"
+              }`}
+              aria-label={`Show image ${index + 1}`}
+            >
+              <img
+                src={image.url}
+                alt={image.alt || `Venue image ${index + 1}`}
+                className="h-20 w-20 object-cover md:h-full md:w-full"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="relative flex-1 overflow-hidden rounded-lg">
         <img
           src={activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
@@ -55,30 +79,6 @@ export default function Gallery({ media }: GalleryProps) {
           </>
         )}
       </div>
-
-      {media.length > 1 && (
-        <div className="flex flex-wrap justify-center gap-3">
-          {media.map((image, index) => (
-            <button
-              key={`${image.url}-${index}`}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={`overflow-hidden rounded-md border ${
-                index === activeIndex
-                  ? "border-[var(--color-honey)]"
-                  : "border-transparent"
-              }`}
-              aria-label={`Show image ${index + 1}`}
-            >
-              <img
-                src={image.url}
-                alt={image.alt || `Venue image ${index + 1}`}
-                className="h-20 w-20 object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      )}
     </section>
   );
 }
