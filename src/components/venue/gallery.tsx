@@ -96,7 +96,7 @@ export default function Gallery({ media }: GalleryProps) {
           <div className="hidden h-full flex-col items-center md:flex">
             <div
               ref={desktopThumbRailRef}
-              className="thumb-rail-y h-full w-full space-y-3 pr-1"
+              className={`px-0.5 py-0.5 ${media.length <= 2 ? "flex h-full w-full flex-col gap-3" : "thumb-rail-y h-full w-full space-y-3"}`}
             >
               {media.map((image, index) => (
                 <button
@@ -104,7 +104,9 @@ export default function Gallery({ media }: GalleryProps) {
                   type="button"
                   data-thumb-index={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`block overflow-hidden rounded-md border pl-2 ${
+                  className={`block overflow-hidden rounded-md border ${
+                    media.length <= 2 ? "min-h-0 flex-1" : "h-24 w-full"
+                  } ${
                     index === activeIndex
                       ? "border-[var(--color-honey)]"
                       : "border-transparent"
@@ -114,7 +116,11 @@ export default function Gallery({ media }: GalleryProps) {
                   <img
                     src={image.url}
                     alt={image.alt || `Venue image ${index + 1}`}
-                    className="h-24 w-24 object-cover"
+                    className={
+                      media.length <= 2
+                        ? "h-full w-full object-cover"
+                        : "h-24 w-full object-cover"
+                    }
                   />
                 </button>
               ))}
