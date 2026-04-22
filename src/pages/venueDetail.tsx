@@ -5,6 +5,10 @@ import { Rating } from "../components/venue/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
+function upperFirst(value: string) {
+  return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
+}
+
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
   const { venue, isLoading, errorMessage } = useVenueById(id);
@@ -33,7 +37,8 @@ export default function VenueDetail() {
         <p className="inline-flex items-center gap-2">
           <FaMapMarkerAlt aria-hidden="true" />
           <span>
-            {venue.location.city}, {venue.location.country}
+            {upperFirst(venue.location.city)},{" "}
+            {upperFirst(venue.location.country)}
           </span>
         </p>
         <p>Price per night: {venue.price}</p>
