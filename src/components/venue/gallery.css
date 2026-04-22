@@ -1,0 +1,19 @@
+.thumb-rail-x {
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.thumb-rail-x::-webkit-scrollbar {
+  display: none;
+}
+
+.thumb-rail-y {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.thumb-rail-y::-webkit-scrollbar {
+  display: none;
+}

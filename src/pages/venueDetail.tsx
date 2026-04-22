@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
 import { Amenities } from "../components/venue/amenities";
 import { Rating } from "../components/venue/rating";
+import Gallery from "../components/venue/gallery";
 
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
@@ -21,11 +22,8 @@ export default function VenueDetail() {
 
   return (
     <section>
-      <div>
-        <img src={venue.media[0]?.url} alt={venue.media[0]?.alt || ""} />
-        <img src={venue.media[1]?.url} alt={venue.media[1]?.alt || ""} />
-        <img src={venue.media[2]?.url} alt={venue.media[2]?.alt || ""} />
-      </div>
+      <Gallery media={venue.media} />
+
       <h1>{venue.name}</h1>
       <Rating
         rating={venue.rating}
