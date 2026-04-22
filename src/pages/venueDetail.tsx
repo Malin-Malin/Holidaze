@@ -9,6 +9,14 @@ function upperFirst(value: string) {
   return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
 }
 
+function formatPrice(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
   const { venue, isLoading, errorMessage } = useVenueById(id);
@@ -41,7 +49,9 @@ export default function VenueDetail() {
             {upperFirst(venue.location.country)}
           </span>
         </p>
-        <p>Price per night: {venue.price}</p>
+        <p className="text-xl py-2">
+          Price per night: {formatPrice(venue.price)}
+        </p>
 
         <Amenities meta={venue.meta} />
         <p>Max guests: {venue.maxGuests}</p>
