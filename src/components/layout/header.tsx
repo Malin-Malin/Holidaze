@@ -2,7 +2,7 @@ export const Header = () => {
   return (
     <header className="flex items-center justify-between bg-[var(--color-ink)] px-6 py-4 font-[var(--font-brand)]">
       <a href="/" className="px-2 py-1">
-        <span className="text-2xl tracking-wide text-[var(--color-honey)]">
+        <span className="font-[var(--font-brand)] text-4xl text-[var(--color-honey)]">
           Holidaze
         </span>
       </a>

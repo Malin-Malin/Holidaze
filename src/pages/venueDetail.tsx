@@ -24,7 +24,7 @@ export default function VenueDetail() {
     <section>
       <Gallery media={venue.media} />
 
-      <h1>{venue.name}</h1>
+      <h1 className="uppercase">{venue.name}</h1>
       <Rating
         rating={venue.rating}
         className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
