@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Media } from "../../types/common.types";
+import placeholderVenue from "../../assets/venue.jpg";
 import "./gallery.css";
 
 type GalleryProps = {
@@ -46,7 +47,17 @@ export default function Gallery({ media }: GalleryProps) {
   }, [activeIndex, media.length]);
 
   if (media.length === 0) {
-    return <p>No images available.</p>;
+    return (
+      <section className="flex flex-col gap-4 md:flex-row md:items-stretch">
+        <div className="order-1 relative flex-1 overflow-hidden md:order-2">
+          <img
+            src={placeholderVenue}
+            alt="Venue placeholder image"
+            className="h-80 w-full object-cover"
+          />
+        </div>
+      </section>
+    );
   }
 
   const activeMedia = media[activeIndex];
@@ -96,7 +107,7 @@ export default function Gallery({ media }: GalleryProps) {
           <div className="hidden h-full flex-col items-center md:flex">
             <div
               ref={desktopThumbRailRef}
-              className={`px-0.5 py-0.5 ${media.length <= 2 ? "flex h-full w-full flex-col gap-3" : "thumb-rail-y h-full w-full space-y-3"}`}
+              className={`px-1 py-0.5 ${media.length <= 2 ? "flex h-full w-full flex-col gap-3" : "thumb-rail-y h-full w-full space-y-3"}`}
             >
               {media.map((image, index) => (
                 <button
@@ -129,7 +140,7 @@ export default function Gallery({ media }: GalleryProps) {
         </div>
       )}
 
-      <div className="order-1 relative flex-1 overflow-hidden rounded-lg md:order-2">
+      <div className="order-1 relative flex-1 overflow-hidden md:order-2">
         <img
           src={activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
@@ -140,7 +151,7 @@ export default function Gallery({ media }: GalleryProps) {
             <button
               type="button"
               onClick={showPrevious}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-2 text-white"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-1 text-white"
               aria-label="Show previous image"
             >
               ‹
@@ -148,7 +159,7 @@ export default function Gallery({ media }: GalleryProps) {
             <button
               type="button"
               onClick={showNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-2 text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-1 text-white"
               aria-label="Show next image"
             >
               ›

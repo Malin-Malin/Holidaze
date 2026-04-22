@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
+import placeholderVenue from "../../assets/venue.jpg";
 import { Rating } from "./rating";
 
 type VenueCardData = Pick<
@@ -24,13 +25,11 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       className="mx-auto my-4 w-full max-w-sm cursor-pointer border border-black bg-white p-1 text-left shadow-sm transition hover:shadow-md"
       aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}.`}
     >
-      {primaryMedia && (
-        <img
-          src={primaryMedia.url}
-          alt={primaryMedia.alt || venue.name}
-          className="mb-3 h-50 w-full object-cover"
-        />
-      )}
+      <img
+        src={primaryMedia?.url || placeholderVenue}
+        alt={primaryMedia?.alt || venue.name}
+        className="mb-3 h-50 w-full object-cover"
+      />
       <p className="text-sm text-gray-500 px-1">
         {venue.location.city}, {venue.location.country}
       </p>
