@@ -10,7 +10,7 @@ export const Banner = () => {
     >
       <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
       <div className="relative z-10 text-right">
-        <span className="block uppercase text-4xl font-bold font-[var(--font-display)] text-[var(--color-honey)]">
+        <span className="block uppercase text-4xl font-[var(--font-display)] text-[var(--color-honey)]">
           Holidaze
         </span>
         <p className="mt-2 text-lg font-[var(--font-display)] text-[var(--color-honey)]">

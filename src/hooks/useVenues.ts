@@ -19,7 +19,7 @@ export function useVenues(): UseVenuesResult {
         setIsLoading(true);
         setErrorMessage(null);
         const data = await getVenues();
-        setVenues(data);
+        setVenues([...data].sort((a, b) => a.name.localeCompare(b.name)));
       } catch {
         setErrorMessage("Could not load venues right now.");
       } finally {
