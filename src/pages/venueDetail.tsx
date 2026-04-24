@@ -49,12 +49,11 @@ export default function VenueDetail() {
             {upperFirst(venue.location.country)}
           </span>
         </p>
-        <p className="text-xl py-2">
-          Price per night: {formatPrice(venue.price)}
-        </p>
-
+        <div className="flex items-center justify-around py-2">
+          <p className="text-xl">Price per night: {formatPrice(venue.price)}</p>
+          <p className="text-xl">Max guests: {venue.maxGuests}</p>
+        </div>
         <Amenities meta={venue.meta} />
-        <p>Max guests: {venue.maxGuests}</p>
         <h2>Details</h2>
         <p>{venue.description}</p>
 
