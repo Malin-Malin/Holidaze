@@ -29,7 +29,7 @@ export function Amenities({ meta }: AmenitiesProps) {
   const visibleAmenities = amenities.filter((item) => item.enabled);
 
   if (visibleAmenities.length === 0) {
-    return <p className="text-lg font-bold">No amenities included</p>;
+    return <p className="text-lg font-bold px-4">No amenities included</p>;
   }
 
   return (
