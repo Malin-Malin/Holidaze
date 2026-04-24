@@ -36,34 +36,41 @@ export default function VenueDetail() {
   return (
     <section>
       <Gallery media={venue.media} />
-      <section className="p-4 text-start m-4">
-        <h1 className="uppercase">{venue.name}</h1>
-        <Rating
-          rating={venue.rating}
-          className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
-        />
-        <p className="inline-flex items-center gap-2">
-          <FaMapMarkerAlt aria-hidden="true" />
-          <span>
-            {upperFirst(venue.location.city)},{" "}
-            {upperFirst(venue.location.country)}
-          </span>
-        </p>
-        <div className="flex items-center justify-around py-2">
-          <p className="text-xl">Price per night: {formatPrice(venue.price)}</p>
+      <section className="text-start">
+        <h1 className="uppercase px-4 pt-2">{venue.name}</h1>
+        <div className="flex items-center justify-between px-4">
+          <p className="inline-flex items-center gap-2">
+            <FaMapMarkerAlt aria-hidden="true" />
+            <span>
+              {upperFirst(venue.location.city)},{" "}
+              {upperFirst(venue.location.country)}
+            </span>
+          </p>
+          <Rating
+            rating={venue.rating}
+            className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
+          />
+        </div>
+        <div className="flex items-center justify-around p-4">
+          <p className="text-2xl">
+            Price per night: {formatPrice(venue.price)}
+          </p>
           <p className="text-xl">Max guests: {venue.maxGuests}</p>
         </div>
         <Amenities meta={venue.meta} />
-        <h2>Details</h2>
-        <p>{venue.description}</p>
-
-        <p>Created: {venue.created}</p>
-        <p>Updated: {venue.updated}</p>
+        <h2 className="px-4 pt-2">Details</h2>
+        <p className="p-4">{venue.description}</p>
+        <div className="flex items-center justify-between p-4">
+          <p>Created: {venue.created}</p>
+          <p>Updated: {venue.updated}</p>
+        </div>
       </section>
-      <section>
-        <h2>Booking</h2>
-        <p>Booking form with date picker and number of guests</p>
-        <button>Book now</button>
+      <section className="text-start">
+        <h2 className="px-4 pt-2">Booking</h2>
+        <p className="p-4">
+          Booking form with date picker and number of guests
+        </p>
+        <button className="m-4">Book now</button>
       </section>
     </section>
   );
