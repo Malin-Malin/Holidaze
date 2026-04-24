@@ -22,24 +22,36 @@ export default function VenueDetail() {
   const { venue, isLoading, errorMessage } = useVenueById(id);
 
   if (isLoading) {
-    return <p>Loading venue...</p>;
+    return (
+      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left">
+        Loading venue...
+      </p>
+    );
   }
 
   if (errorMessage) {
-    return <p>{errorMessage}</p>;
+    return (
+      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left text-red-700">
+        {errorMessage}
+      </p>
+    );
   }
 
   if (!venue) {
-    return <p>Venue not found.</p>;
+    return (
+      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left">
+        Venue not found.
+      </p>
+    );
   }
 
   return (
-    <section>
+    <section className="pb-10">
       <Gallery media={venue.media} />
-      <section className="text-start">
-        <h1 className="uppercase px-4 pt-2">{venue.name}</h1>
-        <div className="flex items-center justify-between px-4">
-          <p className="inline-flex items-center gap-2">
+      <section className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
+        <h1 className="px-1 uppercase">{venue.name}</h1>
+        <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="inline-flex items-center gap-2 text-[var(--text)]">
             <FaMapMarkerAlt aria-hidden="true" />
             <span>
               {upperFirst(venue.location.city)},{" "}
@@ -48,29 +60,37 @@ export default function VenueDetail() {
           </p>
           <Rating
             rating={venue.rating}
-            className="mt-3 p-1 text-end text-lg tracking-wide text-amber-500"
+            className="text-end text-lg tracking-wide text-amber-500"
           />
         </div>
-        <div className="flex items-center justify-around p-4">
-          <p className="text-2xl">
+        <div className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-2xl text-[var(--text-h)]">
             Price per night: {formatPrice(venue.price)}
           </p>
-          <p className="text-xl">Max guests: {venue.maxGuests}</p>
+          <p className="text-lg text-[var(--text)]">
+            Max guests: {venue.maxGuests}
+          </p>
         </div>
-        <Amenities meta={venue.meta} />
-        <h2 className="px-4 pt-2">Details</h2>
-        <p className="p-4">{venue.description}</p>
-        <div className="flex items-center justify-between p-4">
+        <div className="-mx-4 md:-mx-6">
+          <Amenities meta={venue.meta} />
+        </div>
+        <div className="space-y-2 pt-4">
+          <h2>Details</h2>
+          <p className="text-[var(--text)]">{venue.description}</p>
+        </div>
+        <div className="flex flex-col gap-1  p-4 text-sm text-[var(--text)] sm:flex-row sm:items-center sm:justify-between">
           <p>Created: {venue.created}</p>
           <p>Updated: {venue.updated}</p>
         </div>
       </section>
-      <section className="text-start">
-        <h2 className="px-4 pt-2">Booking</h2>
-        <p className="p-4">
+      <section className="mx-auto mt-4 w-full max-w-6xl space-y-3 text-start md:px-6">
+        <h2>Booking</h2>
+        <p className="text-[var(--text)]">
           Booking form with date picker and number of guests
         </p>
-        <button className="m-4">Book now</button>
+        <button className="inline-flex items-center justify-center rounded-md bg-[var(--color-ink)] px-5 py-2 text-[var(--color-honey)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]">
+          Book now
+        </button>
       </section>
     </section>
   );
