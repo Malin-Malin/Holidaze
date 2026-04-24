@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Media } from "../../types/common.types";
 import placeholderVenue from "../../assets/placeholderImage.png";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 import "./gallery.css";
 
 type GalleryProps = {
@@ -9,8 +10,13 @@ type GalleryProps = {
 
 export default function Gallery({ media }: GalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeImageError, setActiveImageError] = useState(false);
   const mobileThumbRailRef = useRef<HTMLDivElement>(null);
   const desktopThumbRailRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setActiveImageError(false);
+  }, [activeIndex, media]);
 
   useEffect(() => {
     if (media.length <= 1) {
@@ -55,12 +61,20 @@ export default function Gallery({ media }: GalleryProps) {
             alt="Venue placeholder image"
             className="h-80 w-full object-cover"
           />
+          <div
+            className="absolute right-3 top-3 p-2 text-white"
+            title="Placeholder image"
+            aria-label="Placeholder image"
+          >
+            <MdOutlineImageNotSupported size={30} aria-hidden="true" />
+          </div>
         </div>
       </section>
     );
   }
 
   const activeMedia = media[activeIndex];
+  const showPlaceholder = !activeMedia.url || activeImageError;
 
   function showPrevious() {
     setActiveIndex((current) =>
@@ -142,13 +156,20 @@ export default function Gallery({ media }: GalleryProps) {
 
       <div className="order-1 relative flex-1 overflow-hidden md:order-2">
         <img
-          src={activeMedia.url || placeholderVenue}
+          src={showPlaceholder ? placeholderVenue : activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = placeholderVenue;
-          }}
+          onError={() => setActiveImageError(true)}
           className="h-80 w-full object-cover"
         />
+        {showPlaceholder && (
+          <div
+            className="absolute right-3 top-3 p-2 text-white"
+            title="Placeholder image"
+            aria-label="Placeholder image"
+          >
+            <MdOutlineImageNotSupported size={30} aria-hidden="true" />
+          </div>
+        )}
         {media.length > 1 && (
           <>
             <button

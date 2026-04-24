@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
 import placeholderVenue from "../../assets/placeholderImage.png";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 import { Rating } from "./rating";
 
 type VenueCardData = Pick<
@@ -15,6 +17,13 @@ type VenueCardProps = {
 export const VenueCard = ({ venue }: VenueCardProps) => {
   const navigate = useNavigate();
   const primaryMedia = venue.media[0];
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [primaryMedia?.url]);
+
+  const showPlaceholder = !primaryMedia?.url || imageError;
 
   return (
     <div
@@ -25,14 +34,23 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       className="group mx-auto my-1 w-full max-w-sm cursor-pointer overflow-hidden border border-[var(--border)] bg-[var(--bg)] text-left shadow-sm ring-0 transition duration-200 transition-colors hover:-translate-y-0.5 hover:border-[var(--color-honey)] hover:ring-2 hover:ring-[var(--accent-border)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
       aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}.`}
     >
-      <img
-        src={primaryMedia?.url || placeholderVenue}
-        alt={primaryMedia?.alt || venue.name}
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src = placeholderVenue;
-        }}
-        className="h-52 w-full object-cover md:h-56"
-      />
+      <div className="relative">
+        <img
+          src={showPlaceholder ? placeholderVenue : primaryMedia.url}
+          alt={primaryMedia?.alt || venue.name}
+          onError={() => setImageError(true)}
+          className="h-52 w-full object-cover md:h-56"
+        />
+        {showPlaceholder && (
+          <div
+            className="absolute right-3 top-3 p-2 text-white"
+            title="Placeholder image"
+            aria-label="Placeholder image"
+          >
+            <MdOutlineImageNotSupported size={20} aria-hidden="true" />
+          </div>
+        )}
+      </div>
       <div className="space-y-2 p-4">
         <p className="text-sm text-[var(--text-h)]">
           {venue.location.city}, {venue.location.country}
