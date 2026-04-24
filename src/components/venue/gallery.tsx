@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Media } from "../../types/common.types";
-import placeholderVenue from "../../assets/venue.jpg";
+import placeholderVenue from "../../assets/placeholderImage.png";
 import "./gallery.css";
 
 type GalleryProps = {
@@ -142,8 +142,11 @@ export default function Gallery({ media }: GalleryProps) {
 
       <div className="order-1 relative flex-1 overflow-hidden md:order-2">
         <img
-          src={activeMedia.url}
+          src={activeMedia.url || placeholderVenue}
           alt={activeMedia.alt || "Venue image"}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = placeholderVenue;
+          }}
           className="h-80 w-full object-cover"
         />
         {media.length > 1 && (

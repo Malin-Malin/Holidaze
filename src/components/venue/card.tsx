@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
-import placeholderVenue from "../../assets/venue.jpg";
+import placeholderVenue from "../../assets/placeholderImage.png";
 import { Rating } from "./rating";
 
 type VenueCardData = Pick<
@@ -28,6 +28,9 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       <img
         src={primaryMedia?.url || placeholderVenue}
         alt={primaryMedia?.alt || venue.name}
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src = placeholderVenue;
+        }}
         className="h-52 w-full object-cover md:h-56"
       />
       <div className="space-y-2 p-4">
