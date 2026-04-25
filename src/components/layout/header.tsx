@@ -1,3 +1,5 @@
+import { HamburgerMenu } from "./hamburgerMenu";
+
 export const Header = () => {
   return (
     <header className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[var(--color-ink)] font-[var(--font-brand)]">
@@ -7,7 +9,7 @@ export const Header = () => {
             Holidaze
           </span>
         </a>
-        <nav className="flex items-center gap-2">
+        <nav className="hidden items-center gap-2 md:flex">
           <a
             className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
             href="/"
@@ -16,7 +18,7 @@ export const Header = () => {
           </a>
           <a
             className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-            href="/venues"
+            href="/"
           >
             Venues
           </a>
@@ -27,6 +29,7 @@ export const Header = () => {
             Profile
           </a>
         </nav>
+        <HamburgerMenu />
       </div>
     </header>
   );
