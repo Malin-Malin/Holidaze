@@ -1,12 +1,30 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useRef } from "react";
 
 export function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [location.pathname]);
 
   return (
-    <div className="relative md:hidden">
+    <div className="relative md:hidden" ref={menuRef}>
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
