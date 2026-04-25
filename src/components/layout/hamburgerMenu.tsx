@@ -50,11 +50,11 @@ export function HamburgerMenu() {
             Home
           </NavLink>
           <NavLink
-            to="/"
+            to="/create-venue"
             onClick={() => setIsOpen(false)}
             className="block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
           >
-            Venues
+            Create venues
           </NavLink>
           <NavLink
             to="/profile"

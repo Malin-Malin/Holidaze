@@ -5,6 +5,7 @@ import { Banner } from "./components/layout/banner";
 import VenuesGrid from "./pages/venueGrid";
 import VenueDetail from "./pages/venueDetail";
 import { Footer } from "./components/layout/footer";
+import CreateVenuePage from "./pages/createVenue";
 
 function AppLayout() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function AppLayout() {
       <Routes>
         <Route path="/" element={<VenuesGrid />} />
         <Route path="/venue/:id" element={<VenueDetail />} />
+        <Route path="/create-venue" element={<CreateVenuePage />} />
       </Routes>
       <Footer />
     </>
