@@ -83,7 +83,7 @@ export default function VenueDetail() {
           <p>Updated: {venue.updated}</p>
         </div>
       </section>
-      <section className="mx-auto mt-4 w-full max-w-6xl space-y-3 text-start md:px-6">
+      <section className="mx-auto mt-4 w-full max-w-6xl space-y-3 px-4 text-start md:px-6">
         <h2>Booking</h2>
         <p className="text-[var(--text)]">
           Booking form with date picker and number of guests
