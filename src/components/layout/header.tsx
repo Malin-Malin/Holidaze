@@ -18,9 +18,9 @@ export const Header = () => {
           </a>
           <a
             className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-            href="/"
+            href="/create-venue"
           >
-            Venues
+            Create venues
           </a>
           <a
             className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
