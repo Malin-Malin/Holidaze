@@ -84,6 +84,43 @@ body {
   margin: 0;
 }
 
+.amenity-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #000;
+  border-radius: 9999px;
+
+  display: inline-grid;
+  place-content: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.amenity-checkbox::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-honey);
+  transform: scale(0);
+  transition: transform 120ms ease-in-out;
+}
+
+.amenity-checkbox:checked {
+  border: 3px solid var(--color-clay);
+}
+
+.amenity-checkbox:checked::before {
+  transform: scale(1);
+}
+
+.amenity-checkbox:focus-visible {
+  outline: 2px solid var(--color-honey);
+  outline-offset: 2px;
+}
+
 h1,
 h2,
 h3 {

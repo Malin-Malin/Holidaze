@@ -132,7 +132,7 @@ export const CreateVenue = () => {
           value={form.name}
           onChange={handleChange}
           placeholder="Venue name"
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border shadow-md px-3 py-2"
         />
 
         <textarea
@@ -140,7 +140,7 @@ export const CreateVenue = () => {
           value={form.description}
           onChange={handleChange}
           placeholder="Description"
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border shadow-md px-3 py-2"
         />
 
         <div className="space-y-2">
@@ -154,7 +154,7 @@ export const CreateVenue = () => {
                   handleMediaChange(index, "url", e.target.value)
                 }
                 placeholder="Image URL"
-                className="flex-1 rounded border px-3 py-2"
+                className="flex-1 rounded border shadow-md px-3 py-2"
               />
               <input
                 type="text"
@@ -163,7 +163,7 @@ export const CreateVenue = () => {
                   handleMediaChange(index, "alt", e.target.value)
                 }
                 placeholder="Alt text"
-                className="w-40 rounded border px-3 py-2"
+                className="w-40 rounded border shadow-md px-3 py-2"
               />
               {mediaList.length > 1 && (
                 <button
@@ -196,7 +196,7 @@ export const CreateVenue = () => {
               value={form.price}
               onChange={handleChange}
               placeholder="Price"
-              className="w-full rounded border px-3 py-2"
+              className="w-full rounded border shadow-md px-3 py-2"
             />
           </div>
           <div>
@@ -208,7 +208,7 @@ export const CreateVenue = () => {
               value={form.maxGuests}
               onChange={handleChange}
               placeholder="Max guests"
-              className="w-full rounded border px-3 py-2"
+              className="w-full rounded border shadow-md px-3 py-2"
             />
           </div>
         </div>
@@ -229,51 +229,55 @@ export const CreateVenue = () => {
             value={form.city}
             onChange={handleChange}
             placeholder="City"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded border shadow-md px-3 py-2"
           />
           <input
             name="country"
             value={form.country}
             onChange={handleChange}
             placeholder="Country"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded border shadow-md px-3 py-2"
           />
         </div>
 
         <div className="grid grid-cols-4 gap-2">
-          <label>
+          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
             <input
               type="checkbox"
               name="wifi"
               checked={form.wifi}
               onChange={handleChange}
+              className="amenity-checkbox"
             />{" "}
             Wifi
           </label>
-          <label>
+          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
             <input
               type="checkbox"
               name="parking"
               checked={form.parking}
               onChange={handleChange}
+              className="amenity-checkbox"
             />{" "}
             Parking
           </label>
-          <label>
+          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
             <input
               type="checkbox"
               name="breakfast"
               checked={form.breakfast}
               onChange={handleChange}
+              className="amenity-checkbox"
             />{" "}
             Breakfast
           </label>
-          <label>
+          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
             <input
               type="checkbox"
               name="pets"
               checked={form.pets}
               onChange={handleChange}
+              className="amenity-checkbox"
             />{" "}
             Pets
           </label>
