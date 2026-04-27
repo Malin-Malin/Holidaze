@@ -3,6 +3,7 @@ import type { ChangeEvent, SyntheticEvent } from "react";
 import { RatingInput } from "../../input/rating";
 import { createVenue } from "../../../api/venueService";
 import type { VenueData } from "../../../types/venue.types";
+import type { Media } from "../../../types/common.types";
 
 type CreateVenueForm = {
   name: string;
@@ -32,11 +33,30 @@ const initialFormState: CreateVenueForm = {
   pets: false,
 };
 
+const emptyMedia: Media = { url: "", alt: "" };
+
 export const CreateVenue = () => {
   const [form, setForm] = useState<CreateVenueForm>(initialFormState);
+  const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const handleMediaChange = (
+    index: number,
+    field: keyof Media,
+    value: string,
+  ) => {
+    setMediaList((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+    );
+  };
+
+  const addMediaRow = () =>
+    setMediaList((prev) => [...prev, { ...emptyMedia }]);
+
+  const removeMediaRow = (index: number) =>
+    setMediaList((prev) => prev.filter((_, i) => i !== index));
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -68,7 +88,7 @@ export const CreateVenue = () => {
       const payload: VenueData = {
         name: form.name,
         description: form.description,
-        media: [],
+        media: mediaList.filter((m) => m.url.trim() !== ""),
         price: form.price,
         maxGuests: form.maxGuests,
         rating: form.rating,
@@ -92,6 +112,7 @@ export const CreateVenue = () => {
       await createVenue(payload);
       setSuccessMessage("Venue created successfully.");
       setForm(initialFormState);
+      setMediaList([{ ...emptyMedia }]);
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to create venue.",
@@ -122,25 +143,74 @@ export const CreateVenue = () => {
           className="w-full rounded border px-3 py-2"
         />
 
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">Images</label>
+          {mediaList.map((item, index) => (
+            <div key={index} className="flex gap-2">
+              <input
+                type="url"
+                value={item.url}
+                onChange={(e) =>
+                  handleMediaChange(index, "url", e.target.value)
+                }
+                placeholder="Image URL"
+                className="flex-1 rounded border px-3 py-2"
+              />
+              <input
+                type="text"
+                value={item.alt}
+                onChange={(e) =>
+                  handleMediaChange(index, "alt", e.target.value)
+                }
+                placeholder="Alt text"
+                className="w-40 rounded border px-3 py-2"
+              />
+              {mediaList.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeMediaRow(index)}
+                  className="rounded border px-3 py-2 text-red-600 hover:bg-red-50"
+                  aria-label="Remove image"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addMediaRow}
+            className="text-sm underline"
+          >
+            + Add another image
+          </button>
+        </div>
+
         <div className="grid grid-cols-2 gap-3">
-          <input
-            name="price"
-            type="number"
-            min={0}
-            value={form.price}
-            onChange={handleChange}
-            placeholder="Price"
-            className="w-full rounded border px-3 py-2"
-          />
-          <input
-            name="maxGuests"
-            type="number"
-            min={1}
-            value={form.maxGuests}
-            onChange={handleChange}
-            placeholder="Max guests"
-            className="w-full rounded border px-3 py-2"
-          />
+          <div>
+            <label className="block text-sm font-medium">Price per night</label>
+            <input
+              name="price"
+              type="number"
+              min={0}
+              value={form.price}
+              onChange={handleChange}
+              placeholder="Price"
+              className="w-full rounded border px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Max guests</label>
+            <input
+              name="maxGuests"
+              type="number"
+              min={1}
+              value={form.maxGuests}
+              onChange={handleChange}
+              placeholder="Max guests"
+              className="w-full rounded border px-3 py-2"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -170,7 +240,7 @@ export const CreateVenue = () => {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-4 gap-2">
           <label>
             <input
               type="checkbox"
