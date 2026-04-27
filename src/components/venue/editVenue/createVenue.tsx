@@ -140,13 +140,17 @@ export const CreateVenue = () => {
           value={form.description}
           onChange={handleChange}
           placeholder="Description"
-          className="w-full rounded border shadow-md px-3 py-2"
+          rows={5}
+          className="w-full min-h-36 resize-y rounded border shadow-md px-3 py-2"
         />
 
         <div className="space-y-2">
           <label className="block text-sm font-medium">Images</label>
           {mediaList.map((item, index) => (
-            <div key={index} className="flex gap-2">
+            <div
+              key={index}
+              className="flex flex-col gap-2 sm:flex-row sm:items-center"
+            >
               <input
                 type="url"
                 value={item.url}
@@ -154,7 +158,7 @@ export const CreateVenue = () => {
                   handleMediaChange(index, "url", e.target.value)
                 }
                 placeholder="Image URL"
-                className="flex-1 rounded border shadow-md px-3 py-2"
+                className="w-full rounded border shadow-md px-3 py-2 sm:flex-1"
               />
               <input
                 type="text"
@@ -163,13 +167,13 @@ export const CreateVenue = () => {
                   handleMediaChange(index, "alt", e.target.value)
                 }
                 placeholder="Alt text"
-                className="w-40 rounded border shadow-md px-3 py-2"
+                className="w-full rounded border shadow-md px-3 py-2 sm:w-40"
               />
               {mediaList.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeMediaRow(index)}
-                  className="rounded border px-3 py-2 text-red-600 hover:bg-red-50"
+                  className="self-end rounded border px-3 py-2 text-red-600 hover:bg-red-50 sm:self-auto"
                   aria-label="Remove image"
                 >
                   ✕
