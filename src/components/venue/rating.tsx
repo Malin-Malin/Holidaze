@@ -14,6 +14,7 @@ export function Rating({ rating, className = "", max = 5 }: RatingProps) {
       title={`${filledStarCount}/${max}`}
     >
       {"★".repeat(filledStarCount)}
+      {"☆".repeat(max - filledStarCount)}
     </p>
   );
 }

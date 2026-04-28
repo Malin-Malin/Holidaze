@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 import { RatingInput } from "../../input/rating";
 import { createVenue } from "../../../api/venueService";
@@ -36,6 +37,8 @@ const initialFormState: CreateVenueForm = {
 const emptyMedia: Media = { url: "", alt: "" };
 
 export const CreateVenue = () => {
+  // useRequireAuth();
+  const navigate = useNavigate();
   const [form, setForm] = useState<CreateVenueForm>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,10 +112,10 @@ export const CreateVenue = () => {
         },
       };
 
-      await createVenue(payload);
-      setSuccessMessage("Venue created successfully.");
+      const createdVenue = await createVenue(payload);
       setForm(initialFormState);
       setMediaList([{ ...emptyMedia }]);
+      navigate(`/venue/${createdVenue.id}`);
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to create venue.",
