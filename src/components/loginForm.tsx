@@ -1,16 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { login } from "../api/authService.tsx";
 import { useAuth } from "../hooks/useAuth.tsx";
 
 export function LoginForm() {
   const { login: authLogin } = useAuth();
-
+  const navigate = useNavigate();
   //define login function
   const handleLogin = async (email: string, password: string) => {
     try {
       const response = await login(email, password);
       const { accessToken, ...userInfo } = response;
       authLogin(accessToken, "", userInfo);
-      window.location.href = "/";
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
     }
