@@ -12,3 +12,8 @@ interface PaginationMeta {
   pageCount?: number;
   totalCount?: number;
 }
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
