@@ -1,4 +1,32 @@
 const BASE_URL = "https://v2.api.noroff.dev";
+const API_KEY = import.meta.env.VITE_API_KEY;
+
+type ApiErrorPayload = {
+  errors?: Array<{ message?: string } | string>;
+  message?: string;
+};
+
+async function parseJson<T>(response: Response): Promise<T | null> {
+  try {
+    return (await response.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
+function getApiErrorMessage(payload: ApiErrorPayload | null, status: number) {
+  const firstError = payload?.errors?.[0];
+
+  if (
+    firstError &&
+    typeof firstError === "object" &&
+    typeof firstError.message === "string"
+  ) {
+    return firstError.message;
+  }
+
+  return `API error (${status})`;
+}
 
 /**
  * Generic API client to make HTTP requests.
@@ -30,6 +58,7 @@ export async function apiClient<T, R>(
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     Accept: "application/json",
+    "X-Noroff-API-Key": API_KEY,
   };
 
   if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
@@ -49,18 +78,28 @@ export async function apiClient<T, R>(
 
   try {
     const response = await fetch(BASE_URL + endpoint, config);
+    const data = await parseJson<R | ApiErrorPayload>(response);
 
     if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage =
-        errorData?.errors?.[0] || `API error (${response.status})`;
+      const errorMessage = getApiErrorMessage(
+        data as ApiErrorPayload | null,
+        response.status,
+      );
       throw new Error(errorMessage);
     }
 
-    return (await response.json()) as R;
+    if (response.status === 204) {
+      return undefined as R;
+    }
+
+    return data as R;
   } catch (error) {
-    console.error(error);
-    console.error("API Client Error:", error);
+    if (error instanceof TypeError) {
+      throw new Error(
+        "Network error: Unable to reach the server. Please try again.",
+      );
+    }
+
     throw error; // Escalate to caller
   }
 }

@@ -8,6 +8,12 @@ import type { Media } from "../types/common.types";
 
 interface LoginResponse {
   //TODO: Adjust these fields based on the actual API response structure
+  name: string;
+  email: string;
+  bio?: string;
+  venueManager?: boolean;
+  avatar?: Media;
+  banner?: Media;
   accessToken: string;
 }
 
