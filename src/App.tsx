@@ -2,10 +2,9 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Header } from "./components/layout/header";
 import { Banner } from "./components/layout/banner";
-import VenuesGrid from "./pages/venueGrid";
-import VenueDetail from "./pages/venueDetail";
 import { Footer } from "./components/layout/footer";
-import CreateVenuePage from "./pages/createVenue";
+import { LoginPage, VenuesGrid, VenueDetail, CreateVenuePage } from "./pages";
+import { AuthProvider } from "./context/AuthProvider";
 
 function AppLayout() {
   const location = useLocation();
@@ -19,6 +18,7 @@ function AppLayout() {
         <Route path="/" element={<VenuesGrid />} />
         <Route path="/venue/:id" element={<VenueDetail />} />
         <Route path="/create-venue" element={<CreateVenuePage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
       <Footer />
     </>
@@ -28,7 +28,9 @@ function AppLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <AppLayout />
+      <AuthProvider>
+        <AppLayout />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

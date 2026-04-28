@@ -1,6 +1,8 @@
+import { useAuth } from "../../hooks/useAuth";
 import { HamburgerMenu } from "./hamburgerMenu";
 
 export const Header = () => {
+  const { isLoggedIn } = useAuth();
   return (
     <header className="relative z-50 left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[var(--color-ink)] font-[var(--font-brand)]">
       <div className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-6 py-4">
@@ -28,6 +30,14 @@ export const Header = () => {
           >
             Profile
           </a>
+          {!isLoggedIn && (
+            <a
+              className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+              href="/login"
+            >
+              Login
+            </a>
+          )}
         </nav>
         <HamburgerMenu />
       </div>
