@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
+import { useAuth } from "../hooks/useAuth";
 import { Amenities } from "../components/venue/amenities";
 import { Rating } from "../components/venue/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 
 function upperFirst(value: string) {
   return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
@@ -20,6 +22,7 @@ function formatPrice(value: number) {
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
   const { venue, isLoading, errorMessage } = useVenueById(id);
+  const { user } = useAuth();
 
   if (isLoading) {
     return (
@@ -44,6 +47,8 @@ export default function VenueDetail() {
       </p>
     );
   }
+
+  const manager = venue.owner ?? user;
 
   return (
     <section className="pb-10">
@@ -78,9 +83,38 @@ export default function VenueDetail() {
           <h2>Details</h2>
           <p className="text-[var(--text)]">{venue.description}</p>
         </div>
-        <div className="flex flex-col gap-1  p-4 text-sm text-[var(--text)] sm:flex-row sm:items-center sm:justify-between">
-          <p>Created: {venue.created}</p>
-          <p>Updated: {venue.updated}</p>
+        <div className="flex flex-col gap-3 p-4 text-sm text-[var(--text)] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src={manager?.avatar?.url || placeholderProfileAvatar}
+              alt={manager?.avatar?.alt || manager?.name || "Venue manager"}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            <div>
+              <p className="text-xs text-[var(--text)]/60">Managed by</p>
+              <span className="font-medium">
+                {manager?.name || "Unknown manager"}
+              </span>
+            </div>
+          </div>
+          <div className="text-left text-[var(--text)]/60 sm:text-right">
+            <p>
+              Created:{" "}
+              {new Date(venue.created).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
+            <p>
+              Updated:{" "}
+              {new Date(venue.updated).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
+          </div>
         </div>
       </section>
       <section className="mx-auto mt-4 w-full max-w-6xl space-y-3 px-4 text-start md:px-6">

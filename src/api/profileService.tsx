@@ -17,7 +17,7 @@ async function getProfiles() {
 async function getProfileByName(name: string) {
   try {
     const response = await get<ApiResponse<Profile>>(
-      `${PROFILES_ENDPOINT}/${name}`,
+      `${PROFILES_ENDPOINT}/${name}?_venues=true`,
     );
     return response.data;
   } catch (error) {

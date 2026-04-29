@@ -29,7 +29,9 @@ async function getVenues() {
 
 async function getVenueById(id: string) {
   try {
-    const response = await get<ApiResponse<Venue>>(`${VENUES_ENDPOINT}/${id}`);
+    const response = await get<ApiResponse<Venue>>(
+      `${VENUES_ENDPOINT}/${id}?_owner=true`,
+    );
     return response.data;
   } catch (error) {
     console.error(`Error fetching venue with id ${id}:`, error);

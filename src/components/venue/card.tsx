@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
-import placeholderVenue from "../../assets/placeholderImage.png";
+import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import { Rating } from "./rating";
 
@@ -36,7 +36,7 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
     >
       <div className="relative">
         <img
-          src={showPlaceholder ? placeholderVenue : primaryMedia.url}
+          src={showPlaceholder ? placeholderImage : primaryMedia.url}
           alt={primaryMedia?.alt || venue.name}
           onError={() => setImageError(true)}
           className="h-52 w-full object-cover md:h-56"

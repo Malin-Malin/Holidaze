@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Media } from "../../types/common.types";
-import placeholderVenue from "../../assets/placeholderImage.png";
+import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import "./gallery.css";
 
@@ -57,7 +57,7 @@ export default function Gallery({ media }: GalleryProps) {
       <section className="flex flex-col gap-4 md:flex-row md:items-stretch">
         <div className="order-1 relative flex-1 overflow-hidden md:order-2">
           <img
-            src={placeholderVenue}
+            src={placeholderImage}
             alt="Venue placeholder image"
             className="h-80 w-full object-cover"
           />
