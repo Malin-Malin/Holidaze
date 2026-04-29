@@ -3,6 +3,7 @@ import type { Profile } from "../types/profile.types";
 import { getProfileByName } from "../api/profileService";
 import { useAuth } from "../hooks/useAuth";
 import { Banner } from "../components/layout/banner";
+import OverviewVenue from "../components/profile/overviewVenue";
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
 
@@ -45,6 +46,7 @@ export default function ProfilePage() {
         </h2>
       </div>
       <p>{profile.bio}</p>
+      <OverviewVenue venues={profile.venues ?? []} />
     </section>
   );
 }
