@@ -1,22 +1,42 @@
 import "./banner.css";
+import type { ReactNode } from "react";
+
+type BannerProps = {
+  imageUrl?: string;
+  imageAlt?: string;
+  ariaLabel?: string;
+  children?: ReactNode;
+};
 
 // TODO: this bannerinfo should change from side to side
 // TODO: The font looks a bit off, check the font-family and make sure it is applied correctly
-export const Banner = () => {
+export const Banner = ({
+  imageUrl,
+  imageAlt,
+  ariaLabel = "Holidaze banner",
+  children,
+}: BannerProps) => {
   return (
     <section
       className="banner-hero relative flex min-h-[320px] items-end justify-end bg-cover bg-center p-6"
-      aria-label="Holidaze banner"
+      aria-label={ariaLabel}
+      role="img"
+      style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
     >
       <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
-      <div className="relative z-10 text-right">
-        <span className="block uppercase text-4xl font-[var(--font-display)] text-[var(--color-honey)]">
-          Holidaze
-        </span>
-        <p className="mt-2 text-lg font-[var(--font-display)] text-[var(--color-honey)]">
-          Choose us to book your holiday
-        </p>
-      </div>
+      {imageAlt && <span className="sr-only">{imageAlt}</span>}
+      {children ? (
+        <div className="relative z-10">{children}</div>
+      ) : (
+        <div className="relative z-10 text-right">
+          <span className="block uppercase text-4xl font-[var(--font-display)] text-[var(--color-honey)]">
+            Holidaze
+          </span>
+          <p className="mt-2 text-lg font-[var(--font-display)] text-[var(--color-honey)]">
+            Choose us to book your holiday
+          </p>
+        </div>
+      )}
     </section>
   );
 };
