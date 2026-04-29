@@ -10,7 +10,10 @@ import ProfilePage from "./pages/profile";
 function AppLayout() {
   const location = useLocation();
   const hideGlobalBanner =
-    location.pathname.startsWith("/venue/") || location.pathname === "/profile";
+    location.pathname.startsWith("/venue/") ||
+    location.pathname === "/profile" ||
+    location.pathname === "/create-venue" ||
+    location.pathname === "/login";
   const showBanner = !hideGlobalBanner;
 
   return (
