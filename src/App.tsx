@@ -12,7 +12,7 @@ function AppLayout() {
   const hideGlobalBanner =
     location.pathname.startsWith("/venue/") ||
     location.pathname === "/profile" ||
-    location.pathname === "/create-venue" ||
+    location.pathname.startsWith("/create-venue") ||
     location.pathname === "/login";
   const showBanner = !hideGlobalBanner;
 
@@ -24,6 +24,7 @@ function AppLayout() {
         <Route path="/" element={<VenuesGrid />} />
         <Route path="/venue/:id" element={<VenueDetail />} />
         <Route path="/create-venue" element={<CreateVenuePage />} />
+        <Route path="/create-venue/:id/edit" element={<CreateVenuePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
