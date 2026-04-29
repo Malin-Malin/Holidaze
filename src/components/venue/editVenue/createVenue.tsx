@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 import { RatingInput } from "../../input/rating";
-import { createVenue } from "../../../api/venueService";
+import { createVenue, getVenueById, updateVenue } from "../../../api/venueService";
 import type { VenueData } from "../../../types/venue.types";
 import type { Media } from "../../../types/common.types";
 
@@ -36,14 +36,60 @@ const initialFormState: CreateVenueForm = {
 
 const emptyMedia: Media = { url: "", alt: "" };
 
-export const CreateVenue = () => {
+type CreateVenueProps = {
+  venueId?: string;
+};
+
+export const CreateVenue = ({ venueId }: CreateVenueProps) => {
   // useRequireAuth();
   const navigate = useNavigate();
+  const isEditMode = Boolean(venueId);
   const [form, setForm] = useState<CreateVenueForm>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
+  const [isLoadingVenue, setIsLoadingVenue] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    async function loadVenueForEdit() {
+      if (!venueId) return;
+
+      try {
+        setIsLoadingVenue(true);
+        setErrorMessage("");
+        const venue = await getVenueById(venueId);
+
+        setForm({
+          name: venue.name,
+          description: venue.description,
+          price: venue.price,
+          maxGuests: venue.maxGuests,
+          rating: venue.rating,
+          city: venue.location?.city || "",
+          country: venue.location?.country || "",
+          wifi: venue.meta?.wifi ?? false,
+          parking: venue.meta?.parking ?? false,
+          breakfast: venue.meta?.breakfast ?? false,
+          pets: venue.meta?.pets ?? false,
+        });
+
+        setMediaList(
+          venue.media && venue.media.length > 0
+            ? venue.media
+            : [{ ...emptyMedia }],
+        );
+      } catch (error) {
+        setErrorMessage(
+          error instanceof Error ? error.message : "Failed to load venue.",
+        );
+      } finally {
+        setIsLoadingVenue(false);
+      }
+    }
+
+    void loadVenueForEdit();
+  }, [venueId]);
 
   const handleMediaChange = (
     index: number,
@@ -112,10 +158,20 @@ export const CreateVenue = () => {
         },
       };
 
-      const createdVenue = await createVenue(payload);
-      setForm(initialFormState);
-      setMediaList([{ ...emptyMedia }]);
-      navigate(`/venue/${createdVenue.id}`);
+      const savedVenue = isEditMode
+        ? await updateVenue(venueId as string, payload)
+        : await createVenue(payload);
+
+      setSuccessMessage(
+        isEditMode ? "Venue updated successfully." : "Venue created successfully.",
+      );
+
+      if (!isEditMode) {
+        setForm(initialFormState);
+        setMediaList([{ ...emptyMedia }]);
+      }
+
+      navigate(`/venue/${savedVenue.id}`);
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to create venue.",
@@ -125,9 +181,17 @@ export const CreateVenue = () => {
     }
   }
 
+  if (isLoadingVenue) {
+    return (
+      <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left">
+        <p>Loading venue...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left">
-      <h2>Create Venue</h2>
+      <h2>{isEditMode ? "Edit Venue" : "Create Venue"}</h2>
 
       <form onSubmit={submitForm} className="mt-4 space-y-4">
         <input
@@ -297,7 +361,7 @@ export const CreateVenue = () => {
           disabled={isSubmitting}
           className="rounded bg-[var(--color-ink)] px-4 py-2 text-[var(--color-honey)]"
         >
-          {isSubmitting ? "Saving..." : "Create venue"}
+          {isSubmitting ? "Saving..." : isEditMode ? "Save changes" : "Create venue"}
         </button>
       </form>
     </section>

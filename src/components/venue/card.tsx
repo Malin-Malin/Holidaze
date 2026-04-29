@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
 import placeholderImage from "../../assets/placeholderImage.jpg";
@@ -12,18 +12,16 @@ type VenueCardData = Pick<
 
 type VenueCardProps = {
   venue: VenueCardData;
+  onEdit?: (venueId: string) => void;
+  onDelete?: (venueId: string) => void;
 };
 
-export const VenueCard = ({ venue }: VenueCardProps) => {
+export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   const navigate = useNavigate();
   const primaryMedia = venue.media[0];
-  const [imageError, setImageError] = useState(false);
-
-  useEffect(() => {
-    setImageError(false);
-  }, [primaryMedia?.url]);
-
-  const showPlaceholder = !primaryMedia?.url || imageError;
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const primaryUrl = primaryMedia?.url || "";
+  const showPlaceholder = !primaryUrl || failedUrl === primaryUrl;
 
   return (
     <div
@@ -31,14 +29,17 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
       tabIndex={0}
       onClick={() => navigate(`/venue/${venue.id}`)}
       onKeyDown={(e) => e.key === "Enter" && navigate(`/venue/${venue.id}`)}
-      className="group mx-auto my-1 w-full max-w-sm cursor-pointer overflow-hidden border border-[var(--border)] bg-[var(--bg)] text-left shadow-sm ring-0 transition duration-200 transition-colors hover:-translate-y-0.5 hover:border-[var(--color-honey)] hover:ring-2 hover:ring-[var(--accent-border)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
+      className="group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden border border-[var(--border)] bg-[var(--bg)] text-left shadow-sm ring-0 transition duration-200 transition-colors hover:-translate-y-0.5 hover:border-[var(--color-honey)] hover:ring-2 hover:ring-[var(--accent-border)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
       aria-label={`Venue: ${venue.name}, located in ${venue.location.city}, ${venue.location.country}. Description: ${venue.description}.`}
     >
       <div className="relative">
         <img
-          src={showPlaceholder ? placeholderImage : primaryMedia.url}
+          src={showPlaceholder ? placeholderImage : primaryUrl}
           alt={primaryMedia?.alt || venue.name}
-          onError={() => setImageError(true)}
+          onError={() => {
+            if (!primaryUrl) return;
+            setFailedUrl(primaryUrl);
+          }}
           className="h-52 w-full object-cover md:h-56"
         />
         {showPlaceholder && (
@@ -51,8 +52,8 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
           </div>
         )}
       </div>
-      <div className="space-y-2 p-4">
-        <p className="text-sm text-[var(--text-h)]">
+      <div className="flex flex-1 flex-col p-4">
+        <p className="line-clamp-1 text-sm text-[var(--text-h)]">
           {venue.location.city}, {venue.location.country}
         </p>
         <h3 className="line-clamp-1 text-xl text-[var(--text-h)]">
@@ -61,10 +62,40 @@ export const VenueCard = ({ venue }: VenueCardProps) => {
         <p className="line-clamp-2 text-sm leading-6 text-[var(--text-h)]/90">
           {venue.description}
         </p>
-        <Rating
-          rating={venue.rating}
-          className="pt-1 text-end text-lg tracking-wide text-amber-500"
-        />
+        <div className="mt-auto pt-2">
+          <Rating
+            rating={venue.rating}
+            className="text-end text-lg tracking-wide text-amber-500"
+          />
+          {(onEdit || onDelete) && (
+            <div className="flex items-center justify-start gap-2 pt-2">
+              {onEdit && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(venue.id);
+                  }}
+                  className="rounded border border-[var(--color-ink)] px-3 py-1 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
+                >
+                  Edit
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(venue.id);
+                  }}
+                  className="rounded border border-red-700 px-3 py-1 text-sm text-red-700 hover:bg-red-700 hover:text-white"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
