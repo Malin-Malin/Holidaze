@@ -5,10 +5,13 @@ import { Banner } from "./components/layout/banner";
 import { Footer } from "./components/layout/footer";
 import { LoginPage, VenuesGrid, VenueDetail, CreateVenuePage } from "./pages";
 import { AuthProvider } from "./context/AuthProvider";
+import ProfilePage from "./pages/profile";
 
 function AppLayout() {
   const location = useLocation();
-  const showBanner = !location.pathname.startsWith("/venue/");
+  const hideGlobalBanner =
+    location.pathname.startsWith("/venue/") || location.pathname === "/profile";
+  const showBanner = !hideGlobalBanner;
 
   return (
     <>
@@ -19,6 +22,7 @@ function AppLayout() {
         <Route path="/venue/:id" element={<VenueDetail />} />
         <Route path="/create-venue" element={<CreateVenuePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <Footer />
     </>
