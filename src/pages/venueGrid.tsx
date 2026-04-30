@@ -2,7 +2,17 @@ import { VenueCard } from "../components/venue/card";
 import { useVenues } from "../hooks/useVenues";
 
 export default function VenuesGrid() {
-  const { venues, isLoading, errorMessage } = useVenues();
+  const {
+    venues,
+    isLoading,
+    errorMessage,
+    currentPage,
+    pageCount,
+    isFirstPage,
+    isLastPage,
+    goToPreviousPage,
+    goToNextPage,
+  } = useVenues();
 
   if (isLoading) {
     return (
@@ -27,6 +37,27 @@ export default function VenuesGrid() {
         {venues.map((venue) => (
           <VenueCard key={venue.id} venue={venue} />
         ))}
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={goToPreviousPage}
+          disabled={isFirstPage}
+          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Previous
+        </button>
+        <p className="text-sm text-[var(--text-h)]">
+          Page {currentPage} of {pageCount}
+        </p>
+        <button
+          type="button"
+          onClick={goToNextPage}
+          disabled={isLastPage}
+          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Next
+        </button>
       </div>
     </section>
   );
