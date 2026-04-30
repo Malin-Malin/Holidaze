@@ -22,25 +22,29 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const primaryUrl = primaryMedia?.url || "";
   const showPlaceholder = !primaryUrl || failedUrl === primaryUrl;
+  const locationText =
+    [venue.location.city, venue.location.country].filter(Boolean).join(", ") ||
+    "No location registered";
+  const venueName = venue.name?.trim() || "Unnamed venue";
+  const descriptionText =
+    venue.description?.trim() || "More details are coming.";
 
   return (
     <div
       role="button"
       tabIndex={0}
-      onClick={() =>
-        navigate(`/venue/${venue.id}`, { state: { venueName: venue.name } })
-      }
+      onClick={() => navigate(`/venue/${venue.id}`, { state: { venueName } })}
       onKeyDown={(e) =>
         e.key === "Enter" &&
-        navigate(`/venue/${venue.id}`, { state: { venueName: venue.name } })
+        navigate(`/venue/${venue.id}`, { state: { venueName } })
       }
       className="card-gradient-border group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
-      aria-label={`Venue: ${venue.name}, located in ${[venue.location.city, venue.location.country].filter(Boolean).join(", ")}. Description: ${venue.description}.`}
+      aria-label={`Venue: ${venueName}, located in ${locationText}. Description: ${descriptionText}.`}
     >
       <div className="relative">
         <img
           src={showPlaceholder ? placeholderImage : primaryUrl}
-          alt={primaryMedia?.alt || venue.name}
+          alt={primaryMedia?.alt || venueName}
           onError={() => {
             if (!primaryUrl) return;
             setFailedUrl(primaryUrl);
@@ -59,15 +63,13 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
       </div>
       <div className="flex flex-1 flex-col p-4">
         <p className="line-clamp-1 min-h-[1.25rem] text-sm text-[var(--text-h)]">
-          {[venue.location.city, venue.location.country]
-            .filter(Boolean)
-            .join(", ")}
+          {locationText}
         </p>
         <h3 className="line-clamp-1 text-xl text-[var(--text-h)]">
-          {venue.name}
+          {venueName}
         </h3>
         <p className="line-clamp-2 text-sm leading-6 text-[var(--text-h)]/90">
-          {venue.description}
+          {descriptionText}
         </p>
         <div className="mt-auto pt-2">
           <Rating
