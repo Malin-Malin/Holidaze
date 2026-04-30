@@ -34,6 +34,11 @@ export function Pagination({
     goToPage(parsedPage);
   }
 
+  function handleNextPage() {
+    goToNextPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
       <button
@@ -66,7 +71,7 @@ export function Pagination({
       {!isLastPage && (
         <button
           type="button"
-          onClick={goToNextPage}
+          onClick={handleNextPage}
           className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)]"
         >
           Next

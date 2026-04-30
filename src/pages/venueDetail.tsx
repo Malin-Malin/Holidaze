@@ -59,8 +59,9 @@ export default function VenueDetail() {
           <p className="inline-flex items-center gap-2 text-[var(--text)]">
             <FaMapMarkerAlt aria-hidden="true" />
             <span>
-              {upperFirst(venue.location.city)},{" "}
-              {upperFirst(venue.location.country)}
+              {[venue.location.city, venue.location.country]
+                .filter(Boolean)
+                .join(", ")}{" "}
             </span>
           </p>
           <Rating

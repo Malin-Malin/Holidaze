@@ -112,10 +112,6 @@ export function useVenues(
   const pageCount = Math.max(1, Math.ceil(filteredVenues.length / pageSize));
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [normalizedQuery, minRating, pets, parking, wifi, breakfast]);
-
-  useEffect(() => {
     if (currentPage > pageCount) {
       setCurrentPage(pageCount);
     }

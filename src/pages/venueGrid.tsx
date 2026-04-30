@@ -45,8 +45,6 @@ export default function VenuesGrid() {
     } else {
       nextParams.set(key, String(value));
     }
-
-    nextParams.set("page", "1");
     setSearchParams(nextParams, { replace: true });
   }
 
