@@ -31,16 +31,61 @@ export function VenueSearchControls({
 }: VenueSearchControlsProps) {
   return (
     <section className="mb-6 p-4">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-        <div className="flex flex-1 flex-col gap-3">
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <span className="shrink-0 text-sm text-[var(--text-h)]/80">
+            Find your perfect place to stay
+          </span>
           <input
             type="text"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Search by name, city or country"
-            className="w-full rounded border border-[var(--border)] px-3 py-2 text-sm"
+            className="w-full rounded border border-[var(--border)] px-3 py-2 text-sm sm:flex-1"
           />
-          <div className="flex flex-wrap items-center gap-2 text-sm text-[var(--text-h)]">
+        </div>
+
+        <div className="flex flex-wrap justify-around items-center gap-2 text-sm text-[var(--text-h)] lg:flex-nowrap">
+          <div className="grid grid-cols-2 items-center gap-2 sm:flex sm:flex-wrap">
+            <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
+              <input
+                type="checkbox"
+                checked={wifi}
+                onChange={(e) => onWifiChange(e.target.checked)}
+                className="amenity-checkbox shrink-0"
+              />
+              Wifi
+            </label>
+            <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
+              <input
+                type="checkbox"
+                checked={parking}
+                onChange={(e) => onParkingChange(e.target.checked)}
+                className="amenity-checkbox shrink-0"
+              />
+              Parking
+            </label>
+            <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
+              <input
+                type="checkbox"
+                checked={breakfast}
+                onChange={(e) => onBreakfastChange(e.target.checked)}
+                className="amenity-checkbox shrink-0"
+              />
+              Breakfast
+            </label>
+            <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
+              <input
+                type="checkbox"
+                checked={pets}
+                onChange={(e) => onPetsChange(e.target.checked)}
+                className="amenity-checkbox shrink-0"
+              />
+              Pets
+            </label>
+          </div>
+
+          <div className="ml-3 flex flex-wrap items-center gap-4">
             {ratingOptions.map((rating) => {
               const isActive = minRating === rating;
 
@@ -61,45 +106,6 @@ export function VenueSearchControls({
               );
             })}
           </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-2 pt-1 text-sm text-[var(--text-h)] lg:max-w-[40%]">
-          <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
-            <input
-              type="checkbox"
-              checked={wifi}
-              onChange={(e) => onWifiChange(e.target.checked)}
-              className="amenity-checkbox shrink-0"
-            />
-            Wifi
-          </label>
-          <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
-            <input
-              type="checkbox"
-              checked={parking}
-              onChange={(e) => onParkingChange(e.target.checked)}
-              className="amenity-checkbox shrink-0"
-            />
-            Parking
-          </label>
-          <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
-            <input
-              type="checkbox"
-              checked={breakfast}
-              onChange={(e) => onBreakfastChange(e.target.checked)}
-              className="amenity-checkbox shrink-0"
-            />
-            Breakfast
-          </label>
-          <label className="flex items-center gap-2 rounded px-2 py-1 hover:bg-black/5 whitespace-nowrap">
-            <input
-              type="checkbox"
-              checked={pets}
-              onChange={(e) => onPetsChange(e.target.checked)}
-              className="amenity-checkbox shrink-0"
-            />
-            Pets
-          </label>
         </div>
       </div>
     </section>
