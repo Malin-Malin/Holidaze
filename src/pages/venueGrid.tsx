@@ -97,14 +97,15 @@ export default function VenuesGrid() {
           />
           <span>of {pageCount}</span>
         </p>
-        <button
-          type="button"
-          onClick={goToNextPage}
-          disabled={isLastPage}
-          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          Next
-        </button>
+        {!isLastPage && (
+          <button
+            type="button"
+            onClick={goToNextPage}
+            className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)]"
+          >
+            Next
+          </button>
+        )}
       </div>
     </section>
   );
