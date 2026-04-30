@@ -45,7 +45,7 @@ async function createVenue(venueData: VenueData) {
 async function getVenues(page = 1, limit = 12): Promise<VenuesPageResponse> {
   try {
     const response = await get<ApiResponse<Venue[]>>(
-      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}`,
+      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=name&sortOrder=asc`,
     );
     return {
       data: response.data,
