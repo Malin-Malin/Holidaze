@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { VenueCard } from "../components/venue/card";
 import { useVenues } from "../hooks/useVenues";
 
@@ -12,7 +13,22 @@ export default function VenuesGrid() {
     isLastPage,
     goToPreviousPage,
     goToNextPage,
+    goToPage,
   } = useVenues();
+  const [pageInput, setPageInput] = useState(String(currentPage));
+
+  useEffect(() => {
+    setPageInput(String(currentPage));
+  }, [currentPage]);
+
+  function handleGoToPage() {
+    const parsedPage = Number(pageInput);
+    if (!Number.isFinite(parsedPage)) {
+      setPageInput(String(currentPage));
+      return;
+    }
+    goToPage(parsedPage);
+  }
 
   if (isLoading) {
     return (
@@ -38,7 +54,7 @@ export default function VenuesGrid() {
           <VenueCard key={venue.id} venue={venue} />
         ))}
       </div>
-      <div className="mt-8 flex items-center justify-center gap-3">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
           onClick={goToPreviousPage}
@@ -47,8 +63,24 @@ export default function VenuesGrid() {
         >
           Previous
         </button>
-        <p className="text-sm text-[var(--text-h)]">
-          Page {currentPage} of {pageCount}
+        <p className="flex items-center gap-2 text-sm text-[var(--text-h)]">
+          <span>Page</span>
+          <input
+            aria-label="Current page"
+            type="number"
+            min={1}
+            max={pageCount}
+            value={pageInput}
+            onChange={(e) => setPageInput(e.target.value)}
+            onBlur={handleGoToPage}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleGoToPage();
+              }
+            }}
+            className="w-16 rounded border border-[var(--border)] px-2 py-1 text-center text-sm"
+          />
+          <span>of {pageCount}</span>
         </p>
         <button
           type="button"

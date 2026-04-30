@@ -12,6 +12,7 @@ type UseVenuesResult = {
   isLastPage: boolean;
   goToPreviousPage: () => void;
   goToNextPage: () => void;
+  goToPage: (page: number) => void;
 };
 
 export function useVenues(): UseVenuesResult {
@@ -56,6 +57,12 @@ export function useVenues(): UseVenuesResult {
     setCurrentPage((prev) => Math.min(pageCount, prev + 1));
   };
 
+  const goToPage = (page: number) => {
+    if (!Number.isFinite(page)) return;
+    const safePage = Math.min(pageCount, Math.max(1, Math.floor(page)));
+    setCurrentPage(safePage);
+  };
+
   return {
     venues,
     isLoading,
@@ -66,5 +73,6 @@ export function useVenues(): UseVenuesResult {
     isLastPage,
     goToPreviousPage,
     goToNextPage,
+    goToPage,
   };
 }
