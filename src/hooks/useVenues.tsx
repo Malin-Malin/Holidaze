@@ -1,6 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getVenues, type PaginationMeta } from "../api/venueService";
 import type { Venue } from "../types/venue.types";
+
+type UseVenuesFilters = {
+  query?: string;
+  minRating?: number;
+  pets?: boolean;
+  parking?: boolean;
+  wifi?: boolean;
+  breakfast?: boolean;
+};
 
 type UseVenuesResult = {
   venues: Venue[];
@@ -15,24 +24,51 @@ type UseVenuesResult = {
   goToPage: (page: number) => void;
 };
 
-export function useVenues(initialPage = 1): UseVenuesResult {
-  const [venues, setVenues] = useState<Venue[]>([]);
+export function useVenues(
+  initialPage = 1,
+  filters: UseVenuesFilters = {},
+): UseVenuesResult {
+  const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [meta, setMeta] = useState<PaginationMeta>({});
   const pageSize = 12;
 
+  const {
+    query = "",
+    minRating = 0,
+    pets = false,
+    parking = false,
+    wifi = false,
+    breakfast = false,
+  } = filters;
+
+  const normalizedQuery = query.trim().toLowerCase();
+
   useEffect(() => {
-    async function loadVenues() {
+    async function loadAllVenues() {
       try {
         setIsLoading(true);
         setErrorMessage(null);
-        const response = await getVenues(currentPage, pageSize);
-        setVenues(
-          [...response.data].sort((a, b) => a.name.localeCompare(b.name)),
-        );
-        setMeta(response.meta ?? {});
+        const limit = 100;
+        let page = 1;
+        let nextPage: number | null | undefined = 1;
+        const collected: Venue[] = [];
+
+        while (nextPage) {
+          const response = await getVenues(page, limit);
+          collected.push(...response.data);
+
+          const meta = (response.meta ?? {}) as PaginationMeta;
+          nextPage = meta.nextPage ?? null;
+          page = nextPage ?? page;
+
+          if (response.data.length === 0 || !nextPage) {
+            break;
+          }
+        }
+
+        setAllVenues(collected.sort((a, b) => a.name.localeCompare(b.name)));
       } catch {
         setErrorMessage("Could not load venues right now.");
       } finally {
@@ -40,12 +76,52 @@ export function useVenues(initialPage = 1): UseVenuesResult {
       }
     }
 
-    void loadVenues();
-  }, [currentPage]);
+    void loadAllVenues();
+  }, []);
 
-  const pageCount = meta.pageCount ?? 1;
-  const isFirstPage = meta.isFirstPage ?? currentPage <= 1;
-  const isLastPage = meta.isLastPage ?? currentPage >= pageCount;
+  const filteredVenues = useMemo(() => {
+    return allVenues.filter((venue) => {
+      const searchable = [
+        venue.name,
+        venue.location.city,
+        venue.location.country,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const matchesQuery =
+        !normalizedQuery || searchable.includes(normalizedQuery);
+      const matchesRating = venue.rating >= minRating;
+      const matchesPets = !pets || venue.meta.pets;
+      const matchesParking = !parking || venue.meta.parking;
+      const matchesWifi = !wifi || venue.meta.wifi;
+      const matchesBreakfast = !breakfast || venue.meta.breakfast;
+
+      return (
+        matchesQuery &&
+        matchesRating &&
+        matchesPets &&
+        matchesParking &&
+        matchesWifi &&
+        matchesBreakfast
+      );
+    });
+  }, [allVenues, normalizedQuery, minRating, pets, parking, wifi, breakfast]);
+
+  const pageCount = Math.max(1, Math.ceil(filteredVenues.length / pageSize));
+
+  useEffect(() => {
+    if (currentPage > pageCount) {
+      setCurrentPage(pageCount);
+    }
+  }, [currentPage, pageCount]);
+
+  const start = (currentPage - 1) * pageSize;
+  const venues = filteredVenues.slice(start, start + pageSize);
+
+  const isFirstPage = currentPage <= 1;
+  const isLastPage = currentPage >= pageCount;
 
   const goToPreviousPage = () => {
     if (isFirstPage) return;

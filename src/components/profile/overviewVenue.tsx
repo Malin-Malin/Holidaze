@@ -12,6 +12,7 @@ export default function OverviewVenue({ venues = [] }: OverviewVenueProps) {
   const navigate = useNavigate();
   const [myVenues, setMyVenues] = useState<Venue[]>(venues);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     setMyVenues(venues);
@@ -23,9 +24,12 @@ export default function OverviewVenue({ venues = [] }: OverviewVenueProps) {
 
     try {
       setErrorMessage("");
+      setSuccessMessage("");
       await deleteVenue(venueId);
       setMyVenues((prev) => prev.filter((venue) => venue.id !== venueId));
+      setSuccessMessage("Venue successfully deleted.");
     } catch (error) {
+      setSuccessMessage("");
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to delete venue.",
       );
@@ -57,6 +61,9 @@ export default function OverviewVenue({ venues = [] }: OverviewVenueProps) {
 
       {errorMessage && (
         <p className="mt-3 text-sm text-red-700">{errorMessage}</p>
+      )}
+      {successMessage && (
+        <p className="mt-3 text-sm text-green-700">{successMessage}</p>
       )}
 
       <p className="mt-1 p-6 text-sm text-[var(--text-h)] text-end">

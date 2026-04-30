@@ -26,7 +26,7 @@ export function RatingInput({
             role="radio"
             aria-checked={starValue === clampedRating}
             aria-label={`${starValue} star${starValue > 1 ? "s" : ""}`}
-            onClick={() => onChange(starValue)}
+            onClick={() => onChange(starValue === clampedRating ? 0 : starValue)}
             className={`text-2xl leading-none transition ${
               isActive ? "text-amber-500" : "text-gray-300"
             }`}

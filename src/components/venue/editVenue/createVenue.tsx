@@ -25,7 +25,7 @@ const initialFormState: CreateVenueForm = {
   description: "",
   price: 0,
   maxGuests: 1,
-  rating: 1,
+  rating: 0,
   city: "",
   country: "",
   wifi: false,

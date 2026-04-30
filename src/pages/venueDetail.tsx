@@ -2,14 +2,11 @@ import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";
 import { Amenities } from "../components/venue/amenities";
+import { LocationText } from "../components/venue/locationText";
 import { Rating } from "../components/venue/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
-
-function upperFirst(value: string) {
-  return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
-}
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("en-US", {
@@ -49,19 +46,22 @@ export default function VenueDetail() {
   }
 
   const manager = venue.owner ?? user;
+  const detailsText = venue.description?.trim() || "More details are coming.";
 
   return (
     <section className="pb-10">
       <Gallery media={venue.media} />
       <section className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
-        <h1 className="px-1 uppercase">{venue.name}</h1>
+        <h1 className="mb-4 mt-0 break-words px-1 uppercase leading-tight">
+          {venue.name}
+        </h1>
         <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="inline-flex items-center gap-2 text-[var(--text)]">
             <FaMapMarkerAlt aria-hidden="true" />
-            <span>
-              {upperFirst(venue.location.city)},{" "}
-              {upperFirst(venue.location.country)}
-            </span>
+            <LocationText
+              city={venue.location.city}
+              country={venue.location.country}
+            />
           </p>
           <Rating
             rating={venue.rating}
@@ -81,7 +81,7 @@ export default function VenueDetail() {
         </div>
         <div className="space-y-2 pt-4">
           <h2>Details</h2>
-          <p className="text-[var(--text)]">{venue.description}</p>
+          <p className="text-[var(--text)]">{detailsText}</p>
         </div>
         <div className="flex flex-col gap-3 p-4 text-sm text-[var(--text)] sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
