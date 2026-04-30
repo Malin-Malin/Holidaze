@@ -54,7 +54,9 @@ export default function VenueDetail() {
     <section className="pb-10">
       <Gallery media={venue.media} />
       <section className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
-        <h1 className="px-1 uppercase">{venue.name}</h1>
+        <h1 className="mb-4 mt-0 px-1 uppercase leading-tight break-words">
+          {venue.name}
+        </h1>
         <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="inline-flex items-center gap-2 text-[var(--text)]">
             <FaMapMarkerAlt aria-hidden="true" />
