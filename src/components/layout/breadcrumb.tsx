@@ -8,6 +8,10 @@ function toTitleCase(value: string) {
     .join(" ");
 }
 
+function capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 function getSegmentLabel(segment: string, index: number, segments: string[]) {
   if (segment === "venue") {
     return "Venue";
@@ -57,7 +61,7 @@ export function Breadcrumb() {
         const to = `/${segments.slice(0, index + 1).join("/")}`;
         return {
           to,
-          label: venueName || "Venue",
+          label: venueName ? capitalize(venueName) : "Venue",
         };
       }
 
