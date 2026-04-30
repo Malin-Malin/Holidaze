@@ -29,7 +29,7 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
       tabIndex={0}
       onClick={() => navigate(`/venue/${venue.id}`)}
       onKeyDown={(e) => e.key === "Enter" && navigate(`/venue/${venue.id}`)}
-      className="group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden border border-[var(--border)] bg-[var(--bg)] text-left shadow-sm ring-0 transition duration-200 transition-colors hover:-translate-y-0.5 hover:border-[var(--color-honey)] hover:ring-2 hover:ring-[var(--accent-border)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
+      className="card-gradient-border group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
       aria-label={`Venue: ${venue.name}, located in ${[venue.location.city, venue.location.country].filter(Boolean).join(", ")}. Description: ${venue.description}.`}
     >
       <div className="relative">
@@ -54,7 +54,9 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
       </div>
       <div className="flex flex-1 flex-col p-4">
         <p className="line-clamp-1 min-h-[1.25rem] text-sm text-[var(--text-h)]">
-          {[venue.location.city, venue.location.country].filter(Boolean).join(", ")}
+          {[venue.location.city, venue.location.country]
+            .filter(Boolean)
+            .join(", ")}
         </p>
         <h3 className="line-clamp-1 text-xl text-[var(--text-h)]">
           {venue.name}
