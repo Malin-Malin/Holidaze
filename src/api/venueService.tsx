@@ -4,6 +4,31 @@ import { post, get, put, del } from "./api";
 
 const VENUES_ENDPOINT = "/holidaze/venues";
 
+export type PaginationMeta = {
+  isFirstPage?: boolean;
+  isLastPage?: boolean;
+  currentPage?: number;
+  previousPage?: number | null;
+  nextPage?: number | null;
+  pageSize?: number;
+  pageCount?: number;
+  total?: number;
+  totalCount?: number;
+};
+
+export type VenuesPageResponse = {
+  data: Venue[];
+  meta: PaginationMeta;
+};
+
+function normalizeMeta(meta: unknown): PaginationMeta {
+  if (meta && typeof meta === "object" && "pagination" in meta) {
+    return (meta as { pagination?: PaginationMeta }).pagination ?? {};
+  }
+
+  return (meta as PaginationMeta) ?? {};
+}
+
 async function createVenue(venueData: VenueData) {
   try {
     const response = await post<VenueData, ApiResponse<Venue>>(
@@ -17,10 +42,15 @@ async function createVenue(venueData: VenueData) {
   }
 }
 
-async function getVenues() {
+async function getVenues(page = 1, limit = 12): Promise<VenuesPageResponse> {
   try {
-    const response = await get<ApiResponse<Venue[]>>(VENUES_ENDPOINT);
-    return response.data;
+    const response = await get<ApiResponse<Venue[]>>(
+      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=name&sortOrder=asc`,
+    );
+    return {
+      data: response.data,
+      meta: normalizeMeta(response.meta),
+    };
   } catch (error) {
     console.error("Error fetching venues:", error);
     throw error; // Let the caller handle the error
