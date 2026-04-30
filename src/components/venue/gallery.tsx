@@ -3,6 +3,7 @@ import type { Media } from "../../types/common.types";
 import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import "./gallery.css";
+import GalleryImage from "./galleryImage";
 
 type GalleryProps = {
   media: Media[];
@@ -10,13 +11,9 @@ type GalleryProps = {
 
 export default function Gallery({ media }: GalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeImageError, setActiveImageError] = useState(false);
+  const [failedUrls, setFailedUrls] = useState<Record<string, boolean>>({});
   const mobileThumbRailRef = useRef<HTMLDivElement>(null);
   const desktopThumbRailRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setActiveImageError(false);
-  }, [activeIndex, media]);
 
   useEffect(() => {
     if (media.length <= 1) {
@@ -74,7 +71,8 @@ export default function Gallery({ media }: GalleryProps) {
   }
 
   const activeMedia = media[activeIndex];
-  const showPlaceholder = !activeMedia.url || activeImageError;
+  const showPlaceholder =
+    !activeMedia.url || Boolean(failedUrls[activeMedia.url]);
 
   function showPrevious() {
     setActiveIndex((current) =>
@@ -109,9 +107,8 @@ export default function Gallery({ media }: GalleryProps) {
                 }`}
                 aria-label={`Show image ${index + 1}`}
               >
-                <img
-                  src={image.url}
-                  alt={image.alt || `Venue image ${index + 1}`}
+                <GalleryImage
+                  image={image}
                   className="h-20 w-20 object-cover"
                 />
               </button>
@@ -138,9 +135,8 @@ export default function Gallery({ media }: GalleryProps) {
                   }`}
                   aria-label={`Show image ${index + 1}`}
                 >
-                  <img
-                    src={image.url}
-                    alt={image.alt || `Venue image ${index + 1}`}
+                  <GalleryImage
+                    image={image}
                     className={
                       media.length <= 2
                         ? "h-full w-full object-cover"
@@ -156,9 +152,12 @@ export default function Gallery({ media }: GalleryProps) {
 
       <div className="order-1 relative flex-1 overflow-hidden md:order-2">
         <img
-          src={showPlaceholder ? placeholderVenue : activeMedia.url}
+          src={showPlaceholder ? placeholderImage : activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
-          onError={() => setActiveImageError(true)}
+          onError={() => {
+            if (!activeMedia.url) return;
+            setFailedUrls((prev) => ({ ...prev, [activeMedia.url]: true }));
+          }}
           className="h-80 w-full object-cover"
         />
         {showPlaceholder && (
