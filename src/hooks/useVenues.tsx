@@ -15,11 +15,11 @@ type UseVenuesResult = {
   goToPage: (page: number) => void;
 };
 
-export function useVenues(): UseVenuesResult {
+export function useVenues(initialPage = 1): UseVenuesResult {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [meta, setMeta] = useState<PaginationMeta>({});
   const pageSize = 12;
 

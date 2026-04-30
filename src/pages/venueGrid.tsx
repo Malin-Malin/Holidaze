@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { VenueCard } from "../components/venue/card";
 import { useVenues } from "../hooks/useVenues";
 
 export default function VenuesGrid() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const parsedPage = Number(searchParams.get("page"));
+  const initialPage =
+    Number.isFinite(parsedPage) && parsedPage > 0 ? Math.floor(parsedPage) : 1;
+
   const {
     venues,
     isLoading,
@@ -14,12 +20,21 @@ export default function VenuesGrid() {
     goToPreviousPage,
     goToNextPage,
     goToPage,
-  } = useVenues();
+  } = useVenues(initialPage);
   const [pageInput, setPageInput] = useState(String(currentPage));
 
   useEffect(() => {
     setPageInput(String(currentPage));
   }, [currentPage]);
+
+  useEffect(() => {
+    const currentUrlPage = searchParams.get("page");
+    if (currentUrlPage === String(currentPage)) return;
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set("page", String(currentPage));
+    setSearchParams(nextParams, { replace: true });
+  }, [currentPage, searchParams, setSearchParams]);
 
   function handleGoToPage() {
     const parsedPage = Number(pageInput);
