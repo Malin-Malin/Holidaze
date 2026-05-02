@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";
-import { Amenities } from "../components/venue/amenities";
-import { LocationText } from "../components/venue/locationText";
-import { Rating } from "../components/venue/rating";
+import { Amenities } from "../components/ui/amenities";
+import { LocationText } from "../components/ui/locationText";
+import { Rating } from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
+import { BookingForm } from "../components/booking/bookingForm";
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("en-US", {
@@ -70,7 +71,7 @@ export default function VenueDetail() {
         </div>
         <div className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-2xl text-[var(--text-h)]">
-            Price per night: {formatPrice(venue.price)}
+            Price: {formatPrice(venue.price)} / night
           </p>
           <p className="text-lg text-[var(--text)]">
             Max guests: {venue.maxGuests}
@@ -118,13 +119,8 @@ export default function VenueDetail() {
         </div>
       </section>
       <section className="mx-auto mt-4 w-full max-w-6xl space-y-3 px-4 text-start md:px-6">
-        <h2>Booking</h2>
-        <p className="text-[var(--text)]">
-          Booking form with date picker and number of guests
-        </p>
-        <button className="inline-flex items-center justify-center rounded-md bg-[var(--color-ink)] px-5 py-2 text-[var(--color-honey)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]">
-          Book now
-        </button>
+        <h2>Book {venue.name}</h2>
+        <BookingForm venue={venue} />
       </section>
     </section>
   );
