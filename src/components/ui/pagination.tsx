@@ -45,7 +45,7 @@ export function Pagination({
         type="button"
         onClick={goToPreviousPage}
         disabled={isFirstPage}
-        className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] transition-colors duration-200 enabled:hover:bg-[var(--color-ink)] enabled:hover:text-[var(--color-honey)] disabled:cursor-not-allowed disabled:opacity-40"
       >
         Previous
       </button>
@@ -72,7 +72,7 @@ export function Pagination({
         <button
           type="button"
           onClick={handleNextPage}
-          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)]"
+          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] transition-colors duration-200 hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
         >
           Next
         </button>
