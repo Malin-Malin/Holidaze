@@ -60,7 +60,7 @@ async function getVenues(page = 1, limit = 12): Promise<VenuesPageResponse> {
 async function getVenueById(id: string) {
   try {
     const response = await get<ApiResponse<Venue>>(
-      `${VENUES_ENDPOINT}/${id}?_owner=true`,
+      `${VENUES_ENDPOINT}/${id}?_owner=true&_bookings=true`,
     );
     return response.data;
   } catch (error) {

@@ -37,6 +37,16 @@ export function BookingForm({ venue }: BookingFormProps) {
 
   const checkOutMinDate = dateFrom ? addDays(dateFrom, 1) : today;
 
+  function hasOverlapWithExisting(from: string, to: string) {
+    const a = new Date(from);
+    const b = new Date(to);
+    return (venue.bookings ?? []).some((booking) => {
+      const bFrom = new Date(booking.dateFrom);
+      const bTo = new Date(booking.dateTo);
+      return a < bTo && b > bFrom;
+    });
+  }
+
   function validate() {
     const next: BookingFieldErrors = {};
     const guestCount = Number(guests);
@@ -51,6 +61,17 @@ export function BookingForm({ venue }: BookingFormProps) {
 
     if (dateFrom && dateTo && new Date(dateTo) <= new Date(dateFrom)) {
       next.dateTo = "Check out date must be after check in date.";
+    }
+
+    if (
+      dateFrom &&
+      dateTo &&
+      !next.dateFrom &&
+      !next.dateTo &&
+      hasOverlapWithExisting(dateFrom, dateTo)
+    ) {
+      next.dateFrom =
+        "These dates overlap with an existing booking. Please choose different dates.";
     }
 
     return next;
