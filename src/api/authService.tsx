@@ -73,17 +73,18 @@ export async function register(
   name: string,
   email: string,
   password: string,
+  venueManager = false,
 ): Promise<void> {
   try {
     const response = await post<RegisterData, ApiResponse<RegisterResponse>>(
       "/auth/register",
-      { name, email, password },
+      { name, email, password, venueManager },
     );
     if (response) {
       console.log("Registration successful");
     }
   } catch (error) {
     console.error("Registration failed:", error);
-    throw error; // Let the caller handle the error (e.g., show a message to the user)
+    throw error;
   }
 }
