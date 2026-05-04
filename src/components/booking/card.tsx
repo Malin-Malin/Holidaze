@@ -4,7 +4,7 @@ import { formatDate } from "../../utils/date";
 
 type BookingCardData = Pick<
   Booking,
-  "id" | "dateFrom" | "dateTo" | "guests" | "venue"
+  "id" | "dateFrom" | "dateTo" | "guests" | "venue" | "customer"
 >;
 
 type BookingCardProps = {
@@ -53,6 +53,11 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
             ? `, ${booking.venue.location.country}`
             : ""}
         </p>
+        {booking.customer?.name && (
+          <p className="mt-1 text-sm text-[var(--text)]">
+            Guest: {booking.customer.name}
+          </p>
+        )}
 
         <div className="flex items-center pt-3">
           {booking.venue?.id && (

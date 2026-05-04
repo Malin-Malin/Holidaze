@@ -31,7 +31,7 @@ export interface Venue {
   meta: VenueMeta;
   location: VenueLocation;
   owner: Profile;
-  bookings?: Pick<Booking, "dateFrom" | "dateTo">[];
+  bookings?: VenueBooking[];
   _count: {
     bookings: number;
   };
@@ -52,6 +52,8 @@ export interface Booking {
   venue: Venue;
   customer: Profile;
 }
+
+export type VenueBooking = Omit<Booking, "venue">;
 
 export type BookingCreateData = {
   dateFrom: string;
