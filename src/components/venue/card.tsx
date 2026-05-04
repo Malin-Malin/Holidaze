@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Venue } from "../../types/venue.types";
 import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
-import { Rating } from "./rating";
+import { Rating } from "../ui/rating";
 
 type VenueCardData = Pick<
   Venue,

@@ -4,7 +4,13 @@ import { Header } from "./components/layout/header";
 import { Banner } from "./components/layout/banner";
 import { Footer } from "./components/layout/footer";
 import { Breadcrumb } from "./components/layout/breadcrumb";
-import { LoginPage, VenuesGrid, VenueDetail, CreateVenuePage } from "./pages";
+import {
+  LoginPage,
+  RegisterPage,
+  VenuesGrid,
+  VenueDetail,
+  CreateVenuePage,
+} from "./pages";
 import { AuthProvider } from "./context/AuthProvider";
 import ProfilePage from "./pages/profile";
 
@@ -14,7 +20,8 @@ function AppLayout() {
     location.pathname.startsWith("/venue/") ||
     location.pathname === "/profile" ||
     location.pathname.startsWith("/create-venue") ||
-    location.pathname === "/login";
+    location.pathname === "/login" ||
+    location.pathname === "/register";
   const showBreadcrumb =
     location.pathname !== "/" && location.pathname !== "/login";
   const showBanner = !hideGlobalBanner;
@@ -30,6 +37,7 @@ function AppLayout() {
         <Route path="/create-venue" element={<CreateVenuePage />} />
         <Route path="/create-venue/:id/edit" element={<CreateVenuePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <Footer />

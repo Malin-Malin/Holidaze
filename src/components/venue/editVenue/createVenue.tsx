@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
-import { RatingInput } from "../../input/rating";
-import { createVenue, getVenueById, updateVenue } from "../../../api/venueService";
+import { RatingInput } from "../../input/ratingInput";
+import { FormField } from "../../input/formField";
+import {
+  createVenue,
+  getVenueById,
+  updateVenue,
+} from "../../../api/venueService";
 import type { VenueData } from "../../../types/venue.types";
 import type { Media } from "../../../types/common.types";
 
@@ -39,6 +44,15 @@ const emptyMedia: Media = { url: "", alt: "" };
 type CreateVenueProps = {
   venueId?: string;
 };
+
+function isValidImageUrl(value: string) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 export const CreateVenue = ({ venueId }: CreateVenueProps) => {
   // useRequireAuth();
@@ -132,12 +146,28 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
       return;
     }
 
+    const normalizedMedia = mediaList.map((item) => ({
+      url: item.url.trim(),
+      alt: item.alt.trim(),
+    }));
+
+    const hasInvalidMediaUrl = normalizedMedia.some(
+      (item) => item.url && !isValidImageUrl(item.url),
+    );
+
+    if (hasInvalidMediaUrl) {
+      setErrorMessage(
+        "Please enter valid image URLs (including http:// or https://).",
+      );
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       const payload: VenueData = {
         name: form.name,
         description: form.description,
-        media: mediaList.filter((m) => m.url.trim() !== ""),
+        media: normalizedMedia.filter((m) => m.url !== ""),
         price: form.price,
         maxGuests: form.maxGuests,
         rating: form.rating,
@@ -163,7 +193,9 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
         : await createVenue(payload);
 
       setSuccessMessage(
-        isEditMode ? "Venue updated successfully." : "Venue created successfully.",
+        isEditMode
+          ? "Venue updated successfully."
+          : "Venue created successfully.",
       );
 
       if (!isEditMode) {
@@ -193,30 +225,36 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
     <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left">
       <h2>{isEditMode ? "Edit Venue" : "Create Venue"}</h2>
 
-      <form onSubmit={submitForm} className="mt-4 space-y-4">
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Venue name"
-          className="w-full rounded border shadow-md px-3 py-2"
-        />
+      <form onSubmit={submitForm} noValidate className="mt-4 space-y-4">
+        <FormField label="Venue name" htmlFor="name">
+          <input
+            id="name"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Venue name"
+            className="form-input"
+          />
+        </FormField>
 
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-          rows={5}
-          className="w-full min-h-36 resize-y rounded border shadow-md px-3 py-2"
-        />
+        <FormField label="Description" htmlFor="description">
+          <textarea
+            id="description"
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="Description"
+            rows={5}
+            className="form-input min-h-36 resize-y"
+          />
+        </FormField>
 
         <div className="space-y-2">
           <label className="block text-sm font-medium">Images</label>
           {mediaList.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col gap-2 sm:flex-row sm:items-center"
+              className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem_auto] sm:items-center"
             >
               <input
                 type="url"
@@ -225,7 +263,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
                   handleMediaChange(index, "url", e.target.value)
                 }
                 placeholder="Image URL"
-                className="w-full rounded border shadow-md px-3 py-2 sm:flex-1"
+                className="form-input sm:flex-1"
               />
               <input
                 type="text"
@@ -234,7 +272,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
                   handleMediaChange(index, "alt", e.target.value)
                 }
                 placeholder="Alt text"
-                className="w-full rounded border shadow-md px-3 py-2 sm:w-40"
+                className="form-input"
               />
               {mediaList.length > 1 && (
                 <button
@@ -258,30 +296,30 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium">Price per night</label>
+          <FormField label="Price per night" htmlFor="price">
             <input
+              id="price"
               name="price"
               type="number"
               min={0}
               value={form.price}
               onChange={handleChange}
               placeholder="Price"
-              className="w-full rounded border shadow-md px-3 py-2"
+              className="form-input"
             />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Max guests</label>
+          </FormField>
+          <FormField label="Max guests" htmlFor="maxGuests">
             <input
+              id="maxGuests"
               name="maxGuests"
               type="number"
               min={1}
               value={form.maxGuests}
               onChange={handleChange}
               placeholder="Max guests"
-              className="w-full rounded border shadow-md px-3 py-2"
+              className="form-input"
             />
-          </div>
+          </FormField>
         </div>
 
         <div className="space-y-2">
@@ -295,20 +333,26 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <input
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            placeholder="City"
-            className="w-full rounded border shadow-md px-3 py-2"
-          />
-          <input
-            name="country"
-            value={form.country}
-            onChange={handleChange}
-            placeholder="Country"
-            className="w-full rounded border shadow-md px-3 py-2"
-          />
+          <FormField label="City" htmlFor="city">
+            <input
+              id="city"
+              name="city"
+              value={form.city}
+              onChange={handleChange}
+              placeholder="City"
+              className="form-input"
+            />
+          </FormField>
+          <FormField label="Country" htmlFor="country">
+            <input
+              id="country"
+              name="country"
+              value={form.country}
+              onChange={handleChange}
+              placeholder="Country"
+              className="form-input"
+            />
+          </FormField>
         </div>
 
         <div className="grid grid-cols-4 gap-2">
@@ -361,7 +405,11 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
           disabled={isSubmitting}
           className="rounded bg-[var(--color-ink)] px-4 py-2 text-[var(--color-honey)]"
         >
-          {isSubmitting ? "Saving..." : isEditMode ? "Save changes" : "Create venue"}
+          {isSubmitting
+            ? "Saving..."
+            : isEditMode
+              ? "Save changes"
+              : "Create venue"}
         </button>
       </form>
     </section>
