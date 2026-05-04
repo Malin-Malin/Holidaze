@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
@@ -7,6 +7,9 @@ import { FormField } from "../input/formField";
 
 type BookingFormProps = {
   venue: Venue;
+  selectedDateFrom?: string;
+  selectedDateTo?: string;
+  onDatesChange?: (dateFrom: string, dateTo: string) => void;
 };
 
 type BookingFormData = {
@@ -17,7 +20,12 @@ type BookingFormData = {
 
 type BookingFieldErrors = Partial<Record<keyof BookingFormData, string>>;
 
-export function BookingForm({ venue }: BookingFormProps) {
+export function BookingForm({
+  venue,
+  selectedDateFrom,
+  selectedDateTo,
+  onDatesChange,
+}: BookingFormProps) {
   const { isLoggedIn } = useAuth();
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
@@ -36,6 +44,14 @@ export function BookingForm({ venue }: BookingFormProps) {
   }
 
   const checkOutMinDate = dateFrom ? addDays(dateFrom, 1) : today;
+
+  useEffect(() => {
+    if (!selectedDateFrom || !selectedDateTo) return;
+
+    setDateFrom(selectedDateFrom);
+    setDateTo(selectedDateTo);
+    setErrors((prev) => ({ ...prev, dateFrom: undefined, dateTo: undefined }));
+  }, [selectedDateFrom, selectedDateTo]);
 
   function hasOverlapWithExisting(from: string, to: string) {
     const a = new Date(from);
@@ -152,9 +168,15 @@ export function BookingForm({ venue }: BookingFormProps) {
                 const nextDateFrom = e.target.value;
                 setDateFrom(nextDateFrom);
 
+                const nextDateTo =
+                  dateTo && nextDateFrom && dateTo <= nextDateFrom
+                    ? ""
+                    : dateTo;
                 if (dateTo && nextDateFrom && dateTo <= nextDateFrom) {
                   setDateTo("");
                 }
+
+                onDatesChange?.(nextDateFrom, nextDateTo);
 
                 if (errors.dateFrom)
                   setErrors((prev) => ({ ...prev, dateFrom: undefined }));
@@ -175,7 +197,9 @@ export function BookingForm({ venue }: BookingFormProps) {
               min={checkOutMinDate}
               value={dateTo}
               onChange={(e) => {
-                setDateTo(e.target.value);
+                const nextDateTo = e.target.value;
+                setDateTo(nextDateTo);
+                onDatesChange?.(dateFrom, nextDateTo);
                 if (errors.dateTo)
                   setErrors((prev) => ({ ...prev, dateTo: undefined }));
               }}
