@@ -1,18 +1,58 @@
 import { useEffect, useState } from "react";
 import type { Profile } from "../types/profile.types";
-import { getProfileByName } from "../api/profileService";
+import {
+  getProfileByName,
+  getVenuesByProfileName,
+} from "../api/profileService";
 import { useAuth } from "../hooks/useAuth";
 import { Banner } from "../components/layout/banner";
 import OverviewVenue from "../components/profile/overviewVenue";
 import OverviewBooking from "../components/profile/overviewBooking";
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
+import type { Booking, Venue } from "../types/venue.types";
+import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
+
+type ManagedBookingCardData = Pick<
+  Booking,
+  "id" | "dateFrom" | "dateTo" | "guests" | "venue" | "customer"
+>;
+
+function extractUpcomingManagedBookings(
+  managedVenues: Venue[],
+): ManagedBookingCardData[] {
+  const now = new Date();
+
+  return managedVenues
+    .flatMap((venue) =>
+      (venue.bookings ?? [])
+        .filter((booking) => new Date(booking.dateTo) >= now)
+        .map((booking, index) => ({
+          id:
+            booking.id ||
+            `${venue.id}-${booking.dateFrom}-${booking.dateTo}-${index}`,
+          dateFrom: booking.dateFrom,
+          dateTo: booking.dateTo,
+          guests: booking.guests,
+          customer: booking.customer,
+          venue,
+        })),
+    )
+    .sort(
+      (first, second) =>
+        new Date(first.dateFrom).getTime() -
+        new Date(second.dateFrom).getTime(),
+    );
+}
 
 export default function ProfilePage() {
   const { user } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [managedUpcomingBookings, setManagedUpcomingBookings] = useState<
+    ManagedBookingCardData[]
+  >([]);
 
   useEffect(() => {
     async function loadProfile() {
@@ -27,8 +67,18 @@ export default function ProfilePage() {
         setErrorMessage("");
         const profileData = await getProfileByName(user.name);
         setProfile(profileData);
+
+        if (profileData.venueManager) {
+          const managedVenues = await getVenuesByProfileName(user.name, true);
+          setManagedUpcomingBookings(
+            extractUpcomingManagedBookings(managedVenues),
+          );
+        } else {
+          setManagedUpcomingBookings([]);
+        }
       } catch (error) {
         setProfile(null);
+        setManagedUpcomingBookings([]);
         setErrorMessage(
           error instanceof Error
             ? error.message
@@ -83,6 +133,9 @@ export default function ProfilePage() {
       </div>
       <p>{profile.bio}</p>
       <OverviewVenue venues={profile.venues ?? []} />
+      {profile.venueManager && (
+        <OverviewManagedBookings bookings={managedUpcomingBookings} />
+      )}
       <OverviewBooking bookings={profile.bookings ?? []} />
     </section>
   );

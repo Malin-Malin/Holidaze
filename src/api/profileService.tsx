@@ -1,5 +1,6 @@
 import type { Profile, ProfileData } from "../types/profile.types";
 import type { ApiResponse } from "../types/api.types";
+import type { Booking, Venue } from "../types/venue.types";
 import { get, put } from "./api";
 
 const PROFILES_ENDPOINT = "/holidaze/profiles";
@@ -40,10 +41,11 @@ async function updateProfile(name: string, profileData: ProfileData) {
 }
 
 // holidaze/profiles/:name/venues
-async function getVenuesByProfileName(name: string) {
+async function getVenuesByProfileName(name: string, includeBookings = false) {
   try {
-    const response = await get<ApiResponse<Profile[]>>(
-      `${PROFILES_ENDPOINT}/${name}/venues`,
+    const query = includeBookings ? "?_bookings=true" : "";
+    const response = await get<ApiResponse<Venue[]>>(
+      `${PROFILES_ENDPOINT}/${name}/venues${query}`,
     );
     return response.data;
   } catch (error) {
@@ -58,8 +60,8 @@ async function getVenuesByProfileName(name: string) {
 // holidaze/profiles/:name/bookings
 async function getBookingsByProfileName(name: string) {
   try {
-    const response = await get<ApiResponse<Profile[]>>(
-      `${PROFILES_ENDPOINT}/${name}/bookings`,
+    const response = await get<ApiResponse<Booking[]>>(
+      `${PROFILES_ENDPOINT}/${name}/bookings?_venue=true`,
     );
     return response.data;
   } catch (error) {
