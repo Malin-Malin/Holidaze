@@ -59,7 +59,7 @@ export default function OverviewBooking({
   return (
     <section className="px-4 py-6">
       <h2 className="text-2xl font-[var(--font-display)] text-[var(--color-ink)] text-center p-4">
-        Upcoming bookings
+        My upcoming stays
       </h2>
 
       {upcomingBookings.length === 0 ? (
