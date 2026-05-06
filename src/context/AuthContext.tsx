@@ -10,6 +10,7 @@ export interface AuthContextType {
     apiKey: string,
     userInfo: Partial<Profile>,
   ) => void;
+  setUserInfo: (userInfo: Partial<Profile>) => void;
   logout: () => void;
 }
 

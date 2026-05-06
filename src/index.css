@@ -93,13 +93,23 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.auth-page-theme {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --border: #6b7280;
+}
+
+.auth-page-theme .form-input::placeholder {
+  color: #d1d5db;
+}
+
 .form-input {
   width: 100%;
   border-radius: 0.25rem;
   border: 1px solid var(--border);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0.75rem;
-  background: var(--bg);
+  background: transparent;
   color: var(--text-h);
   font-size: 1rem;
 }
