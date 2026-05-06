@@ -6,9 +6,13 @@ import { VenueCard } from "../venue/card";
 
 type OverviewVenueProps = {
   venues?: Venue[];
+  canCreateVenue?: boolean;
 };
 
-export default function OverviewVenue({ venues = [] }: OverviewVenueProps) {
+export default function OverviewVenue({
+  venues = [],
+  canCreateVenue = false,
+}: OverviewVenueProps) {
   const navigate = useNavigate();
   const [myVenues, setMyVenues] = useState<Venue[]>(venues);
   const [errorMessage, setErrorMessage] = useState("");
@@ -69,12 +73,14 @@ export default function OverviewVenue({ venues = [] }: OverviewVenueProps) {
       <p className="mt-1 p-6 text-sm text-[var(--text-h)] text-end">
         {myVenues.length} {myVenues.length === 1 ? "venue" : "venues"} created
       </p>
-      <Link
-        to="/create-venue"
-        className="rounded-md border border-[var(--color-honey)] bg-[var(--color-honey)] px-4 py-2 text-sm font-semibold text-[var(--color-ink)] transition hover:opacity-90"
-      >
-        Create venue
-      </Link>
+      {canCreateVenue && (
+        <Link
+          to="/create-venue"
+          className="rounded-md border border-[var(--color-honey)] bg-[var(--color-honey)] px-4 py-2 text-sm font-semibold text-[var(--color-ink)] transition hover:opacity-90"
+        >
+          Create venue
+        </Link>
+      )}
     </section>
   );
 }

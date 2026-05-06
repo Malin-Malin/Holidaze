@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { Booking } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
 
@@ -19,11 +19,33 @@ function hasBookingStarted(booking: BookingCardData) {
 }
 
 export function BookingCard({ booking, onCancel }: BookingCardProps) {
+  const navigate = useNavigate();
   const bookingStarted = hasBookingStarted(booking);
   const previewImageUrl = booking.venue?.media?.[0]?.url;
+  const venueId = booking.venue?.id;
+
+  function openVenue() {
+    if (!venueId) return;
+    navigate(`/venue/${venueId}`);
+  }
 
   return (
-    <article className="card-gradient-border group relative overflow-hidden p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+    <article
+      className={`card-gradient-border group relative overflow-hidden p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg ${venueId ? "cursor-pointer" : ""}`}
+      onClick={openVenue}
+      onKeyDown={(event) => {
+        if (!venueId) return;
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openVenue();
+        }
+      }}
+      role={venueId ? "button" : undefined}
+      tabIndex={venueId ? 0 : undefined}
+      aria-label={
+        venueId ? `Open venue ${booking.venue?.name || "details"}` : undefined
+      }
+    >
       {previewImageUrl && (
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-20"
@@ -63,6 +85,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
           {booking.venue?.id && (
             <Link
               to={`/venue/${booking.venue.id}`}
+              onClick={(event) => event.stopPropagation()}
               className="rounded border border-[var(--color-ink)] px-3 py-1 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
             >
               View venue
@@ -72,7 +95,10 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
           {onCancel && !bookingStarted && (
             <button
               type="button"
-              onClick={() => onCancel(booking.id)}
+              onClick={(event) => {
+                event.stopPropagation();
+                onCancel(booking.id);
+              }}
               className="ml-auto rounded border border-red-700 px-3 py-1 text-sm text-red-700 hover:bg-red-700 hover:text-white"
             >
               Cancel

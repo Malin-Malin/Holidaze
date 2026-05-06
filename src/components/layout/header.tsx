@@ -2,7 +2,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { HamburgerMenu } from "./hamburgerMenu";
 
 export const Header = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
+  const isVenueManager = Boolean(user?.venueManager);
   return (
     <header className="sticky top-0 z-50 ml-[calc(50%-50vw)] w-screen bg-[var(--color-ink)] font-[var(--font-brand)]">
       <div className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-6 py-4">
@@ -18,21 +19,27 @@ export const Header = () => {
           >
             Home
           </a>
-          <a
-            className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-            href="/create-venue"
-          >
-            Create venues
-          </a>
-          <a
-            className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-            href="/profile"
-          >
-            Profile
-          </a>
+          {isLoggedIn && (
+            <>
+              {isVenueManager && (
+                <a
+                  className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+                  href="/create-venue"
+                >
+                  Create venues
+                </a>
+              )}
+              <a
+                className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+                href="/profile"
+              >
+                Profile
+              </a>
+            </>
+          )}
           {!isLoggedIn && (
             <a
-              className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+              className="rounded px-3 py-2 text-[var(--color-honey)] transition hover:bg-white/10"
               href="/login"
             >
               Login

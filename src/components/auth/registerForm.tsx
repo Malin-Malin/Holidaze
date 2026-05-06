@@ -56,7 +56,7 @@ export function RegisterForm() {
     try {
       setIsLoading(true);
       await register(name, email, password, venueManager);
-      navigate("/login");
+      navigate("/profile");
     } catch (error) {
       setSubmitError(
         error instanceof Error

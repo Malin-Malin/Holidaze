@@ -16,7 +16,7 @@ export default function OverviewManagedBookings({
   return (
     <section className="px-4 py-6">
       <h2 className="p-4 text-center text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
-        Upcoming bookings for my venues
+        Guest bookings at my venues
       </h2>
 
       {bookings.length === 0 ? (

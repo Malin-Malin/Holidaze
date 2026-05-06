@@ -2,14 +2,43 @@ import { useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext.tsx";
 import type { Profile } from "../types/profile.types.tsx";
 
+function parseStoredUser(): Partial<Profile> | null {
+  const savedUser = localStorage.getItem("userInfo");
+  if (!savedUser) return null;
+
+  try {
+    return JSON.parse(savedUser) as Partial<Profile>;
+  } catch {
+    return null;
+  }
+}
+
+function isJwtExpired(token: string): boolean {
+  const parts = token.split(".");
+  if (parts.length !== 3) return true;
+
+  try {
+    const payload = JSON.parse(atob(parts[1])) as { exp?: number };
+    if (!payload.exp) return false;
+    return payload.exp * 1000 <= Date.now();
+  } catch {
+    return true;
+  }
+}
+
+function hasCompleteStoredAuth(user: Partial<Profile> | null): boolean {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token || isJwtExpired(token)) return false;
+
+  return Boolean(user?.name);
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    !!localStorage.getItem("accessToken"),
+  const [user, setUser] = useState<Partial<Profile> | null>(parseStoredUser);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
+    hasCompleteStoredAuth(parseStoredUser()),
   );
-  const [user, setUser] = useState<Partial<Profile> | null>(() => {
-    const savedUser = localStorage.getItem("userInfo");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
   const [apiKey, setApiKey] = useState<string | null>(
     localStorage.getItem("apiKey"),
   );
@@ -28,6 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoggedIn(true);
   };
 
+  const setUserInfo = (userInfo: Partial<Profile>) => {
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    setUser(userInfo);
+  };
+
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("apiKey");
@@ -39,7 +73,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, apiKey, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, user, apiKey, login, setUserInfo, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

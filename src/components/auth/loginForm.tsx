@@ -39,7 +39,7 @@ export function LoginForm() {
       const response = await login(email, password);
       const { accessToken, ...userInfo } = response;
       authLogin(accessToken, "", userInfo);
-      navigate("/");
+      navigate("/profile");
     } catch (error) {
       setSubmitError(
         error instanceof Error
