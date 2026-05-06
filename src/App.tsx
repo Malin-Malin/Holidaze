@@ -13,12 +13,14 @@ import {
 } from "./pages";
 import { AuthProvider } from "./context/AuthProvider";
 import ProfilePage from "./pages/profile";
+import EditProfilePage from "./pages/editProfile";
 
 function AppLayout() {
   const location = useLocation();
   const hideGlobalBanner =
     location.pathname.startsWith("/venue/") ||
     location.pathname === "/profile" ||
+    location.pathname === "/profile/edit" ||
     location.pathname.startsWith("/create-venue") ||
     location.pathname === "/login" ||
     location.pathname === "/register";
@@ -39,6 +41,7 @@ function AppLayout() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
       </Routes>
       <Footer />
     </>
