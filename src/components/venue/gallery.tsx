@@ -4,6 +4,7 @@ import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import "./gallery.css";
 import GalleryImage from "./galleryImage";
+import GalleryLightbox from "./galleryLightbox";
 
 type GalleryProps = {
   media: Media[];
@@ -11,6 +12,7 @@ type GalleryProps = {
 
 export default function Gallery({ media }: GalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [failedUrls, setFailedUrls] = useState<Record<string, boolean>>({});
   const mobileThumbRailRef = useRef<HTMLDivElement>(null);
   const desktopThumbRailRef = useRef<HTMLDivElement>(null);
@@ -100,7 +102,7 @@ export default function Gallery({ media }: GalleryProps) {
                 type="button"
                 data-thumb-index={index}
                 onClick={() => setActiveIndex(index)}
-                className={`shrink-0 overflow-hidden rounded-md border ${
+                className={`shrink-0 cursor-pointer overflow-hidden rounded-md border ${
                   index === activeIndex
                     ? "border-[var(--color-honey)]"
                     : "border-transparent"
@@ -126,7 +128,7 @@ export default function Gallery({ media }: GalleryProps) {
                   type="button"
                   data-thumb-index={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`block overflow-hidden rounded-md border ${
+                  className={`block cursor-pointer overflow-hidden rounded-md border ${
                     media.length <= 2 ? "min-h-0 flex-1" : "h-24 w-full"
                   } ${
                     index === activeIndex
@@ -154,11 +156,12 @@ export default function Gallery({ media }: GalleryProps) {
         <img
           src={showPlaceholder ? placeholderImage : activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
+          onClick={() => setIsLightboxOpen(true)}
           onError={() => {
             if (!activeMedia.url) return;
             setFailedUrls((prev) => ({ ...prev, [activeMedia.url]: true }));
           }}
-          className="h-80 w-full object-cover"
+          className="h-80 w-full cursor-zoom-in object-cover"
         />
         {showPlaceholder && (
           <div
@@ -174,7 +177,7 @@ export default function Gallery({ media }: GalleryProps) {
             <button
               type="button"
               onClick={showPrevious}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-1 text-white"
+              className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/55 px-3 py-1 text-white"
               aria-label="Show previous image"
             >
               ‹
@@ -182,7 +185,7 @@ export default function Gallery({ media }: GalleryProps) {
             <button
               type="button"
               onClick={showNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-3 py-1 text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/55 px-3 py-1 text-white"
               aria-label="Show next image"
             >
               ›
@@ -190,6 +193,19 @@ export default function Gallery({ media }: GalleryProps) {
           </>
         )}
       </div>
+
+      {isLightboxOpen && (
+        <GalleryLightbox
+          media={media}
+          activeIndex={activeIndex}
+          failedUrls={failedUrls}
+          onImageError={(url) => {
+            setFailedUrls((prev) => ({ ...prev, [url]: true }));
+          }}
+          onActiveIndexChange={setActiveIndex}
+          onClose={() => setIsLightboxOpen(false)}
+        />
+      )}
     </section>
   );
 }
