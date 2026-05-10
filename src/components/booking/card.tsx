@@ -10,6 +10,7 @@ type BookingCardData = Pick<
 type BookingCardProps = {
   booking: BookingCardData;
   onCancel?: (bookingId: string) => void;
+  showViewVenueButton?: boolean;
 };
 
 function hasBookingStarted(booking: BookingCardData) {
@@ -18,7 +19,11 @@ function hasBookingStarted(booking: BookingCardData) {
   return bookingStart <= now;
 }
 
-export function BookingCard({ booking, onCancel }: BookingCardProps) {
+export function BookingCard({
+  booking,
+  onCancel,
+  showViewVenueButton = true,
+}: BookingCardProps) {
   const navigate = useNavigate();
   const bookingStarted = hasBookingStarted(booking);
   const previewImageUrl = booking.venue?.media?.[0]?.url;
@@ -48,7 +53,7 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
     >
       {previewImageUrl && (
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-20"
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-30"
           style={{
             backgroundImage: `url(${previewImageUrl})`,
             backgroundSize: "cover",
@@ -59,21 +64,16 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
       )}
 
       <div className="relative z-10">
-        <p className="text-xs uppercase tracking-wide text-[var(--text)]/60 transition-colors duration-300 group-hover:text-[var(--text)]">
+        <h3 className="text-xl font-semibold leading-tight text-[var(--text-h)]">
+          {booking.venue?.name || "Venue"}
+        </h3>
+
+        <p className="mt-2 text-sm font-medium text-[var(--text-h)]">
           {formatDate(booking.dateFrom, { fallback: "Unknown date" })} -{" "}
           {formatDate(booking.dateTo, { fallback: "Unknown date" })}
         </p>
-        <h3 className="mt-2 text-lg font-semibold text-[var(--text-h)]">
-          {booking.venue?.name || "Venue"}
-        </h3>
         <p className="mt-1 text-sm text-[var(--text)]">
           Guests: {booking.guests}
-        </p>
-        <p className="mt-1 text-sm text-[var(--text)]">
-          {booking.venue?.location?.city || "Unknown city"}
-          {booking.venue?.location?.country
-            ? `, ${booking.venue.location.country}`
-            : ""}
         </p>
         {booking.customer?.name && (
           <p className="mt-1 text-sm text-[var(--text)]">
@@ -81,8 +81,8 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
           </p>
         )}
 
-        <div className="flex items-center pt-3">
-          {booking.venue?.id && (
+        <div className="flex items-center pt-4">
+          {showViewVenueButton && booking.venue?.id && !bookingStarted && (
             <Link
               to={`/venue/${booking.venue.id}`}
               onClick={(event) => event.stopPropagation()}
@@ -106,8 +106,8 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
           )}
 
           {bookingStarted && (
-            <p className="ml-auto text-right text-xs text-[var(--text)]/60 transition-colors duration-300 group-hover:text-[var(--text)]">
-              Already started
+            <p className="w-full text-center text-xl font-semibold text-[var(--color-honey)]">
+              Ongoing
             </p>
           )}
         </div>

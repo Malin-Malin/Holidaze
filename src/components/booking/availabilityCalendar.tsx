@@ -7,6 +7,9 @@ type AvailabilityCalendarProps = {
   onRangeSelect?: (dateFrom: string, dateTo: string) => void;
   selectedDateFrom?: string;
   selectedDateTo?: string;
+  canViewBookedByName?: boolean;
+  currentUserName?: string;
+  currentUserEmail?: string;
 };
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -59,6 +62,9 @@ export function AvailabilityCalendar({
   onRangeSelect,
   selectedDateFrom,
   selectedDateTo,
+  canViewBookedByName = false,
+  currentUserName,
+  currentUserEmail,
 }: AvailabilityCalendarProps) {
   const today = useMemo(() => startOfDay(new Date()), []);
   const todayKey = useMemo(() => toDateKey(today), [today]);
@@ -70,6 +76,39 @@ export function AvailabilityCalendar({
   const activeDateTo = selectedDateTo ?? localSelectedDateTo;
 
   const bookedDateSet = useMemo(() => buildBookedDateSet(bookings), [bookings]);
+  const bookedDateTooltipMap = useMemo(() => {
+    const result = new Map<string, string>();
+
+    bookings.forEach((booking) => {
+      const bookingStart = startOfDay(new Date(booking.dateFrom));
+      const bookingEnd = startOfDay(new Date(booking.dateTo));
+
+      if (
+        Number.isNaN(bookingStart.getTime()) ||
+        Number.isNaN(bookingEnd.getTime())
+      ) {
+        return;
+      }
+
+      const guestName = booking.customer?.name?.trim() || "Unknown guest";
+      const isOwnBooking =
+        (!!currentUserName && booking.customer?.name === currentUserName) ||
+        (!!currentUserEmail && booking.customer?.email === currentUserEmail);
+      const tooltipText = canViewBookedByName
+        ? `Booked by ${guestName}`
+        : isOwnBooking
+          ? "Booked by you"
+          : "Booked";
+
+      const cursor = new Date(bookingStart);
+      while (cursor < bookingEnd) {
+        result.set(toDateKey(cursor), tooltipText);
+        cursor.setDate(cursor.getDate() + 1);
+      }
+    });
+
+    return result;
+  }, [bookings, canViewBookedByName, currentUserEmail, currentUserName]);
 
   const monthLabel = visibleMonth.toLocaleDateString("en-US", {
     month: "long",
@@ -148,7 +187,7 @@ export function AvailabilityCalendar({
     isAvailable: boolean;
   }) {
     const base =
-      "px-1 py-1 text-center text-xs border transition-colors duration-100";
+      "group relative overflow-visible px-1 py-1 text-center text-xs border transition-colors duration-100";
     const dim = !cell.isCurrentMonth ? " opacity-30" : "";
     const isStart = activeDateFrom === cell.dateKey;
     const isEnd = activeDateTo === cell.dateKey;
@@ -220,13 +259,25 @@ export function AvailabilityCalendar({
             type="button"
             key={cell.dateKey}
             onClick={() => handleDateSelect(cell.dateKey, cell.isAvailable)}
-            disabled={!cell.isAvailable}
             className={getCellClass(cell)}
-            title={
-              cell.isBooked ? "Booked" : cell.isPast ? "Past" : "Available"
+            aria-disabled={!cell.isAvailable}
+            aria-label={
+              cell.isBooked
+                ? `${cell.dayNumber}, ${bookedDateTooltipMap.get(cell.dateKey) ?? "Booked"}`
+                : `${cell.dayNumber}, ${cell.isPast ? "past" : "available"}`
             }
           >
             {cell.dayNumber}
+            {cell.isBooked && (
+              <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded border border-[var(--color-honey)]/40 bg-[var(--color-ink)] px-2 py-1 text-[11px] font-medium text-[var(--color-honey)] shadow-lg group-hover:block group-focus-visible:block">
+                {bookedDateTooltipMap.get(cell.dateKey) ?? "Booked"}
+              </span>
+            )}
+            {cell.isAvailable && (
+              <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded border border-[var(--color-honey)]/40 bg-[var(--color-ink)] px-2 py-1 text-[11px] font-medium text-[var(--color-honey)] shadow-lg group-hover:block group-focus-visible:block">
+                Available
+              </span>
+            )}
           </button>
         ))}
       </div>

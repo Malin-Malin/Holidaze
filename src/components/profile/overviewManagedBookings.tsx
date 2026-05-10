@@ -26,7 +26,11 @@ export default function OverviewManagedBookings({
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {bookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
+            <BookingCard
+              key={booking.id}
+              booking={booking}
+              showViewVenueButton={false}
+            />
           ))}
         </div>
       )}
