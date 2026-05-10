@@ -7,11 +7,10 @@ import { LocationText } from "../components/ui/locationText";
 import { Rating } from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import { BookingForm } from "../components/booking/bookingForm";
-import { formatDate } from "../utils/date";
 import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
-import { BookingCard } from "../components/booking/card";
+import { UpcomingBookings } from "../components/venue/upcomingBookings";
+import { ManagedBy } from "../components/venue/managedBy";
 
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
@@ -122,6 +121,9 @@ export default function VenueDetail() {
             bookings={venue.bookings ?? []}
             selectedDateFrom={selectedDateFrom}
             selectedDateTo={selectedDateTo}
+            canViewBookedByName={isVenueManager}
+            currentUserName={user?.name}
+            currentUserEmail={user?.email}
             onRangeSelect={(dateFrom, dateTo) => {
               setSelectedDateFrom(dateFrom);
               setSelectedDateTo(dateTo);
@@ -140,52 +142,16 @@ export default function VenueDetail() {
               setSelectedDateTo(dateTo);
             }}
           />
-
-          {isVenueManager && (
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold text-[var(--text-h)]">
-                Upcoming bookings for this venue
-              </h3>
-              {managerBookingCards.length === 0 ? (
-                <p className="mt-2 text-sm text-[var(--text)]/80">
-                  No upcoming bookings yet.
-                </p>
-              ) : (
-                <div className="mt-3 grid grid-cols-1 gap-4">
-                  {managerBookingCards.map((booking) => (
-                    <BookingCard key={booking.id} booking={booking} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
         </section>
       </div>
-      <div className="mx-auto mt-6 w-full max-w-6xl px-8 py-5 text-sm text-[var(--text)] md:px-10">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src={manager?.avatar?.url || placeholderProfileAvatar}
-              alt={manager?.avatar?.alt || manager?.name || "Venue manager"}
-              className="h-10 w-10 rounded-full object-cover"
-            />
-            <div>
-              <p className="text-xs text-[var(--text)]/60">Managed by</p>
-              <span className="font-medium">
-                {manager?.name || "Unknown manager"}
-              </span>
-            </div>
-          </div>
-          <div className="text-left text-[var(--text)]/60 sm:text-right">
-            <p>
-              Created: {formatDate(venue.created, { fallback: "Unknown date" })}
-            </p>
-            <p>
-              Updated: {formatDate(venue.updated, { fallback: "Unknown date" })}
-            </p>
-          </div>
-        </div>
-      </div>
+
+      {isVenueManager && <UpcomingBookings bookings={managerBookingCards} />}
+
+      <ManagedBy
+        manager={manager}
+        created={venue.created}
+        updated={venue.updated}
+      />
     </section>
   );
 }

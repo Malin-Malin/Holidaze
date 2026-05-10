@@ -65,7 +65,7 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
         <p className="line-clamp-1 min-h-[1.25rem] text-sm text-[var(--text-h)]">
           {locationText}
         </p>
-        <h3 className="line-clamp-1 text-xl text-[var(--text-h)]">
+        <h3 className="line-clamp-1 text-xl pt-2 text-[var(--text-h)]">
           {venueName}
         </h3>
         <p className="line-clamp-2 text-sm leading-6 text-[var(--text-h)]/90">
