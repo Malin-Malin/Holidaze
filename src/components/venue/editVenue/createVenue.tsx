@@ -278,7 +278,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
                 <button
                   type="button"
                   onClick={() => removeMediaRow(index)}
-                  className="self-end rounded border px-3 py-2 text-red-600 hover:bg-red-50 sm:self-auto"
+                  className="self-end rounded border border-[var(--color-danger)] px-3 py-2 text-[var(--color-danger)] hover:bg-[var(--color-danger)]/10 sm:self-auto"
                   aria-label="Remove image"
                 >
                   ✕
@@ -398,8 +398,8 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
           </label>
         </div>
 
-        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-        {successMessage && <p className="text-green-700">{successMessage}</p>}
+        {errorMessage && <p className="text-red-700">{errorMessage}</p>}
+        {successMessage && <p className="text-[var(--success)]">{successMessage}</p>}
         <button
           type="submit"
           disabled={isSubmitting}

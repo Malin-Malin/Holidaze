@@ -207,7 +207,7 @@ export function AvailabilityCalendar({
       return `${base} rounded-md border-[var(--border)] bg-transparent text-[var(--text)] opacity-40${dim}`;
     }
     if (cell.isBooked) {
-      return `${base} rounded-md border-red-500/40 bg-red-500/15 text-red-400${dim}`;
+      return `${base} rounded-md border-[var(--color-danger)]/40 bg-[var(--color-danger)]/15 text-[var(--color-danger)]${dim}`;
     }
     if (cell.isAvailable) {
       return `${base} rounded-md border-[var(--color-honey)]/30 bg-[var(--color-honey)]/10 text-[var(--text-h)] hover:bg-[var(--color-honey)]/20 cursor-pointer${dim}`;
@@ -319,7 +319,7 @@ export function AvailabilityCalendar({
           Available
         </span>
         <span className="inline-flex items-center gap-1">
-          <span className="h-3 w-3 rounded-sm border border-red-500/40 bg-red-500/15" />
+          <span className="h-3 w-3 rounded-sm border border-[var(--color-danger)]/40 bg-[var(--color-danger)]/15" />
           Booked
         </span>
         <span className="inline-flex items-center gap-1">
