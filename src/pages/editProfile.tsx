@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getProfileByName, updateProfile } from "../api/profileService";
 import { FormField } from "../components/input/formField";
+import { EditProfileSkeleton } from "../components/loading/pageSkeletons";
 import type { ProfileData } from "../types/profile.types";
 
 type EditProfileFormData = {
@@ -155,7 +156,7 @@ export default function EditProfilePage() {
   }
 
   if (isLoading) {
-    return <p className="px-4 py-6 text-[var(--text)]">Loading profile...</p>;
+    return <EditProfileSkeleton />;
   }
 
   if (loadError) {
@@ -273,7 +274,7 @@ export default function EditProfilePage() {
         </fieldset>
 
         {submitError && (
-          <p role="alert" className="text-sm text-red-600">
+          <p role="alert" className="text-sm text-[var(--color-danger)]">
             {submitError}
           </p>
         )}
@@ -282,14 +283,14 @@ export default function EditProfilePage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded bg-[var(--color-honey)] px-6 py-2 font-medium text-[var(--color-ink)] hover:brightness-95 disabled:opacity-50"
+            className="rounded bg-[var(--color-honey)] px-6 py-2 font-medium text-[var(--color-ink)] transition hover:brightness-95 dark:bg-[var(--color-honey)] dark:text-[var(--color-ink)] dark:hover:brightness-95 disabled:opacity-50"
           >
             {isSubmitting ? "Saving..." : "Save changes"}
           </button>
           <button
             type="button"
             onClick={() => navigate("/profile")}
-            className="rounded border border-[var(--border)] px-6 py-2 text-[var(--text-h)] hover:border-[var(--color-honey)]"
+            className="rounded border border-red-700 px-6 py-2 text-red-700 transition hover:bg-red-700 hover:text-white"
           >
             Cancel
           </button>

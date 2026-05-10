@@ -82,7 +82,7 @@ export default function OverviewBooking({
         <p className="mt-3 text-sm text-red-700">{errorMessage}</p>
       )}
       {successMessage && (
-        <p className="mt-3 text-sm text-green-700">{successMessage}</p>
+        <p className="mt-3 text-sm text-[var(--success)]">{successMessage}</p>
       )}
     </section>
   );

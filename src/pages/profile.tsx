@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import type { Profile } from "../types/profile.types";
 import {
   getProfileByName,
@@ -7,12 +7,14 @@ import {
 } from "../api/profileService";
 import { useAuth } from "../hooks/useAuth";
 import { Banner } from "../components/layout/banner";
+import { Breadcrumb } from "../components/layout/breadcrumb";
 import OverviewVenue from "../components/profile/overviewVenue";
 import OverviewBooking from "../components/profile/overviewBooking";
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
 import type { Booking, Venue } from "../types/venue.types";
 import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
+import { ProfilePageSkeleton } from "../components/loading/pageSkeletons";
 
 type ManagedBookingCardData = Pick<
   Booking,
@@ -47,13 +49,23 @@ function extractUpcomingManagedBookings(
 }
 
 export default function ProfilePage() {
+  const location = useLocation();
   const { user, logout } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
   const [managedUpcomingBookings, setManagedUpcomingBookings] = useState<
     ManagedBookingCardData[]
   >([]);
+
+  useEffect(() => {
+    const state = location.state as { toastMessage?: string } | null;
+    const message = state?.toastMessage?.trim();
+    if (message) {
+      setToastMessage(message);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     async function loadProfile() {
@@ -94,7 +106,7 @@ export default function ProfilePage() {
   }, [user?.name]);
 
   if (isLoading) {
-    return <p className="px-4 py-6 text-[var(--text)]">Loading profile...</p>;
+    return <ProfilePageSkeleton />;
   }
 
   if (errorMessage) {
@@ -118,24 +130,46 @@ export default function ProfilePage() {
         imageAlt={bannerAlt}
         ariaLabel="Profile banner"
       >
-        <div className="text-right text-[var(--color-honey)]">
-          <h1 className="text-3xl font-[var(--font-display)]">My Profile</h1>
+        <div className="text-right">
+          <h1 className="banner-title-contrast text-3xl font-[var(--font-display)]">
+            My Profile
+          </h1>
         </div>
       </Banner>
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
+      <Breadcrumb />
+      {toastMessage && (
+        <div className="mx-auto mt-2 flex w-full max-w-6xl items-center justify-between gap-3 rounded-md border border-[var(--color-honey)]/50 bg-[var(--color-honey)]/15 px-4 py-2 text-sm text-[var(--color-ink)] dark:text-[var(--color-honey)]">
+          <p>{toastMessage}</p>
+          <button
+            type="button"
+            onClick={() => setToastMessage("")}
+            className="rounded border border-[var(--color-honey)]/40 px-2 py-0.5 text-xs hover:bg-[var(--color-honey)]/20"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+      <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 items-center gap-3">
           <img
             src={profile.avatar?.url ?? placeholderProfileAvatar}
             alt={profile.avatar?.alt ?? "placeholder profile image"}
             className="w-16 h-16 rounded-full"
           />
-          <h2 className="text-2xl font-[var(--font-display)] text-[var(--color-ink)] p-2">
-            {profile.name}
-          </h2>
+          <div className="flex min-w-0 flex-col items-start gap-1 p-2">
+            <h2 className="break-words text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
+              {profile.name}
+            </h2>
+            {profile.venueManager && (
+              <span className="rounded-md border border-[var(--color-honey)]/60 bg-[var(--color-honey)]/15 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink)] dark:text-[var(--color-honey)]">
+                Venue Manager
+              </span>
+            )}
+          </div>
         </div>
         <Link
           to="/profile/edit"
-          className="rounded border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-h)] hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] transition-colors"
+          className="self-end rounded border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-h)] transition-colors hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] sm:self-auto"
         >
           Edit profile
         </Link>

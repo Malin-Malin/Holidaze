@@ -12,6 +12,7 @@ import { BookingSummary } from "../components/booking/bookingSummary";
 import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
 import { UpcomingBookings } from "../components/venue/upcomingBookings";
 import { ManagedBy } from "../components/venue/managedBy";
+import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
 
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
@@ -40,11 +41,7 @@ export default function VenueDetail() {
   } | null>(null);
 
   if (isLoading) {
-    return (
-      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left">
-        Loading venue...
-      </p>
-    );
+    return <VenueDetailSkeleton />;
   }
 
   if (errorMessage) {

@@ -30,11 +30,8 @@ export const Banner = ({
       ) : (
         <div className="relative z-10 text-right">
           <span className="block uppercase text-4xl font-[var(--font-display)] text-[var(--color-honey)]">
-            Holidaze
+            Your next escape
           </span>
-          <p className="mt-2 text-lg font-[var(--font-display)] text-[var(--color-honey)]">
-            Choose us to book your holiday
-          </p>
         </div>
       )}
     </section>

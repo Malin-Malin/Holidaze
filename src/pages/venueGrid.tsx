@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { VenueCard } from "../components/venue/card";
 import { Pagination } from "../components/ui/pagination";
 import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
+import { VenueGridSkeleton } from "../components/loading/pageSkeletons";
 import { useVenues } from "../hooks/useVenues";
 
 export default function VenuesGrid() {
@@ -57,22 +58,6 @@ export default function VenuesGrid() {
     setSearchParams(nextParams, { replace: true });
   }, [currentPage, searchParams, setSearchParams]);
 
-  if (isLoading) {
-    return (
-      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left">
-        Loading venues...
-      </p>
-    );
-  }
-
-  if (errorMessage) {
-    return (
-      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left text-red-700">
-        {errorMessage}
-      </p>
-    );
-  }
-
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 md:py-10">
       <VenueSearchControls
@@ -89,21 +74,34 @@ export default function VenuesGrid() {
         onWifiChange={(value) => updateSearchParam("wifi", value)}
         onBreakfastChange={(value) => updateSearchParam("breakfast", value)}
       />
-      {venues.length === 0 && <p className="p-6 text-left">No venues found.</p>}
+
+      {errorMessage && (
+        <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
+      )}
+
+      {!isLoading && !errorMessage && venues.length === 0 && (
+        <p className="p-6 text-left">No venues found.</p>
+      )}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
-        {venues.map((venue) => (
-          <VenueCard key={venue.id} venue={venue} />
-        ))}
+        {isLoading && <VenueGridSkeleton count={12} />}
+
+        {!isLoading &&
+          !errorMessage &&
+          venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        pageCount={pageCount}
-        isFirstPage={isFirstPage}
-        isLastPage={isLastPage}
-        goToPreviousPage={goToPreviousPage}
-        goToNextPage={goToNextPage}
-        goToPage={goToPage}
-      />
+
+      {!isLoading && !errorMessage && (
+        <Pagination
+          currentPage={currentPage}
+          pageCount={pageCount}
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          goToPreviousPage={goToPreviousPage}
+          goToNextPage={goToNextPage}
+          goToPage={goToPage}
+        />
+      )}
     </section>
   );
 }

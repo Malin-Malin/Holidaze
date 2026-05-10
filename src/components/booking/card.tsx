@@ -99,7 +99,7 @@ export function BookingCard({
                 event.stopPropagation();
                 onCancel(booking.id);
               }}
-              className="ml-auto rounded border border-red-700 px-3 py-1 text-sm text-red-700 hover:bg-red-700 hover:text-white"
+              className="ml-auto rounded border border-[var(--color-danger)] px-3 py-1 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-white"
             >
               Cancel
             </button>

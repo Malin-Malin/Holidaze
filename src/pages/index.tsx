@@ -1,3 +1,4 @@
+export { default as HomePage } from "./home";
 export { default as CreateVenuePage } from "./createVenue";
 export { default as VenueDetail } from "./venueDetail";
 export { default as VenuesGrid } from "./venueGrid";

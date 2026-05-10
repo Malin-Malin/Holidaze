@@ -97,7 +97,7 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
                     e.stopPropagation();
                     onDelete(venue.id);
                   }}
-                  className="rounded border border-red-700 px-3 py-1 text-sm text-red-700 hover:bg-red-700 hover:text-white"
+                  className="rounded border border-[var(--color-danger)] px-3 py-1 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-white"
                 >
                   Delete
                 </button>

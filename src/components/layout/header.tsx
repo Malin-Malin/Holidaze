@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { HamburgerMenu } from "./hamburgerMenu";
 
@@ -13,37 +14,45 @@ export const Header = () => {
           </span>
         </a>
         <nav className="hidden items-center gap-2 md:flex">
-          <a
-            className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-            href="/"
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+            }
           >
             Home
-          </a>
+          </NavLink>
+          <NavLink
+            to="/venues"
+            end
+            className={({ isActive }) =>
+              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+            }
+          >
+            Venue
+          </NavLink>
           {isLoggedIn && (
             <>
-              {isVenueManager && (
-                <a
-                  className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-                  href="/create-venue"
-                >
-                  Create venues
-                </a>
-              )}
-              <a
-                className="rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
-                href="/profile"
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                }
               >
                 Profile
-              </a>
+              </NavLink>
             </>
           )}
           {!isLoggedIn && (
-            <a
-              className="rounded px-3 py-2 text-[var(--color-honey)] transition hover:bg-white/10"
-              href="/login"
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                `rounded px-3 py-2 text-[var(--color-honey)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              }
             >
               Login
-            </a>
+            </NavLink>
           )}
         </nav>
         <HamburgerMenu />
