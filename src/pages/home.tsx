@@ -2,8 +2,23 @@ import { LuHouse } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
 import { ButtonLink } from "../components/ui/button";
+import { useAuth } from "../hooks/useAuth";
 
 export default function HomePage() {
+  const { isLoggedIn, user } = useAuth();
+  const isVenueManager = Boolean(user?.venueManager);
+
+  const hostLinkTarget = !isLoggedIn
+    ? "/register"
+    : isVenueManager
+      ? "/profile"
+      : "/profile/edit";
+
+  // todo: add a toast message when they are correctly implemented in the codebase, for now we can just pass a state with the message and display it in the profile page when they are redirected there
+  const hostLinkState = isVenueManager
+    ? { toastMessage: "You are already a venue manager." }
+    : undefined;
+
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6 md:py-14">
       <h1 className="text-4xl font-bold text-center text-[var(--text-h)] dark:text-white md:text-6xl">
@@ -35,7 +50,12 @@ export default function HomePage() {
             <ButtonLink to="/venues" variant="primary" size="lg">
               Browse venues
             </ButtonLink>
-            <ButtonLink to="/register" variant="secondary" size="lg">
+            <ButtonLink
+              to={hostLinkTarget}
+              state={hostLinkState}
+              variant="secondary"
+              size="lg"
+            >
               Become a host
             </ButtonLink>
           </div>
