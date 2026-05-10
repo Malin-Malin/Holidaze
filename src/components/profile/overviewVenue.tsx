@@ -1,8 +1,9 @@
 import type { Venue } from "../../types/venue.types";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { deleteVenue } from "../../api/venueService";
 import { VenueCard } from "../venue/card";
+import { ButtonLink } from "../ui/button";
 
 type OverviewVenueProps = {
   venues?: Venue[];
@@ -64,22 +65,30 @@ export default function OverviewVenue({
       )}
 
       {errorMessage && (
-        <p className="mt-3 text-sm text-red-700">{errorMessage}</p>
+        <p className="mt-3 text-sm text-[var(--color-danger)]">
+          {errorMessage}
+        </p>
       )}
       {successMessage && (
-        <p className="mt-3 text-sm text-green-700">{successMessage}</p>
+        <p className="mt-3 text-sm text-[var(--color-success)]">
+          {successMessage}
+        </p>
       )}
 
       <p className="mt-1 p-6 text-sm text-[var(--text-h)] text-end">
         {myVenues.length} {myVenues.length === 1 ? "venue" : "venues"} created
       </p>
       {canCreateVenue && (
-        <Link
-          to="/create-venue"
-          className="rounded-md border border-[var(--color-honey)] bg-[var(--color-honey)] px-4 py-2 text-sm font-semibold text-[var(--color-ink)] transition hover:opacity-90"
-        >
-          Create venue
-        </Link>
+        <div className="mt-6 flex justify-center px-4">
+          <ButtonLink
+            to="/create-venue"
+            variant="primary"
+            size="lg"
+            className="w-full max-w-md"
+          >
+            Create venue
+          </ButtonLink>
+        </div>
       )}
     </section>
   );
