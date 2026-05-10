@@ -10,6 +10,11 @@ type BookingFormProps = {
   selectedDateFrom?: string;
   selectedDateTo?: string;
   onDatesChange?: (dateFrom: string, dateTo: string) => void;
+  onBookingConfirmed?: (data: {
+    dateFrom: string;
+    dateTo: string;
+    guests: number;
+  }) => void;
 };
 
 type BookingFormData = {
@@ -25,6 +30,7 @@ export function BookingForm({
   selectedDateFrom,
   selectedDateTo,
   onDatesChange,
+  onBookingConfirmed,
 }: BookingFormProps) {
   const { isLoggedIn } = useAuth();
   const [dateFrom, setDateFrom] = useState("");
@@ -32,7 +38,6 @@ export function BookingForm({
   const [guests, setGuests] = useState(1);
   const [errors, setErrors] = useState<BookingFieldErrors>({});
   const [submitError, setSubmitError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -96,7 +101,6 @@ export function BookingForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError("");
-    setSuccessMessage("");
 
     if (!isLoggedIn) {
       setSubmitError("You need to log in to create a booking.");
@@ -117,9 +121,7 @@ export function BookingForm({
         guests: Number(guests),
         venueId: venue.id,
       });
-      setSuccessMessage(
-        "Booking created. You can view upcoming bookings on your profile.",
-      );
+      onBookingConfirmed?.({ dateFrom, dateTo, guests: Number(guests) });
       setDateFrom("");
       setDateTo("");
       setGuests(1);
@@ -233,9 +235,6 @@ export function BookingForm({
           <p role="alert" className="mt-2 text-sm text-red-600">
             {submitError}
           </p>
-        )}
-        {successMessage && (
-          <p className="mt-2 text-sm text-green-700">{successMessage}</p>
         )}
         <button
           type="submit"
