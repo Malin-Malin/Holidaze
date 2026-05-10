@@ -27,7 +27,10 @@ function AppLayout() {
     location.pathname === "/profile/edit" ||
     location.pathname.startsWith("/create-venue") ||
     isAuthPage;
-  const showBreadcrumb = location.pathname !== "/" && !isAuthPage;
+  const showBreadcrumb =
+    location.pathname !== "/" &&
+    !isAuthPage &&
+    location.pathname !== "/profile";
   const showBanner = !hideGlobalBanner;
 
   return (
@@ -50,8 +53,14 @@ function AppLayout() {
         className={`${isAuthPage ? "relative z-10 " : ""}flex min-h-[100svh] flex-col`}
       >
         <Header />
-        {showBanner && <Banner />}
-        {showBreadcrumb && <Breadcrumb />}
+        {showBanner ? (
+          <>
+            <Banner />
+            {showBreadcrumb && <Breadcrumb />}
+          </>
+        ) : (
+          showBreadcrumb && <Breadcrumb />
+        )}
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
