@@ -13,6 +13,7 @@ import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
 import type { Booking, Venue } from "../types/venue.types";
 import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
+import { ProfilePageSkeleton } from "../components/loading/pageSkeletons";
 
 type ManagedBookingCardData = Pick<
   Booking,
@@ -94,7 +95,7 @@ export default function ProfilePage() {
   }, [user?.name]);
 
   if (isLoading) {
-    return <p className="px-4 py-6 text-[var(--text)]">Loading profile...</p>;
+    return <ProfilePageSkeleton />;
   }
 
   if (errorMessage) {

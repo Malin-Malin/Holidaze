@@ -3,9 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { VenueCard } from "../components/venue/card";
 import { Pagination } from "../components/ui/pagination";
 import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
+import { VenueGridSkeleton } from "../components/loading/pageSkeletons";
 import { useVenues } from "../hooks/useVenues";
-
-const skeletonCards = Array.from({ length: 12 }, (_, index) => index);
 
 export default function VenuesGrid() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -85,23 +84,7 @@ export default function VenuesGrid() {
       )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
-        {isLoading &&
-          skeletonCards.map((skeletonIndex) => (
-            <div
-              key={`venue-skeleton-${skeletonIndex}`}
-              className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
-              aria-hidden="true"
-            >
-              <div className="h-52 w-full animate-pulse bg-[var(--border)] md:h-56" />
-              <div className="flex flex-1 flex-col gap-3 p-4">
-                <div className="h-4 w-2/3 animate-pulse rounded bg-[var(--border)]" />
-                <div className="h-6 w-3/4 animate-pulse rounded bg-[var(--border)]" />
-                <div className="h-4 w-full animate-pulse rounded bg-[var(--border)]" />
-                <div className="h-4 w-5/6 animate-pulse rounded bg-[var(--border)]" />
-                <div className="mt-auto h-5 w-1/3 animate-pulse rounded bg-[var(--border)]" />
-              </div>
-            </div>
-          ))}
+        {isLoading && <VenueGridSkeleton count={12} />}
 
         {!isLoading &&
           !errorMessage &&

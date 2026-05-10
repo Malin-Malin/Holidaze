@@ -8,6 +8,7 @@ import {
   getVenueById,
   updateVenue,
 } from "../../../api/venueService";
+import { CreateVenueSkeleton } from "../../loading/pageSkeletons";
 import type { VenueData } from "../../../types/venue.types";
 import type { Media } from "../../../types/common.types";
 
@@ -214,11 +215,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
   }
 
   if (isLoadingVenue) {
-    return (
-      <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left">
-        <p>Loading venue...</p>
-      </section>
-    );
+    return <CreateVenueSkeleton />;
   }
 
   return (

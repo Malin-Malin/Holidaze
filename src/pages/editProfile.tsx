@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getProfileByName, updateProfile } from "../api/profileService";
 import { FormField } from "../components/input/formField";
+import { EditProfileSkeleton } from "../components/loading/pageSkeletons";
 import type { ProfileData } from "../types/profile.types";
 
 type EditProfileFormData = {
@@ -155,7 +156,7 @@ export default function EditProfilePage() {
   }
 
   if (isLoading) {
-    return <p className="px-4 py-6 text-[var(--text)]">Loading profile...</p>;
+    return <EditProfileSkeleton />;
   }
 
   if (loadError) {
