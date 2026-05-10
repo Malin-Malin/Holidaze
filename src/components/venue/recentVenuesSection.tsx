@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getVenues } from "../../api/venueService";
 import type { Venue } from "../../types/venue.types";
+import { VenueCardsSkeleton } from "../loading/pageSkeletons";
 import { ButtonLink } from "../ui/button";
 import { VenueCard } from "./card";
 
@@ -46,7 +47,9 @@ export function RecentVenuesSection() {
       </div>
 
       {isLoadingRecent && (
-        <p className="py-4 text-left text-[var(--text)]">Loading venues...</p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          <VenueCardsSkeleton count={3} />
+        </div>
       )}
 
       {!isLoadingRecent && recentVenues.length === 0 && (

@@ -4,7 +4,7 @@ function SkeletonBlock({ className }: { className: string }) {
   );
 }
 
-export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
+export function VenueCardsSkeleton({ count = 12 }: { count?: number }) {
   return (
     <>
       {Array.from({ length: count }, (_, index) => (
@@ -25,6 +25,10 @@ export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
       ))}
     </>
   );
+}
+
+export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
+  return <VenueCardsSkeleton count={count} />;
 }
 
 export function VenueDetailSkeleton() {
