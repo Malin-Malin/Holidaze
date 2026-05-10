@@ -3,6 +3,7 @@ import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
 import { ButtonLink } from "../components/ui/button";
 import { useAuth } from "../hooks/useAuth";
+import { RecentVenuesSection } from "../components/venue/recentVenuesSection";
 
 export default function HomePage() {
   const { isLoggedIn, user } = useAuth();
@@ -61,6 +62,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <RecentVenuesSection />
 
       {/* add the latest venues */}
       {/* add a section divider- brown - a home away from home */}
