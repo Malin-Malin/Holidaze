@@ -53,7 +53,7 @@ export function BookingCard({
     >
       {previewImageUrl && (
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-10"
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-30"
           style={{
             backgroundImage: `url(${previewImageUrl})`,
             backgroundSize: "cover",
