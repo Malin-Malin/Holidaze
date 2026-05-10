@@ -38,7 +38,6 @@ export function BookingForm({
   const [guests, setGuests] = useState(1);
   const [errors, setErrors] = useState<BookingFieldErrors>({});
   const [submitError, setSubmitError] = useState("");
-  const [submitSuccess, setSubmitSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -102,7 +101,6 @@ export function BookingForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError("");
-    setSubmitSuccess("");
 
     if (!isLoggedIn) {
       setSubmitError("You need to log in to create a booking.");
@@ -124,13 +122,11 @@ export function BookingForm({
         venueId: venue.id,
       });
       onBookingConfirmed?.({ dateFrom, dateTo, guests: Number(guests) });
-      setSubmitSuccess("Booking confirmed. Your summary is shown below.");
       setDateFrom("");
       setDateTo("");
       setGuests(1);
       setErrors({});
     } catch (error) {
-      setSubmitSuccess("");
       setSubmitError(
         error instanceof Error
           ? error.message
@@ -238,11 +234,6 @@ export function BookingForm({
         {submitError && (
           <p role="alert" className="mt-2 text-sm text-red-600">
             {submitError}
-          </p>
-        )}
-        {submitSuccess && (
-          <p role="status" className="mt-2 text-sm text-green-700">
-            {submitSuccess}
           </p>
         )}
         <button

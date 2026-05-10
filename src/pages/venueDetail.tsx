@@ -8,6 +8,7 @@ import { Rating } from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { BookingForm } from "../components/booking/bookingForm";
+import { BookingSummary } from "../components/booking/bookingSummary";
 import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
 import { UpcomingBookings } from "../components/venue/upcomingBookings";
 import { ManagedBy } from "../components/venue/managedBy";
@@ -27,10 +28,16 @@ function formatPrice(value: number) {
 
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
-  const { venue, isLoading, errorMessage } = useVenueById(id);
+  const { venue, isLoading, errorMessage, refresh } = useVenueById(id);
   const { user } = useAuth();
   const [selectedDateFrom, setSelectedDateFrom] = useState("");
   const [selectedDateTo, setSelectedDateTo] = useState("");
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [confirmedData, setConfirmedData] = useState<{
+    dateFrom: string;
+    dateTo: string;
+    guests: number;
+  } | null>(null);
 
   if (isLoading) {
     return (
@@ -141,9 +148,28 @@ export default function VenueDetail() {
               setSelectedDateFrom(dateFrom);
               setSelectedDateTo(dateTo);
             }}
+            onBookingConfirmed={(data) => {
+              setConfirmedData(data);
+              setBookingConfirmed(true);
+              setSelectedDateFrom("");
+              setSelectedDateTo("");
+              void refresh();
+            }}
           />
         </section>
       </div>
+
+      {bookingConfirmed && confirmedData && (
+        <div className="mx-auto mt-6 w-full max-w-3xl px-4 md:px-6">
+          <BookingSummary
+            venue={venue}
+            dateFrom={confirmedData.dateFrom}
+            dateTo={confirmedData.dateTo}
+            guests={confirmedData.guests}
+            onDismiss={() => setBookingConfirmed(false)}
+          />
+        </div>
+      )}
 
       {isVenueManager && <UpcomingBookings bookings={managerBookingCards} />}
 
