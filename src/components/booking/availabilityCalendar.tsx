@@ -273,6 +273,11 @@ export function AvailabilityCalendar({
                 {bookedDateTooltipMap.get(cell.dateKey) ?? "Booked"}
               </span>
             )}
+            {cell.isAvailable && (
+              <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded border border-[var(--color-honey)]/40 bg-[var(--color-ink)] px-2 py-1 text-[11px] font-medium text-[var(--color-honey)] shadow-lg group-hover:block group-focus-visible:block">
+                Available
+              </span>
+            )}
           </button>
         ))}
       </div>
