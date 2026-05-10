@@ -10,6 +10,11 @@ type BookingFormProps = {
   selectedDateFrom?: string;
   selectedDateTo?: string;
   onDatesChange?: (dateFrom: string, dateTo: string) => void;
+  onBookingConfirmed?: (data: {
+    dateFrom: string;
+    dateTo: string;
+    guests: number;
+  }) => void;
 };
 
 type BookingFormData = {
@@ -25,6 +30,7 @@ export function BookingForm({
   selectedDateFrom,
   selectedDateTo,
   onDatesChange,
+  onBookingConfirmed,
 }: BookingFormProps) {
   const { isLoggedIn } = useAuth();
   const [dateFrom, setDateFrom] = useState("");
@@ -32,7 +38,7 @@ export function BookingForm({
   const [guests, setGuests] = useState(1);
   const [errors, setErrors] = useState<BookingFieldErrors>({});
   const [submitError, setSubmitError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -96,7 +102,7 @@ export function BookingForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError("");
-    setSuccessMessage("");
+    setSubmitSuccess("");
 
     if (!isLoggedIn) {
       setSubmitError("You need to log in to create a booking.");
@@ -117,14 +123,14 @@ export function BookingForm({
         guests: Number(guests),
         venueId: venue.id,
       });
-      setSuccessMessage(
-        "Booking created. You can view upcoming bookings on your profile.",
-      );
+      onBookingConfirmed?.({ dateFrom, dateTo, guests: Number(guests) });
+      setSubmitSuccess("Booking confirmed. Your summary is shown below.");
       setDateFrom("");
       setDateTo("");
       setGuests(1);
       setErrors({});
     } catch (error) {
+      setSubmitSuccess("");
       setSubmitError(
         error instanceof Error
           ? error.message
@@ -234,8 +240,10 @@ export function BookingForm({
             {submitError}
           </p>
         )}
-        {successMessage && (
-          <p className="mt-2 text-sm text-green-700">{successMessage}</p>
+        {submitSuccess && (
+          <p role="status" className="mt-2 text-sm text-green-700">
+            {submitSuccess}
+          </p>
         )}
         <button
           type="submit"
