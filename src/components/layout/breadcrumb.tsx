@@ -13,6 +13,10 @@ function capitalize(value: string) {
 }
 
 function getSegmentLabel(segment: string, index: number, segments: string[]) {
+  if (segment === "venues") {
+    return "Venues";
+  }
+
   if (segment === "venue") {
     return "Venue";
   }
@@ -63,6 +67,10 @@ export function Breadcrumb() {
           to,
           label: venueName ? capitalize(venueName) : "Venue",
         };
+      }
+
+      if (segment === "venue") {
+        return { to: "/venues", label: "Venues" };
       }
 
       const to = `/${segments.slice(0, index + 1).join("/")}`;
