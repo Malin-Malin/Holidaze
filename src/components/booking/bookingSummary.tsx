@@ -1,0 +1,113 @@
+import type { Venue } from "../../types/venue.types";
+import { formatDate } from "../../utils/date";
+
+type BookingSummaryProps = {
+  venue: Venue;
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
+  onDismiss?: () => void;
+};
+
+export function BookingSummary({
+  venue,
+  dateFrom,
+  dateTo,
+  guests,
+  onDismiss,
+}: BookingSummaryProps) {
+  const checkInDate = new Date(dateFrom);
+  const checkOutDate = new Date(dateTo);
+  const nights = Math.ceil(
+    (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const totalPrice = venue.price * nights;
+  const locationParts = [venue.location?.city, venue.location?.country].filter(
+    Boolean,
+  );
+  const locationText =
+    locationParts.length > 0
+      ? locationParts.join(", ")
+      : "Location unavailable";
+
+  return (
+    <div className="relative mt-6 rounded-xl border border-[var(--color-honey)]/40 bg-[var(--color-honey)]/5 p-6 md:p-8">
+      {onDismiss && (
+        <button
+          onClick={onDismiss}
+          className="absolute right-4 top-4 text-base text-[var(--text)]/60 transition hover:text-[var(--text)]"
+          aria-label="Close summary"
+        >
+          ✕
+        </button>
+      )}
+
+      <h3 className="mb-8 pb-8 text-center text-xl font-semibold tracking-wide text-[var(--color-honey)] md:text-2xl">
+        Booking confirmation
+      </h3>
+
+      <div className="grid grid-cols-1 gap-7 text-base text-[var(--text)] md:grid-cols-3 md:gap-x-8 md:gap-y-6">
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Venue
+          </p>
+          <p className="text-lg font-medium">{venue.name}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Check in
+          </p>
+          <p className="text-lg font-medium">
+            {formatDate(dateFrom, { fallback: "Unknown date" })}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Check out
+          </p>
+          <p className="text-lg font-medium">
+            {formatDate(dateTo, { fallback: "Unknown date" })}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Location
+          </p>
+          <p className="text-lg font-medium">{locationText}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Guests
+          </p>
+          <p className="text-lg font-medium">{guests}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
+            Nights
+          </p>
+          <p className="text-lg font-medium">{nights}</p>
+        </div>
+      </div>
+
+      <div className="mt-8 border-t border-[var(--text)]/20 pt-6 pb-1">
+        <div className="flex items-center justify-center text-center">
+          <span className="text-base font-medium text-[var(--text)]/90 md:text-lg">
+            {venue.price.toFixed(0)} $ /night × {nights} nights =
+            <span className="ml-2 text-xl font-semibold text-[var(--color-honey)] md:text-2xl">
+              ${totalPrice.toFixed(0)}
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <p className="mt-6 text-sm text-[var(--text)]/70 italic">
+        You can manage your bookings on your profile.
+      </p>
+    </div>
+  );
+}
