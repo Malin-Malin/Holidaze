@@ -28,10 +28,11 @@ export function useVenues(
   initialPage = 1,
   filters: UseVenuesFilters = {},
 ): UseVenuesResult {
-  const [allVenues, setAllVenues] = useState<Venue[]>([]);
+  const [pageVenues, setPageVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [apiPageCount, setApiPageCount] = useState(1);
   const pageSize = 12;
 
   const {
@@ -46,41 +47,38 @@ export function useVenues(
   const normalizedQuery = query.trim().toLowerCase();
 
   useEffect(() => {
-    async function loadAllVenues() {
+    if (!Number.isFinite(initialPage) || initialPage < 1) return;
+    setCurrentPage(Math.floor(initialPage));
+  }, [initialPage]);
+
+  useEffect(() => {
+    async function loadVenuesPage() {
       try {
         setIsLoading(true);
         setErrorMessage(null);
-        const limit = 100;
-        let page = 1;
-        let nextPage: number | null | undefined = 1;
-        const collected: Venue[] = [];
+        const response = await getVenues(currentPage, pageSize);
+        const meta = (response.meta ?? {}) as PaginationMeta;
+        const resolvedPageCount =
+          Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
+            ? Math.floor(meta.pageCount as number)
+            : 1;
 
-        while (nextPage) {
-          const response = await getVenues(page, limit);
-          collected.push(...response.data);
-
-          const meta = (response.meta ?? {}) as PaginationMeta;
-          nextPage = meta.nextPage ?? null;
-          page = nextPage ?? page;
-
-          if (response.data.length === 0 || !nextPage) {
-            break;
-          }
-        }
-
-        setAllVenues(collected.sort((a, b) => a.name.localeCompare(b.name)));
+        setApiPageCount(resolvedPageCount);
+        setPageVenues(response.data);
       } catch {
+        setPageVenues([]);
+        setApiPageCount(1);
         setErrorMessage("Could not load venues right now.");
       } finally {
         setIsLoading(false);
       }
     }
 
-    void loadAllVenues();
-  }, []);
+    void loadVenuesPage();
+  }, [currentPage]);
 
   const filteredVenues = useMemo(() => {
-    return allVenues.filter((venue) => {
+    return pageVenues.filter((venue) => {
       const searchable = [
         venue.name,
         venue.location.city,
@@ -107,18 +105,15 @@ export function useVenues(
         matchesBreakfast
       );
     });
-  }, [allVenues, normalizedQuery, minRating, pets, parking, wifi, breakfast]);
+  }, [pageVenues, normalizedQuery, minRating, pets, parking, wifi, breakfast]);
 
-  const pageCount = Math.max(1, Math.ceil(filteredVenues.length / pageSize));
+  const pageCount = Math.max(1, apiPageCount);
 
   useEffect(() => {
     if (currentPage > pageCount) {
       setCurrentPage(pageCount);
     }
   }, [currentPage, pageCount]);
-
-  const start = (currentPage - 1) * pageSize;
-  const venues = filteredVenues.slice(start, start + pageSize);
 
   const isFirstPage = currentPage <= 1;
   const isLastPage = currentPage >= pageCount;
@@ -140,7 +135,7 @@ export function useVenues(
   };
 
   return {
-    venues,
+    venues: filteredVenues,
     isLoading,
     errorMessage,
     currentPage,
