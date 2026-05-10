@@ -31,7 +31,7 @@ export function HamburgerMenu() {
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded text-[var(--color-honey)] transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded text-[var(--color-honey)] transition hover:bg-white/10 hover:ring-1 hover:ring-[var(--color-honey)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
         aria-expanded={isOpen}
         aria-controls="mobile-nav-menu"
         aria-label="Toggle navigation menu"
@@ -48,9 +48,22 @@ export function HamburgerMenu() {
           <NavLink
             to="/"
             onClick={() => setIsOpen(false)}
-            className="block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+            end
+            className={({ isActive }) =>
+              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+            }
           >
             Home
+          </NavLink>
+          <NavLink
+            to="/venues"
+            onClick={() => setIsOpen(false)}
+            end
+            className={({ isActive }) =>
+              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+            }
+          >
+            Venue
           </NavLink>
           {isLoggedIn && (
             <>
@@ -58,15 +71,19 @@ export function HamburgerMenu() {
                 <NavLink
                   to="/create-venue"
                   onClick={() => setIsOpen(false)}
-                  className="block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+                  className={({ isActive }) =>
+                    `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                  }
                 >
-                  Create venues
+                  Create venue
                 </NavLink>
               )}
               <NavLink
                 to="/profile"
                 onClick={() => setIsOpen(false)}
-                className="block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:bg-white/10"
+                className={({ isActive }) =>
+                  `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                }
               >
                 Profile
               </NavLink>
@@ -76,7 +93,7 @@ export function HamburgerMenu() {
                   logout();
                   setIsOpen(false);
                 }}
-                className="block w-full rounded px-3 py-2 text-center text-[var(--color-nav-link)] transition hover:bg-white/10"
+                className="block w-full rounded px-3 py-2 text-center text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4"
               >
                 Logout
               </button>
@@ -86,7 +103,9 @@ export function HamburgerMenu() {
             <NavLink
               to="/login"
               onClick={() => setIsOpen(false)}
-              className="block rounded px-3 py-2 text-[var(--color-honey)] transition hover:bg-white/10"
+              className={({ isActive }) =>
+                `block rounded px-3 py-2 text-[var(--color-honey)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              }
             >
               Login
             </NavLink>

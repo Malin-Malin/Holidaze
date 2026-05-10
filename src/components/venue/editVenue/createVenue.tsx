@@ -398,8 +398,12 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
           </label>
         </div>
 
-        {errorMessage && <p className="text-red-700">{errorMessage}</p>}
-        {successMessage && <p className="text-[var(--success)]">{successMessage}</p>}
+        {errorMessage && (
+          <p className="text-[var(--color-danger)]">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="text-[var(--color-success)]">{successMessage}</p>
+        )}
         <button
           type="submit"
           disabled={isSubmitting}
