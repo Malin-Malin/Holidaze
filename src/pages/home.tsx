@@ -3,6 +3,7 @@ import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
 import { ButtonLink } from "../components/ui/button";
 import { useAuth } from "../hooks/useAuth";
+import { PopularVenuesSection } from "../components/venue/popularVenuesSection";
 import { RecentVenuesSection } from "../components/venue/recentVenuesSection";
 
 export default function HomePage() {
@@ -25,7 +26,7 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold text-center text-[var(--text-h)] dark:text-white md:text-6xl">
         Welcome to Holidaze
       </h1>
-      {/* add cards whith the most popular venues */}
+      <PopularVenuesSection />
 
       {/* create a CTA create venue */}
 

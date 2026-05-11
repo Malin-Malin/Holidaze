@@ -42,10 +42,15 @@ async function createVenue(venueData: VenueData) {
   }
 }
 
-async function getVenues(page = 1, limit = 12): Promise<VenuesPageResponse> {
+async function getVenues(
+  page = 1,
+  limit = 12,
+  includeBookings = false,
+): Promise<VenuesPageResponse> {
   try {
+    const bookingsQuery = includeBookings ? "&_bookings=true" : "";
     const response = await get<ApiResponse<Venue[]>>(
-      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=name&sortOrder=asc`,
+      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=name&sortOrder=asc${bookingsQuery}`,
     );
     return {
       data: response.data,
