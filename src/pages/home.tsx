@@ -26,8 +26,8 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold text-center text-[var(--text-h)] dark:text-white md:text-6xl">
         Welcome to Holidaze
       </h1>
-      <PopularVenuesSection />
 
+      <RecentVenuesSection />
       {/* create a CTA create venue */}
 
       <section className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[linear-gradient(125deg,#f9f3ec_0%,#f4e5d3_48%,#ecd0b0_100%)] px-6 py-14 text-center shadow-lg dark:bg-[linear-gradient(125deg,var(--color-ink)_0%,#1a2f2f_45%,#2a3a2f_100%)] md:px-10 md:py-20">
@@ -64,10 +64,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      <RecentVenuesSection />
+      <PopularVenuesSection />
 
       {/* add the latest venues */}
       {/* add a section divider- brown - a home away from home */}
+
+      <section className="relative overflow-hidden rounded-lg border border-[var(--color-nav-link)]/25 [background:var(--surface-shell)] px-6 py-14 text-center shadow-lg md:px-10 md:py-20">
+        <div
+          className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[var(--color-honey)]/30 blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -bottom-20 -left-12 h-64 w-64 rounded-full bg-[var(--color-moss)]/32 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 mx-auto max-w-2xl">
+          <h2 className="font-[var(--font-display)] text-3xl font-bold text-[var(--footer-heading)] md:text-4xl">
+            A home away from home
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
+            At Holidaze, we believe that travel is about more than just visiting
+            new places. It's about creating memories, experiencing different
+            cultures, and finding a home away from home.
+          </p>
+        </div>
+      </section>
 
       <section className="py-12 md:py-16">
         <div className="grid gap-6 md:grid-cols-3">

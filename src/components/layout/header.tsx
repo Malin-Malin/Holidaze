@@ -3,13 +3,12 @@ import { useAuth } from "../../hooks/useAuth";
 import { HamburgerMenu } from "./hamburgerMenu";
 
 export const Header = () => {
-  const { isLoggedIn, user } = useAuth();
-  const isVenueManager = Boolean(user?.venueManager);
+  const { isLoggedIn } = useAuth();
   return (
-    <header className="sticky top-0 z-50 ml-[calc(50%-50vw)] w-screen bg-[var(--color-ink)] font-[var(--font-brand)]">
+    <header className="sticky top-0 z-50 ml-[calc(50%-50vw)] w-screen border-b border-[var(--color-nav-link)]/15 [background:var(--surface-shell)] font-[var(--font-brand)]">
       <div className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-6 py-4">
         <a href="/" className="px-2 py-1">
-          <span className="font-[var(--font-brand)] text-4xl text-[var(--color-honey)]">
+          <span className="font-[var(--font-brand)] text-4xl text-[var(--shell-accent)]">
             Holidaze
           </span>
         </a>
@@ -18,7 +17,7 @@ export const Header = () => {
             to="/"
             end
             className={({ isActive }) =>
-              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
             }
           >
             Home
@@ -27,7 +26,7 @@ export const Header = () => {
             to="/venues"
             end
             className={({ isActive }) =>
-              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
             }
           >
             Venue
@@ -37,7 +36,7 @@ export const Header = () => {
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                  `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
                 }
               >
                 Profile
@@ -48,7 +47,7 @@ export const Header = () => {
             <NavLink
               to="/login"
               className={({ isActive }) =>
-                `rounded px-3 py-2 text-[var(--color-honey)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                `rounded px-3 py-2 text-[var(--shell-accent)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
               }
             >
               Login

@@ -6,8 +6,19 @@
   --color-bark: #815e4e;
   --color-honey: #f6b174;
   --color-ink: #221d17;
-  --color-nav-link: #ab9d94;
+  --color-moss: #3f5a4c;
+  --color-nav-link: #35557a;
+  --footer-heading: #7b6654;
+  --shell-accent: var(--color-bark);
+  --shell-underline: var(--shell-accent);
   --color-danger: #b91c1c;
+  --surface-shell: linear-gradient(
+    125deg,
+    #fff3bf 0%,
+    #ecd8bf 38%,
+    #d7c2a8 64%,
+    #bfd2e8 100%
+  );
 
   --surface-primary: var(--color-bark);
   --accent-primary: var(--color-honey);
@@ -51,7 +62,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-ink: var(--color-bark);
+    --color-moss: #5d7a6a;
     --color-nav-link: #d2b7a6;
+    --footer-heading: #c8b4ab;
+    --shell-accent: var(--color-honey);
+    --shell-underline: var(--color-honey);
     --text: #9ca3af;
     --text-h: #f3f4f6;
     --success: #86efac;
@@ -64,6 +79,13 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --surface-shell: linear-gradient(
+      125deg,
+      var(--color-ink) 0%,
+      #7a5a3a 25%,
+      #3a5a45 55%,
+      #1a3a2a 100%
+    );
   }
 
   #social .button-icon {
