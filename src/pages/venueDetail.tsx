@@ -13,6 +13,7 @@ import { AvailabilityCalendar } from "../components/booking/availabilityCalendar
 import { UpcomingBookings } from "../components/venue/upcomingBookings";
 import { ManagedBy } from "../components/venue/managedBy";
 import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
+import { Breadcrumb } from "../components/layout/breadcrumb";
 
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
@@ -85,6 +86,7 @@ export default function VenueDetail() {
   return (
     <section className="pb-10">
       <Gallery media={venue.media} />
+      <Breadcrumb />
       <div className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
         <h1 className="mb-4 mt-0 break-words px-1 uppercase leading-tight">
           {venue.name}
