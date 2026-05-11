@@ -31,7 +31,7 @@ export function HamburgerMenu() {
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded text-[var(--color-honey)] transition hover:bg-white/10 hover:ring-1 hover:ring-[var(--color-honey)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded text-[var(--shell-accent)] transition hover:bg-white/10 hover:ring-1 hover:ring-[var(--shell-accent)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--shell-accent)]"
         aria-expanded={isOpen}
         aria-controls="mobile-nav-menu"
         aria-label="Toggle navigation menu"
@@ -42,7 +42,7 @@ export function HamburgerMenu() {
       {isOpen && (
         <nav
           id="mobile-nav-menu"
-          className="absolute -right-6 z-40 mt-2 min-w-40 bg-[var(--color-ink)] p-2 shadow-2xl"
+          className="absolute -right-6 z-40 mt-2 min-w-40 rounded border border-[var(--color-nav-link)]/20 [background:var(--surface-shell)] p-2 shadow-2xl"
           aria-label="Mobile"
         >
           <NavLink
@@ -50,7 +50,7 @@ export function HamburgerMenu() {
             onClick={() => setIsOpen(false)}
             end
             className={({ isActive }) =>
-              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
             }
           >
             Home
@@ -60,7 +60,7 @@ export function HamburgerMenu() {
             onClick={() => setIsOpen(false)}
             end
             className={({ isActive }) =>
-              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
             }
           >
             Venue
@@ -72,7 +72,7 @@ export function HamburgerMenu() {
                   to="/create-venue"
                   onClick={() => setIsOpen(false)}
                   className={({ isActive }) =>
-                    `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                    `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
                   }
                 >
                   Create venue
@@ -82,7 +82,7 @@ export function HamburgerMenu() {
                 to="/profile"
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                  `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
                 }
               >
                 Profile
@@ -93,7 +93,7 @@ export function HamburgerMenu() {
                   logout();
                   setIsOpen(false);
                 }}
-                className="block w-full rounded px-3 py-2 text-center text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4"
+                className="block w-full rounded px-3 py-2 text-center text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4"
               >
                 Logout
               </button>
@@ -104,7 +104,7 @@ export function HamburgerMenu() {
               to="/login"
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
-                `block rounded px-3 py-2 text-[var(--color-honey)] transition hover:underline hover:decoration-[var(--color-honey)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--color-honey)] underline-offset-4" : ""}`
+                `block rounded px-3 py-2 text-[var(--shell-accent)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
               }
             >
               Login
