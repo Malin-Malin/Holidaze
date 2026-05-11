@@ -16,6 +16,10 @@ export function ManagedBy({ manager, created, updated }: VenueFooterProps) {
           <img
             src={manager?.avatar?.url || placeholderProfileAvatar}
             alt={manager?.avatar?.alt || manager?.name || "Venue manager"}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = placeholderProfileAvatar;
+            }}
             className="h-10 w-10 rounded-full object-cover"
           />
           <div>

@@ -154,6 +154,10 @@ export default function ProfilePage() {
           <img
             src={profile.avatar?.url ?? placeholderProfileAvatar}
             alt={profile.avatar?.alt ?? "placeholder profile image"}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = placeholderProfileAvatar;
+            }}
             className="w-16 h-16 rounded-full"
           />
           <div className="flex min-w-0 flex-col items-start gap-1 p-2">
