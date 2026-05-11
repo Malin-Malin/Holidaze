@@ -1,5 +1,11 @@
 .banner-hero {
-  background-image: url("../../assets/city_view_banner.jpg");
+  background-image: url("../../assets/placeholderImage03.jpg");
+}
+
+@media (prefers-color-scheme: dark) {
+  .banner-hero {
+    background-image: url("../../assets/city_view_banner.jpg");
+  }
 }
 
 /* todo: this bannerinfo should change from side to side; */

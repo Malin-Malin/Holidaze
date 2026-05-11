@@ -5,6 +5,7 @@ import { Banner } from "./components/layout/banner";
 import { Footer } from "./components/layout/footer";
 import { Breadcrumb } from "./components/layout/breadcrumb";
 import cityViewBanner from "./assets/city_view_banner.jpg";
+import placeholderImage03 from "./assets/placeholderImage03.jpg";
 import {
   HomePage,
   LoginPage,
@@ -39,7 +40,12 @@ function AppLayout() {
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+            className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat dark:hidden"
+            style={{ backgroundImage: `url(${placeholderImage03})` }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-0 hidden bg-cover bg-center bg-no-repeat dark:block"
             style={{ backgroundImage: `url(${cityViewBanner})` }}
           />
           <div
