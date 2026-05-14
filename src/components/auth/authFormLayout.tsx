@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type AuthFormLayoutProps = {
   title: string;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
+  onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void | Promise<void>;
   children: ReactNode;
 };
 

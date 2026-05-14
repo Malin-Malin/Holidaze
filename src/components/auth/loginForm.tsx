@@ -5,7 +5,7 @@ import FormField from "../input/formField";
 import AuthFormLayout from "./authFormLayout";
 
 import { login } from "../../api/authService";
-import { useAuth } from "../../hooks/useAuth.tsx";
+import { useAuth } from "../../hooks/useAuth";
 import { validateNoroffEmail } from "../../utils/authValidation";
 
 type LoginErrors = {
@@ -30,7 +30,7 @@ const LoginForm = () => {
     return next;
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitError("");
 

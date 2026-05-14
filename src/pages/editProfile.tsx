@@ -116,7 +116,7 @@ const EditProfilePage = () => {
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitError("");
 

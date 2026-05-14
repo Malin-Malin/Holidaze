@@ -98,7 +98,7 @@ const BookingForm = ({
     return next;
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitError("");
 
