@@ -48,7 +48,7 @@ function extractUpcomingManagedBookings(
     );
 }
 
-export default function ProfilePage() {
+const ProfilePage = () => {
   const location = useLocation();
   const { user, logout } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -230,4 +230,6 @@ export default function ProfilePage() {
       </div>
     </>
   );
-}
+};
+
+export default ProfilePage;

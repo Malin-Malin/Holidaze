@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { CreateVenue } from "../components/venue/editVenue/createVenue";
 import Breadcrumb from "../components/layout/breadcrumb";
 
-export default function EditVenuePage() {
+const EditVenuePage = () => {
   const { id } = useParams<{ id: string }>();
 
   // todo: present error modal and then navigate back to profile page instead of just showing text on the page
@@ -16,4 +16,6 @@ export default function EditVenuePage() {
       <CreateVenue venueId={id} />
     </>
   );
-}
+};
+
+export default EditVenuePage;

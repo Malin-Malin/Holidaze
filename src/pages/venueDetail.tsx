@@ -28,7 +28,7 @@ function formatPrice(value: number) {
   }).format(value);
 }
 
-export default function VenueDetail() {
+const VenueDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -190,4 +190,6 @@ export default function VenueDetail() {
       />
     </section>
   );
-}
+};
+
+export default VenueDetail;

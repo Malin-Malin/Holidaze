@@ -13,7 +13,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { getVenues } from "../api/venueService";
 
-export default function HomePage() {
+const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
   const [isLoadingRecent, setIsLoadingRecent] = useState(false);
   const [recentVenues, setRecentVenues] = useState<Venue[]>([]);
@@ -118,4 +118,6 @@ export default function HomePage() {
       </main>
     </>
   );
-}
+};
+
+export default HomePage;

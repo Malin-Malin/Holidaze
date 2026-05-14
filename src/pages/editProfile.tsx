@@ -19,7 +19,7 @@ type EditProfileFieldErrors = Partial<
   Record<keyof EditProfileFormData, string>
 >;
 
-export default function EditProfilePage() {
+const EditProfilePage = () => {
   const { user, setUserInfo } = useAuth();
   const navigate = useNavigate();
 
@@ -298,4 +298,6 @@ export default function EditProfilePage() {
       </form>
     </div>
   );
-}
+};
+
+export default EditProfilePage;
