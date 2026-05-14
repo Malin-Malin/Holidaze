@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { VenueCard } from "../components/venue/card";
 import { Pagination } from "../components/ui/pagination";
 import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
-import { VenueGridSkeleton } from "../components/loading/pageSkeletons";
 import { useVenues } from "../hooks/useVenues";
 import { Banner } from "../components/layout/banner";
+import VenueGrid from "../components/venue/VenueGrid";
 
 export default function VenuesGrid() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -81,21 +80,11 @@ export default function VenuesGrid() {
           onBreakfastChange={(value) => updateSearchParam("breakfast", value)}
         />
 
-        {errorMessage && (
-          <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
-        )}
-
-        {!isLoading && !errorMessage && venues.length === 0 && (
-          <p className="p-6 text-left">No venues found.</p>
-        )}
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
-          {isLoading && <VenueGridSkeleton count={12} />}
-
-          {!isLoading &&
-            !errorMessage &&
-            venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
-        </div>
+        <VenueGrid
+          venues={venues}
+          isLoading={isLoading}
+          errorMessage={errorMessage ?? ""}
+        />
 
         {!isLoading && !errorMessage && (
           <Pagination
