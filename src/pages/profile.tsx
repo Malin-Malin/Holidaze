@@ -208,7 +208,7 @@ const ProfilePage = () => {
       <p>{profile.bio}</p>
       {profile.venueManager && (
         <>
-          <OverviewVenue venues={profile.venues ?? []} />
+          <OverviewVenue venues={profile.venues ?? []} isLoading={isLoading} />
           <div className="mt-6 flex justify-center px-4">
             <ButtonLink
               to="/venues/new"
@@ -222,9 +222,15 @@ const ProfilePage = () => {
         </>
       )}
       {profile.venueManager && (
-        <OverviewManagedBookings bookings={managedUpcomingBookings} />
+        <OverviewManagedBookings
+          bookings={managedUpcomingBookings}
+          isLoading={isLoading}
+        />
       )}
-      <OverviewBooking bookings={profile.bookings ?? []} />
+      <OverviewBooking
+        bookings={profile.bookings ?? []}
+        isLoading={isLoading}
+      />
       <div className="flex justify-center py-6">
         <button
           type="button"

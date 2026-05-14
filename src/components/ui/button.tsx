@@ -65,16 +65,18 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: ButtonSize;
 };
 
-export function Button({
+const Button = ({
   variant = "primary",
   size = "md",
   className,
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button {...props} className={getButtonClass({ variant, size, className })}>
       {children}
     </button>
   );
-}
+};
+
+export default Button;
