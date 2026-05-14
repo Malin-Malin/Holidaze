@@ -52,12 +52,45 @@ export default function ProfilePage() {
   const location = useLocation();
   const { user, logout } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [resolvedBannerSrc, setResolvedBannerSrc] = useState(
+    placeholderProfileBanner,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [managedUpcomingBookings, setManagedUpcomingBookings] = useState<
     ManagedBookingCardData[]
   >([]);
+
+  useEffect(() => {
+    const bannerUrl = profile?.banner?.url?.trim();
+
+    if (!bannerUrl) {
+      setResolvedBannerSrc(placeholderProfileBanner);
+      return;
+    }
+
+    let isCancelled = false;
+    const image = new Image();
+
+    image.onload = () => {
+      if (!isCancelled) {
+        setResolvedBannerSrc(bannerUrl);
+      }
+    };
+
+    image.onerror = () => {
+      if (!isCancelled) {
+        setResolvedBannerSrc(placeholderProfileBanner);
+      }
+    };
+
+    image.src = bannerUrl;
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [profile?.banner?.url]);
 
   useEffect(() => {
     const state = location.state as { toastMessage?: string } | null;
@@ -117,10 +150,7 @@ export default function ProfilePage() {
     return <p className="px-4 py-6 text-[var(--text)]">Profile not found.</p>;
   }
 
-  const bannerSrc =
-    profile.banner?.url && profile.banner.url.trim() !== ""
-      ? profile.banner.url
-      : placeholderProfileBanner;
+  const bannerSrc = resolvedBannerSrc;
   const bannerAlt = profile.banner?.alt || "placeholder profile banner";
 
   return (
