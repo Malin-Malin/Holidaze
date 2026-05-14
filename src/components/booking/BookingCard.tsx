@@ -14,11 +14,11 @@ function hasBookingStarted(booking: Booking) {
   return bookingStart <= now;
 }
 
-export function BookingCard({
+const BookingCard = ({
   booking,
   onCancel,
   showViewVenueButton = true,
-}: BookingCardProps) {
+}: BookingCardProps) => {
   const navigate = useNavigate();
   const bookingStarted = hasBookingStarted(booking);
   const previewImageUrl = booking.venue?.media?.[0]?.url;
@@ -109,4 +109,6 @@ export function BookingCard({
       </div>
     </article>
   );
-}
+};
+
+export default BookingCard;
