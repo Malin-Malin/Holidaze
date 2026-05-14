@@ -4,6 +4,13 @@ import HamburgerMenu from "./hamburgerMenu";
 
 import { useAuth } from "../../hooks/useAuth";
 
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/venues", label: "Venues" },
+  { href: "/profile", label: "Profile", authOnly: true },
+  { href: "/login", label: "Login", notAuthOnly: true },
+];
+
 const Header = () => {
   const { isLoggedIn } = useAuth();
   return (
@@ -15,46 +22,22 @@ const Header = () => {
           </span>
         </a>
         <nav className="hidden items-center gap-2 md:flex">
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/venues"
-            end
-            className={({ isActive }) =>
-              `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-            }
-          >
-            Venues
-          </NavLink>
-          {isLoggedIn && (
-            <>
+          {NAV_LINKS.map(({ href, label, authOnly, notAuthOnly }) => {
+            if ((authOnly && !isLoggedIn) || (notAuthOnly && isLoggedIn))
+              return null;
+            return (
               <NavLink
-                to="/profile"
+                key={href}
+                to={href}
+                end
                 className={({ isActive }) =>
                   `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
                 }
               >
-                Profile
+                {label}
               </NavLink>
-            </>
-          )}
-          {!isLoggedIn && (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                `rounded px-3 py-2 text-[var(--shell-accent)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-              }
-            >
-              Login
-            </NavLink>
-          )}
+            );
+          })}
         </nav>
         <HamburgerMenu />
       </div>

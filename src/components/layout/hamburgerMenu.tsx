@@ -2,13 +2,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useRef } from "react";
+
 import { useAuth } from "../../hooks/useAuth";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/venues", label: "Venues" },
+  { href: "/venues/new", label: "Create Venue", managerOnly: true },
+  { href: "/profile", label: "Profile", authOnly: true },
+  { href: "/login", label: "Login", notAuthOnly: true },
+];
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, user, logout } = useAuth();
   const isVenueManager = Boolean(user?.venueManager);
@@ -24,7 +31,7 @@ const HamburgerMenu = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div className="relative md:hidden" ref={menuRef}>
@@ -45,69 +52,39 @@ const HamburgerMenu = () => {
           className="absolute -right-6 z-40 mt-2 min-w-40 rounded border border-[var(--color-nav-link)]/20 [background:var(--surface-shell)] p-2 shadow-2xl"
           aria-label="Mobile"
         >
-          <NavLink
-            to="/"
-            onClick={() => setIsOpen(false)}
-            end
-            className={({ isActive }) =>
-              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/venues"
-            onClick={() => setIsOpen(false)}
-            end
-            className={({ isActive }) =>
-              `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-            }
-          >
-            Venue
-          </NavLink>
-          {isLoggedIn && (
-            <>
-              {isVenueManager && (
+          {NAV_LINKS.map(
+            ({ href, label, authOnly, notAuthOnly, managerOnly }) => {
+              if (
+                (authOnly && !isLoggedIn) ||
+                (notAuthOnly && isLoggedIn) ||
+                (managerOnly && !isVenueManager)
+              )
+                return null;
+              return (
                 <NavLink
-                  to="/create-venue"
+                  key={href}
+                  to={href}
                   onClick={() => setIsOpen(false)}
+                  end
                   className={({ isActive }) =>
                     `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
                   }
                 >
-                  Create venue
+                  {label}
                 </NavLink>
-              )}
-              <NavLink
-                to="/profile"
-                onClick={() => setIsOpen(false)}
-                className={({ isActive }) =>
-                  `block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-                }
-              >
-                Profile
-              </NavLink>
-              <button
-                type="button"
-                onClick={() => {
-                  logout();
-                  setIsOpen(false);
-                }}
-                className="block w-full rounded px-3 py-2 text-center text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4"
-              >
-                Logout
-              </button>
-            </>
+              );
+            },
           )}
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <NavLink
-              to="/login"
-              onClick={() => setIsOpen(false)}
-              className={({ isActive }) =>
-                `block rounded px-3 py-2 text-[var(--shell-accent)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
-              }
+              to="/"
+              onClick={() => {
+                logout();
+                setIsOpen(false);
+              }}
+              className="block rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4"
             >
-              Login
+              Logout
             </NavLink>
           )}
         </nav>

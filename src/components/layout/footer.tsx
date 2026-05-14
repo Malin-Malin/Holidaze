@@ -1,11 +1,14 @@
 import { FaInstagram, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
+import { useAuth } from "../../hooks/useAuth";
+
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/venues", label: "Venues" },
-  { href: "/profile", label: "Profile" },
-  { href: "/login", label: "Login" },
+  { href: "/profile", label: "Profile", authOnly: true },
+  { href: "/venues/new", label: "Create Venue", authOnly: true },
+  { href: "/login", label: "Login", notAuthOnly: true },
 ];
 
 const SOCIAL_LINKS = [
@@ -15,6 +18,7 @@ const SOCIAL_LINKS = [
 ];
 
 const Footer = () => {
+  const { isLoggedIn } = useAuth();
   const year = new Date().getFullYear();
 
   return (
@@ -54,15 +58,19 @@ const Footer = () => {
               Explore
             </h3>
             <nav className="flex flex-col items-center gap-2 lg:items-start">
-              {NAV_LINKS.map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className="w-fit text-sm transition hover:text-[var(--shell-accent)] hover:underline hover:underline-offset-4"
-                >
-                  {label}
-                </a>
-              ))}
+              {NAV_LINKS.map(({ href, label, authOnly, notAuthOnly }) => {
+                if ((authOnly && !isLoggedIn) || (notAuthOnly && isLoggedIn))
+                  return null;
+                return (
+                  <a
+                    key={href}
+                    href={href}
+                    className="w-fit text-sm transition hover:text-[var(--shell-accent)] hover:underline hover:underline-offset-4"
+                  >
+                    {label}
+                  </a>
+                );
+              })}
             </nav>
           </div>
 
