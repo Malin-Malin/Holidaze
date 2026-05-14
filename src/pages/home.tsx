@@ -85,14 +85,6 @@ const HomePage = () => {
 
         {/* add a section divider- brown - a home away from home */}
 
-        <WideCard title="A home away from home">
-          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
-            At Holidaze, we believe that travel is about more than just visiting
-            new places. It's about creating memories, experiencing different
-            cultures, and finding a home away from home.
-          </p>
-        </WideCard>
-
         <section className="py-12 md:py-16">
           <div className="grid gap-6 md:grid-cols-3">
             <PopoutCard
@@ -113,6 +105,14 @@ const HomePage = () => {
             />
           </div>
         </section>
+
+        <WideCard title="A home away from home">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
+            At Holidaze, we believe that travel is about more than just visiting
+            new places. It's about creating memories, experiencing different
+            cultures, and finding a home away from home.
+          </p>
+        </WideCard>
 
         {/* login/register */}
       </main>
