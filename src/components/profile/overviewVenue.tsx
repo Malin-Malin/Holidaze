@@ -57,7 +57,7 @@ export default function OverviewVenue({
             <VenueCard
               key={venue.id}
               venue={venue}
-              onEdit={(venueId) => navigate(`/create-venue/${venueId}/edit`)}
+              onEdit={(venueId) => navigate(`/venue/${venueId}/edit`)}
               onDelete={handleDelete}
             />
           ))}
@@ -81,7 +81,7 @@ export default function OverviewVenue({
       {canCreateVenue && (
         <div className="mt-6 flex justify-center px-4">
           <ButtonLink
-            to="/create-venue"
+            to="/venue/new"
             variant="primary"
             size="lg"
             className="w-full max-w-md"

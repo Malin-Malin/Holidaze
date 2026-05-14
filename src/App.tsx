@@ -14,15 +14,18 @@ import {
   VenuesGrid,
   VenueDetail,
   CreateVenuePage,
+  EditVenuePage,
+  ProfilePage,
+  EditProfilePage,
 } from "./pages";
 import { AuthProvider } from "./context/AuthProvider";
-import ProfilePage from "./pages/profile";
-import EditProfilePage from "./pages/editProfile";
 
 function AppLayout() {
   const location = useLocation();
+
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
+
   const hideGlobalBanner =
     location.pathname.startsWith("/venue/") ||
     location.pathname === "/profile" ||
@@ -75,11 +78,8 @@ function AppLayout() {
             <Route path="/" element={<HomePage />} />
             <Route path="/venues" element={<VenuesGrid />} />
             <Route path="/venue/:id" element={<VenueDetail />} />
-            <Route path="/create-venue" element={<CreateVenuePage />} />
-            <Route
-              path="/create-venue/:id/edit"
-              element={<CreateVenuePage />}
-            />
+            <Route path="venue/new" element={<CreateVenuePage />} />
+            <Route path="/venue/:id/edit" element={<EditVenuePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/profile" element={<ProfilePage />} />

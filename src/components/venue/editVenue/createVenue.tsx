@@ -219,7 +219,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
   }
 
   return (
-    <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left">
+    <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left pb-10">
       <h2>{isEditMode ? "Edit Venue" : "Create Venue"}</h2>
 
       <form onSubmit={submitForm} noValidate className="mt-4 space-y-4">
