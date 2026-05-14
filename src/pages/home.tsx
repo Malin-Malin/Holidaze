@@ -83,7 +83,6 @@ export default function HomePage() {
 
         {/* <PopularVenuesSection /> */}
 
-        {/* add the latest venues */}
         {/* add a section divider- brown - a home away from home */}
 
         <WideCard title="A home away from home">

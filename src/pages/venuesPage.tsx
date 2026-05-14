@@ -6,7 +6,7 @@ import { useVenues } from "../hooks/useVenues";
 import Banner from "../components/layout/banner";
 import VenueGrid from "../components/venue/VenueGrid";
 
-export default function VenuesGrid() {
+const VenuesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const parsedPage = Number(searchParams.get("page"));
   const initialPage =
@@ -100,4 +100,6 @@ export default function VenuesGrid() {
       </section>
     </>
   );
-}
+};
+
+export default VenuesPage;

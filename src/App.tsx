@@ -7,12 +7,12 @@ import {
   HomePage,
   LoginPage,
   RegisterPage,
-  VenuesGrid,
   VenueDetail,
   CreateVenuePage,
   EditVenuePage,
   ProfilePage,
   EditProfilePage,
+  VenuesPage,
 } from "./pages";
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -25,7 +25,7 @@ function AppLayout() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/venues" element={<VenuesGrid />} />
+            <Route path="/venues" element={<VenuesPage />} />
             <Route path="/venues/:id" element={<VenueDetail />} />
             <Route path="/venues/new" element={<CreateVenuePage />} />
             <Route path="/venues/:id/edit" element={<EditVenuePage />} />
