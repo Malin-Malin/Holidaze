@@ -7,6 +7,7 @@ const RatingInput = ({
   max?: number;
   onChange: (newRating: number) => void;
 }) => {
+  // Ensure rating is within bounds
   const clampedRating = Math.max(0, Math.min(max, rating));
 
   return (
