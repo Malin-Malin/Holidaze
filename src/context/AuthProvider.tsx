@@ -39,6 +39,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
     hasCompleteStoredAuth(parseStoredUser()),
   );
+  const [isVenueManager, setIsVenueManager] = useState<boolean>(
+    () => user?.venueManager === true,
+  );
   const [apiKey, setApiKey] = useState<string | null>(
     localStorage.getItem("apiKey"),
   );
@@ -55,11 +58,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setApiKey(apiKey);
     setUser(userInfo);
     setIsLoggedIn(true);
+    setIsVenueManager(userInfo.venueManager === true);
   };
 
   const setUserInfo = (userInfo: Partial<Profile>) => {
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     setUser(userInfo);
+    setIsVenueManager(userInfo.venueManager === true);
   };
 
   const logout = () => {
@@ -74,7 +79,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, user, apiKey, login, setUserInfo, logout }}
+      value={{
+        isLoggedIn,
+        isVenueManager,
+        user,
+        apiKey,
+        login,
+        setUserInfo,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

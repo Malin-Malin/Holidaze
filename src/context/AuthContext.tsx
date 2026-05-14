@@ -3,6 +3,7 @@ import type { Profile } from "../types/profile.types";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
+  isVenueManager: boolean;
   user: Partial<Profile> | null;
   apiKey: string | null;
   login: (

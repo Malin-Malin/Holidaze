@@ -8,8 +8,7 @@ import { RecentVenuesSection } from "../components/venue/recentVenuesSection";
 import { Banner } from "../components/layout/banner";
 
 export default function HomePage() {
-  const { isLoggedIn, user } = useAuth();
-  const isVenueManager = Boolean(user?.venueManager);
+  const { isLoggedIn, isVenueManager } = useAuth();
 
   const hostLinkTarget = !isLoggedIn
     ? "/register"
