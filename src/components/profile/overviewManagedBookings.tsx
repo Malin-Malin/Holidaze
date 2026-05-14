@@ -1,13 +1,8 @@
 import type { Booking } from "../../types/venue.types";
 import { BookingCard } from "../booking/card";
 
-type ManagedBookingCardData = Pick<
-  Booking,
-  "id" | "dateFrom" | "dateTo" | "guests" | "venue" | "customer"
->;
-
 type OverviewManagedBookingsProps = {
-  bookings?: ManagedBookingCardData[];
+  bookings?: Booking[];
 };
 
 export default function OverviewManagedBookings({

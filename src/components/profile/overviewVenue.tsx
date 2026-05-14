@@ -76,7 +76,7 @@ export default function OverviewVenue({
       )}
 
       <p className="mt-1 p-6 text-sm text-[var(--text-h)] text-end">
-        {myVenues.length} {myVenues.length === 1 ? "venue" : "venues"} created
+        You have {myVenues.length} {myVenues.length === 1 ? "venue" : "venues"}
       </p>
       {canCreateVenue && (
         <div className="mt-6 flex justify-center px-4">

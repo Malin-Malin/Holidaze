@@ -16,29 +16,22 @@ import type { Booking, Venue } from "../types/venue.types";
 import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
 import { ProfilePageSkeleton } from "../components/loading/pageSkeletons";
 
-type ManagedBookingCardData = Pick<
-  Booking,
-  "id" | "dateFrom" | "dateTo" | "guests" | "venue" | "customer"
->;
-
-function extractUpcomingManagedBookings(
-  managedVenues: Venue[],
-): ManagedBookingCardData[] {
+function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();
 
   return managedVenues
     .flatMap((venue) =>
       (venue.bookings ?? [])
         .filter((booking) => new Date(booking.dateTo) >= now)
-        .map((booking, index) => ({
-          id:
-            booking.id ||
-            `${venue.id}-${booking.dateFrom}-${booking.dateTo}-${index}`,
+        .map((booking) => ({
+          id: booking.id,
           dateFrom: booking.dateFrom,
           dateTo: booking.dateTo,
           guests: booking.guests,
+          venue: venue,
           customer: booking.customer,
-          venue,
+          created: booking.created,
+          updated: booking.updated,
         })),
     )
     .sort(
@@ -59,7 +52,7 @@ const ProfilePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [managedUpcomingBookings, setManagedUpcomingBookings] = useState<
-    ManagedBookingCardData[]
+    Booking[]
   >([]);
 
   useEffect(() => {

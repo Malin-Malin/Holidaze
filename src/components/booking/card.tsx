@@ -2,18 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import type { Booking } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
 
-type BookingCardData = Pick<
-  Booking,
-  "id" | "dateFrom" | "dateTo" | "guests" | "venue" | "customer"
->;
-
 type BookingCardProps = {
-  booking: BookingCardData;
+  booking: Booking;
   onCancel?: (bookingId: string) => void;
   showViewVenueButton?: boolean;
 };
 
-function hasBookingStarted(booking: BookingCardData) {
+function hasBookingStarted(booking: Booking) {
   const now = new Date();
   const bookingStart = new Date(booking.dateFrom);
   return bookingStart <= now;
@@ -31,7 +26,7 @@ export function BookingCard({
 
   function openVenue() {
     if (!venueId) return;
-    navigate(`/venue/${venueId}`);
+    navigate(`/venues/${venueId}`);
   }
 
   return (
@@ -84,7 +79,7 @@ export function BookingCard({
         <div className="flex items-center pt-4">
           {showViewVenueButton && booking.venue?.id && !bookingStarted && (
             <Link
-              to={`/venue/${booking.venue.id}`}
+              to={`/venues/${booking.venue.id}`}
               onClick={(event) => event.stopPropagation()}
               className="rounded border border-[var(--color-ink)] px-3 py-1 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
             >
