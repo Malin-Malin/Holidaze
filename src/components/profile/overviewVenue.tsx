@@ -6,10 +6,13 @@ import VenueGrid from "../venue/VenueGrid";
 
 type OverviewVenueProps = {
   venues?: Venue[];
-  canCreateVenue?: boolean;
+  isLoading?: boolean;
 };
 
-const OverviewVenue = ({ venues = [] }: OverviewVenueProps) => {
+const OverviewVenue = ({
+  venues = [],
+  isLoading = false,
+}: OverviewVenueProps) => {
   const navigate = useNavigate();
   const [myVenues, setMyVenues] = useState<Venue[]>(venues);
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +46,8 @@ const OverviewVenue = ({ venues = [] }: OverviewVenueProps) => {
       <VenueGrid
         title="My venues"
         venues={myVenues}
-        isLoading={false}
+        isLoading={isLoading}
+        numberOfVenues={3}
         fallbackMessage="You have not created any venues yet."
         errorMessage={errorMessage}
         handleEdit={(venueId) => navigate(`/venues/${venueId}/edit`)}

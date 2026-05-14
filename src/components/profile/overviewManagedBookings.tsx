@@ -5,10 +5,12 @@ import { isUpcomingBooking } from "../../utils/booking";
 
 type OverviewManagedBookingsProps = {
   bookings?: Booking[];
+  isLoading?: boolean;
 };
 
 const OverviewManagedBookings = ({
   bookings = [],
+  isLoading = false,
 }: OverviewManagedBookingsProps) => {
   const upcomingBookings = bookings.filter(isUpcomingBooking);
 
@@ -16,7 +18,7 @@ const OverviewManagedBookings = ({
     <BookingGrid
       title="Guest bookings at my venues"
       bookings={upcomingBookings}
-      isLoading={false}
+      isLoading={isLoading}
       showViewVenueButton={false}
       fallbackMessage="You have no upcoming bookings across your venues."
     />

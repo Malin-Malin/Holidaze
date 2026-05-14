@@ -8,9 +8,13 @@ import { isUpcomingBooking } from "../../utils/booking";
 
 type OverviewBookingProps = {
   bookings?: Booking[];
+  isLoading?: boolean;
 };
 
-const OverviewBooking = ({ bookings = [] }: OverviewBookingProps) => {
+const OverviewBooking = ({
+  bookings = [],
+  isLoading = false,
+}: OverviewBookingProps) => {
   const [myBookings, setMyBookings] = useState<Booking[]>(bookings);
   const [errorMessage, setErrorMessage] = useState("");
   // TODO: Add toast for success messages instead of inline text
@@ -56,7 +60,7 @@ const OverviewBooking = ({ bookings = [] }: OverviewBookingProps) => {
     <BookingGrid
       title="My upcoming bookings"
       bookings={upcomingBookings}
-      isLoading={false}
+      isLoading={isLoading}
       handleCancel={handleCancel}
       fallbackMessage="You have no upcoming bookings."
       errorMessage={errorMessage}
