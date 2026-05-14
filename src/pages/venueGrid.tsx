@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Pagination } from "../components/ui/pagination";
 import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
 import { useVenues } from "../hooks/useVenues";
-import { Banner } from "../components/layout/banner";
+import Banner from "../components/layout/banner";
 import VenueGrid from "../components/venue/VenueGrid";
 
 export default function VenuesGrid() {

@@ -6,7 +6,7 @@ import {
   getVenuesByProfileName,
 } from "../api/profileService";
 import { useAuth } from "../hooks/useAuth";
-import { Banner } from "../components/layout/banner";
+import Banner from "../components/layout/banner";
 import Breadcrumb from "../components/layout/breadcrumb";
 import OverviewVenue from "../components/profile/overviewVenue";
 import OverviewBooking from "../components/profile/overviewBooking";

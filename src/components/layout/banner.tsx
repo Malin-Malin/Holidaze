@@ -10,7 +10,7 @@ type BannerProps = {
 
 // TODO: this bannerinfo should change from side to side
 // TODO: The font looks a bit off, check the font-family and make sure it is applied correctly
-export const Banner = ({
+const Banner = ({
   imageUrl,
   imageAlt,
   ariaLabel = "Holidaze banner",
@@ -38,3 +38,5 @@ export const Banner = ({
     </section>
   );
 };
+
+export default Banner;
