@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 import { RatingInput } from "../../input/ratingInput";
 import { FormField } from "../../input/formField";
@@ -11,6 +11,7 @@ import {
 import { CreateVenueSkeleton } from "../../loading/pageSkeletons";
 import type { VenueData } from "../../../types/venue.types";
 import type { Media } from "../../../types/common.types";
+import { syncVenueNameState } from "../../../utils/routeState";
 
 type CreateVenueForm = {
   name: string;
@@ -58,6 +59,7 @@ function isValidImageUrl(value: string) {
 export const CreateVenue = ({ venueId }: CreateVenueProps) => {
   // useRequireAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const isEditMode = Boolean(venueId);
   const [form, setForm] = useState<CreateVenueForm>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
@@ -94,6 +96,13 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
             ? venue.media
             : [{ ...emptyMedia }],
         );
+
+        syncVenueNameState({
+          navigate,
+          to: `/venues/${venue.id}/edit`,
+          locationState: location.state,
+          venueName: venue.name,
+        });
       } catch (error) {
         setErrorMessage(
           error instanceof Error ? error.message : "Failed to load venue.",
@@ -104,7 +113,7 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
     }
 
     void loadVenueForEdit();
-  }, [venueId]);
+  }, [location.state, navigate, venueId]);
 
   const handleMediaChange = (
     index: number,

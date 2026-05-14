@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";
 import { Amenities } from "../components/ui/amenities";
@@ -13,7 +13,8 @@ import { AvailabilityCalendar } from "../components/booking/availabilityCalendar
 import { UpcomingBookings } from "../components/venue/upcomingBookings";
 import { ManagedBy } from "../components/venue/managedBy";
 import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
-import { Breadcrumb } from "../components/layout/breadcrumb";
+import Breadcrumb from "../components/layout/breadcrumb";
+import { syncVenueNameState } from "../utils/routeState";
 
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
@@ -30,6 +31,8 @@ function formatPrice(value: number) {
 
 export default function VenueDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { venue, isLoading, errorMessage, refresh } = useVenueById(id);
   const { user } = useAuth();
   const [selectedDateFrom, setSelectedDateFrom] = useState("");
@@ -40,6 +43,19 @@ export default function VenueDetail() {
     dateTo: string;
     guests: number;
   } | null>(null);
+
+  useEffect(() => {
+    if (!venue?.id || !venue?.name) {
+      return;
+    }
+
+    syncVenueNameState({
+      navigate,
+      to: `/venues/${venue.id}`,
+      locationState: location.state,
+      venueName: venue.name,
+    });
+  }, [location.state, navigate, venue?.id, venue?.name]);
 
   if (isLoading) {
     return <VenueDetailSkeleton />;
