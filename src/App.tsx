@@ -4,6 +4,7 @@ import { Header } from "./components/layout/header";
 import { Banner } from "./components/layout/banner";
 import { Footer } from "./components/layout/footer";
 import { Breadcrumb } from "./components/layout/breadcrumb";
+import { ScrollManager } from "./components/layout/scrollManager";
 import cityViewBanner from "./assets/city_view_banner.jpg";
 import {
   HomePage,
@@ -30,11 +31,13 @@ function AppLayout() {
   const showBreadcrumb =
     location.pathname !== "/" &&
     !isAuthPage &&
-    location.pathname !== "/profile";
+    location.pathname !== "/profile" &&
+    !location.pathname.startsWith("/venue/");
   const showBanner = !hideGlobalBanner;
 
   return (
     <>
+      <ScrollManager />
       {isAuthPage && (
         <>
           <div
