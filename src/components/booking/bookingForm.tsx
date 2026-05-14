@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
 import type { Venue } from "../../types/venue.types";
-import { FormField } from "../input/formField";
+import FormField from "../input/formField";
 
 type BookingFormProps = {
   venue: Venue;
