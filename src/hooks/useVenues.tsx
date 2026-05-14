@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getVenues, type PaginationMeta } from "../api/venueService";
 import type { Venue } from "../types/venue.types";
 
@@ -28,12 +28,14 @@ export function useVenues(
   initialPage = 1,
   filters: UseVenuesFilters = {},
 ): UseVenuesResult {
-  const [pageVenues, setPageVenues] = useState<Venue[]>([]);
+  const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [apiPageCount, setApiPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
+  const [hasResolvedPageCount, setHasResolvedPageCount] = useState(false);
   const pageSize = 12;
+  const apiPageSize = 100;
 
   const {
     query = "",
@@ -45,6 +47,13 @@ export function useVenues(
   } = filters;
 
   const normalizedQuery = query.trim().toLowerCase();
+  const hasActiveFilters =
+    normalizedQuery.length > 0 ||
+    minRating > 0 ||
+    pets ||
+    parking ||
+    wifi ||
+    breakfast;
 
   useEffect(() => {
     if (!Number.isFinite(initialPage) || initialPage < 1) return;
@@ -52,68 +61,119 @@ export function useVenues(
   }, [initialPage]);
 
   useEffect(() => {
+    let isCancelled = false;
+
     async function loadVenuesPage() {
       try {
         setIsLoading(true);
         setErrorMessage(null);
-        const response = await getVenues(currentPage, pageSize);
-        const meta = (response.meta ?? {}) as PaginationMeta;
-        const resolvedPageCount =
-          Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
-            ? Math.floor(meta.pageCount as number)
-            : 1;
+        setHasResolvedPageCount(false);
 
-        setApiPageCount(resolvedPageCount);
-        setPageVenues(response.data);
+        if (!hasActiveFilters) {
+          const response = await getVenues(currentPage, pageSize);
+          const meta = (response.meta ?? {}) as PaginationMeta;
+          const resolvedPageCount =
+            Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
+              ? Math.floor(meta.pageCount as number)
+              : 1;
+
+          if (!isCancelled) {
+            setPageCount(Math.max(1, resolvedPageCount));
+            setVenues(response.data);
+            setHasResolvedPageCount(true);
+          }
+
+          return;
+        }
+
+        const matchedVenues: Venue[] = [];
+        let page = 1;
+        let nextPage: number | null | undefined = 1;
+
+        while (nextPage) {
+          const response = await getVenues(page, apiPageSize);
+          matchedVenues.push(
+            ...response.data.filter((venue) => {
+              const searchable = [
+                venue.name,
+                venue.location.city,
+                venue.location.country,
+              ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+              const matchesQuery =
+                !normalizedQuery || searchable.includes(normalizedQuery);
+              const matchesRating = venue.rating >= minRating;
+              const matchesPets = !pets || venue.meta.pets;
+              const matchesParking = !parking || venue.meta.parking;
+              const matchesWifi = !wifi || venue.meta.wifi;
+              const matchesBreakfast = !breakfast || venue.meta.breakfast;
+
+              return (
+                matchesQuery &&
+                matchesRating &&
+                matchesPets &&
+                matchesParking &&
+                matchesWifi &&
+                matchesBreakfast
+              );
+            }),
+          );
+
+          const meta = (response.meta ?? {}) as PaginationMeta;
+          nextPage = meta.nextPage ?? null;
+          page = nextPage ?? page + 1;
+        }
+
+        const filteredPageCount = Math.max(
+          1,
+          Math.ceil(matchedVenues.length / pageSize),
+        );
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+
+        if (!isCancelled) {
+          setPageCount(filteredPageCount);
+          setVenues(matchedVenues.slice(start, end));
+          setHasResolvedPageCount(true);
+        }
       } catch {
-        setPageVenues([]);
-        setApiPageCount(1);
-        setErrorMessage("Could not load venues right now.");
+        if (!isCancelled) {
+          setVenues([]);
+          setPageCount(1);
+          setErrorMessage("Could not load venues right now.");
+          setHasResolvedPageCount(true);
+        }
       } finally {
-        setIsLoading(false);
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
       }
     }
 
     void loadVenuesPage();
-  }, [currentPage]);
 
-  const filteredVenues = useMemo(() => {
-    return pageVenues.filter((venue) => {
-      const searchable = [
-        venue.name,
-        venue.location.city,
-        venue.location.country,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      const matchesQuery =
-        !normalizedQuery || searchable.includes(normalizedQuery);
-      const matchesRating = venue.rating >= minRating;
-      const matchesPets = !pets || venue.meta.pets;
-      const matchesParking = !parking || venue.meta.parking;
-      const matchesWifi = !wifi || venue.meta.wifi;
-      const matchesBreakfast = !breakfast || venue.meta.breakfast;
-
-      return (
-        matchesQuery &&
-        matchesRating &&
-        matchesPets &&
-        matchesParking &&
-        matchesWifi &&
-        matchesBreakfast
-      );
-    });
-  }, [pageVenues, normalizedQuery, minRating, pets, parking, wifi, breakfast]);
-
-  const pageCount = Math.max(1, apiPageCount);
+    return () => {
+      isCancelled = true;
+    };
+  }, [
+    breakfast,
+    currentPage,
+    hasActiveFilters,
+    minRating,
+    normalizedQuery,
+    parking,
+    pets,
+    wifi,
+  ]);
 
   useEffect(() => {
-    if (currentPage > pageCount) {
+    if (hasResolvedPageCount && currentPage > pageCount) {
       setCurrentPage(pageCount);
     }
-  }, [currentPage, pageCount]);
+  }, [currentPage, hasResolvedPageCount, pageCount]);
 
   const isFirstPage = currentPage <= 1;
   const isLastPage = currentPage >= pageCount;
@@ -135,7 +195,7 @@ export function useVenues(
   };
 
   return {
-    venues: filteredVenues,
+    venues,
     isLoading,
     errorMessage,
     currentPage,
