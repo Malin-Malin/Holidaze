@@ -26,9 +26,9 @@ function AppLayout() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/venues" element={<VenuesGrid />} />
-            <Route path="/venue/:id" element={<VenueDetail />} />
-            <Route path="venue/new" element={<CreateVenuePage />} />
-            <Route path="/venue/:id/edit" element={<EditVenuePage />} />
+            <Route path="/venues/:id" element={<VenueDetail />} />
+            <Route path="/venues/new" element={<CreateVenuePage />} />
+            <Route path="/venues/:id/edit" element={<EditVenuePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/profile" element={<ProfilePage />} />

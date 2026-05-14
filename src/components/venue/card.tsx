@@ -29,15 +29,16 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   const descriptionText =
     venue.description?.trim() || "More details are coming.";
 
+  const handleCardClick = () => {
+    navigate(`/venues/${venue.id}`);
+  };
+
   return (
     <div
       role="button"
       tabIndex={0}
-      onClick={() => navigate(`/venue/${venue.id}`, { state: { venueName } })}
-      onKeyDown={(e) =>
-        e.key === "Enter" &&
-        navigate(`/venue/${venue.id}`, { state: { venueName } })
-      }
+      onClick={handleCardClick}
+      onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
       className="card-gradient-border group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
       aria-label={`Venue: ${venueName}, located in ${locationText}. Description: ${descriptionText}.`}
     >

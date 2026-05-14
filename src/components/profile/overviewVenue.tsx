@@ -57,7 +57,7 @@ export default function OverviewVenue({
             <VenueCard
               key={venue.id}
               venue={venue}
-              onEdit={(venueId) => navigate(`/venue/${venueId}/edit`)}
+              onEdit={(venueId) => navigate(`/venues/${venueId}/edit`)}
               onDelete={handleDelete}
             />
           ))}

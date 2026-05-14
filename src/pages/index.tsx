@@ -5,5 +5,5 @@ export { default as ProfilePage } from "./profile";
 export { default as EditProfilePage } from "./editProfile";
 export { default as VenueDetail } from "./venueDetail";
 export { default as VenuesGrid } from "./venueGrid";
-export { LoginPage } from "./login";
-export { RegisterPage } from "./register";
+export { default as LoginPage } from "./login";
+export { default as RegisterPage } from "./register";

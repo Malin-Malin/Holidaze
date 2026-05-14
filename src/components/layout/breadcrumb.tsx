@@ -1,46 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import { capitalize, toTitleCase } from "../../utils/text.ts";
 
-function toTitleCase(value: string) {
-  return value
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function capitalize(value: string) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-function getSegmentLabel(segment: string, index: number, segments: string[]) {
-  if (segment === "venues") {
-    return "Venues";
-  }
-
-  if (segment === "venue") {
-    return "Venue";
-  }
-
-  if (segment === "create-venue") {
-    return "Create Venue";
-  }
-
-  if (segment === "profile") {
-    return "Profile";
-  }
-
-  if (segment === "login") {
-    return "Login";
-  }
-
-  if (segment === "edit" && segments[index - 1]) {
-    return "Edit";
-  }
-
-  return toTitleCase(segment);
-}
-
-export function Breadcrumb() {
+const Breadcrumb = () => {
   const location = useLocation();
   const segments = location.pathname.split("/").filter(Boolean);
   const state = location.state as { venueName?: string } | null;
@@ -52,14 +13,9 @@ export function Breadcrumb() {
 
   const crumbs = segments
     .map((segment, index) => {
-      const isVenueId = segments[index - 1] === "venue";
-      const isCreateVenueId =
-        segments[index - 1] === "create-venue" &&
-        segments[index + 1] === "edit";
-
-      if (isCreateVenueId) {
-        return null;
-      }
+      const isVenueId =
+        segments[index - 1] === "venues" &&
+        (segment !== "new" || segments[index + 1] === "edit");
 
       if (isVenueId) {
         const to = `/${segments.slice(0, index + 1).join("/")}`;
@@ -69,14 +25,10 @@ export function Breadcrumb() {
         };
       }
 
-      if (segment === "venue") {
-        return { to: "/venues", label: "Venues" };
-      }
-
       const to = `/${segments.slice(0, index + 1).join("/")}`;
       return {
         to,
-        label: getSegmentLabel(segment, index, segments),
+        label: toTitleCase(segment, "-", " "),
       };
     })
     .filter(Boolean) as Array<{ to: string; label: string }>;
@@ -124,4 +76,6 @@ export function Breadcrumb() {
       </ol>
     </nav>
   );
-}
+};
+
+export default Breadcrumb;
