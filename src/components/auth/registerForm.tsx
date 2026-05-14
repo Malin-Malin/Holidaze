@@ -154,7 +154,7 @@ export function RegisterForm() {
           type="checkbox"
           checked={venueManager}
           onChange={(e) => setVenueManager(e.target.checked)}
-          className="h-4 w-4 cursor-pointer accent-[var(--color-honey)]"
+          className="amenity-checkbox h-4 w-4 cursor-pointer accent-[var(--color-honey)]"
         />
         <label
           htmlFor="venueManager"

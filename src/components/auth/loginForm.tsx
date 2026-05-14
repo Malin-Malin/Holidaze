@@ -8,19 +8,22 @@ import { login } from "../../api/authService";
 import { useAuth } from "../../hooks/useAuth.tsx";
 import { validateNoroffEmail } from "../../utils/authValidation";
 
+type LoginErrors = {
+  email?: string;
+  password?: string;
+};
+
 const LoginForm = () => {
   const { login: authLogin } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const [errors, setErrors] = useState<LoginErrors>({});
   const [submitError, setSubmitError] = useState("");
 
   function validate() {
-    const next: typeof errors = {};
+    const next: LoginErrors = {};
     const emailError = validateNoroffEmail(email);
     if (emailError) next.email = emailError;
     if (!password) next.password = "Password is required.";
