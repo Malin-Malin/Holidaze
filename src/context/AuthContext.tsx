@@ -5,12 +5,7 @@ export interface AuthContextType {
   isLoggedIn: boolean;
   isVenueManager: boolean;
   user: Partial<Profile> | null;
-  apiKey: string | null;
-  login: (
-    accessToken: string,
-    apiKey: string,
-    userInfo: Partial<Profile>,
-  ) => void;
+  login: (accessToken: string, userInfo: Partial<Profile>) => void;
   setUserInfo: (userInfo: Partial<Profile>) => void;
   logout: () => void;
 }

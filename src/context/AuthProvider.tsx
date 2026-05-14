@@ -42,20 +42,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isVenueManager, setIsVenueManager] = useState<boolean>(
     () => user?.venueManager === true,
   );
-  const [apiKey, setApiKey] = useState<string | null>(
-    localStorage.getItem("apiKey"),
-  );
 
-  const login = (
-    accessToken: string,
-    apiKey: string,
-    userInfo: Partial<Profile>,
-  ) => {
+  const login = (accessToken: string, userInfo: Partial<Profile>) => {
     localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("apiKey", apiKey);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
-    setApiKey(apiKey);
     setUser(userInfo);
     setIsLoggedIn(true);
     setIsVenueManager(userInfo.venueManager === true);
@@ -69,12 +60,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("apiKey");
     localStorage.removeItem("userInfo");
 
-    setApiKey(null);
     setUser(null);
     setIsLoggedIn(false);
+    setIsVenueManager(false);
   };
 
   return (
@@ -83,7 +73,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoggedIn,
         isVenueManager,
         user,
-        apiKey,
         login,
         setUserInfo,
         logout,

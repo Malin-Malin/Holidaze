@@ -6,7 +6,7 @@ import { FormField } from "../input/formField";
 import { validateNoroffEmail } from "../../utils/authValidation";
 import { AuthFormLayout } from "./authFormLayout";
 
-export function LoginForm() {
+const LoginForm = () => {
   const { login: authLogin } = useAuth();
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export function LoginForm() {
     try {
       const response = await login(email, password);
       const { accessToken, ...userInfo } = response;
-      authLogin(accessToken, "", userInfo);
+      authLogin(accessToken, userInfo);
       navigate("/profile");
     } catch (error) {
       setSubmitError(
@@ -106,4 +106,6 @@ export function LoginForm() {
       </p>
     </AuthFormLayout>
   );
-}
+};
+
+export default LoginForm;
