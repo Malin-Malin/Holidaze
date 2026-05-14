@@ -1,10 +1,14 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  ScrollRestoration,
+} from "react-router-dom";
 
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
 
-import ScrollManager from "./components/layout/scrollManager";
 import AuthProvider from "./context/AuthProvider";
 
 import {
@@ -22,21 +26,11 @@ import {
 function AppLayout() {
   return (
     <>
-      <ScrollManager />
-      <div className={`flex min-h-[100svh] flex-col`}>
+      <ScrollRestoration />
+      <div className="flex min-h-[100svh] flex-col">
         <Header />
         <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/venues" element={<VenuesPage />} />
-            <Route path="/venues/:id" element={<VenueDetail />} />
-            <Route path="/venues/new" element={<CreateVenuePage />} />
-            <Route path="/venues/:id/edit" element={<EditVenuePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/profile/edit" element={<EditProfilePage />} />
-          </Routes>
+          <Outlet />
         </main>
         <Footer />
       </div>
@@ -44,13 +38,28 @@ function AppLayout() {
   );
 }
 
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/venues", element: <VenuesPage /> },
+      { path: "/venues/new", element: <CreateVenuePage /> },
+      { path: "/venues/:id", element: <VenueDetail /> },
+      { path: "/venues/:id/edit", element: <EditVenuePage /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
+      { path: "/profile", element: <ProfilePage /> },
+      { path: "/profile/edit", element: <EditProfilePage /> },
+    ],
+  },
+]);
+
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AppLayout />
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 
