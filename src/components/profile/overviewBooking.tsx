@@ -1,24 +1,20 @@
 import type { Booking } from "../../types/venue.types";
 import { useEffect, useMemo, useState } from "react";
+
+import BookingGrid from "../booking/BookingGrid";
+
 import { deleteBooking } from "../../api/bookingService";
-import { BookingCard } from "../booking/card";
+import { isUpcomingBooking } from "../../utils/booking";
 
 type OverviewBookingProps = {
   bookings?: Booking[];
 };
 
-function isUpcomingBooking(booking: Booking) {
-  const now = new Date();
-  const bookingEnd = new Date(booking.dateTo);
-  return bookingEnd >= now;
-}
-
-export default function OverviewBooking({
-  bookings = [],
-}: OverviewBookingProps) {
+const OverviewBooking = ({ bookings = [] }: OverviewBookingProps) => {
   const [myBookings, setMyBookings] = useState<Booking[]>(bookings);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  // TODO: Add toast for success messages instead of inline text
+  // const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     setMyBookings(bookings);
@@ -30,14 +26,14 @@ export default function OverviewBooking({
 
     try {
       setErrorMessage("");
-      setSuccessMessage("");
+      // setSuccessMessage("");
       await deleteBooking(bookingId);
       setMyBookings((prev) =>
         prev.filter((booking) => booking.id !== bookingId),
       );
-      setSuccessMessage("Booking successfully canceled.");
+      // setSuccessMessage("Booking successfully canceled.");
     } catch (error) {
-      setSuccessMessage("");
+      // setSuccessMessage("");
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to cancel booking.",
       );
@@ -57,33 +53,15 @@ export default function OverviewBooking({
   );
 
   return (
-    <section className="px-4 py-6">
-      <h2 className="text-2xl font-[var(--font-display)] text-[var(--color-ink)] text-center p-4">
-        My upcoming stays
-      </h2>
-
-      {upcomingBookings.length === 0 ? (
-        <p className="mt-4 text-[var(--text-h)]">
-          You have no upcoming bookings.
-        </p>
-      ) : (
-        <div className="mb-8 mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {upcomingBookings.map((booking) => (
-            <BookingCard
-              key={booking.id}
-              booking={booking}
-              onCancel={handleCancel}
-            />
-          ))}
-        </div>
-      )}
-
-      {errorMessage && (
-        <p className="mt-3 text-sm text-red-700">{errorMessage}</p>
-      )}
-      {successMessage && (
-        <p className="mt-3 text-sm text-[var(--success)]">{successMessage}</p>
-      )}
-    </section>
+    <BookingGrid
+      title="My upcoming bookings"
+      bookings={upcomingBookings}
+      isLoading={false}
+      handleCancel={handleCancel}
+      fallbackMessage="You have no upcoming bookings."
+      errorMessage={errorMessage}
+    />
   );
-}
+};
+
+export default OverviewBooking;

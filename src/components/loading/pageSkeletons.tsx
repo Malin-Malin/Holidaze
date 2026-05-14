@@ -4,31 +4,64 @@ function SkeletonBlock({ className }: { className: string }) {
   );
 }
 
-export function VenueCardsSkeleton({ count = 12 }: { count?: number }) {
+export function VenueCardSkeleton() {
   return (
     <>
-      {Array.from({ length: count }, (_, index) => (
-        <div
-          key={`venue-skeleton-${index}`}
-          className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
-          aria-hidden="true"
-        >
-          <div className="h-52 w-full animate-pulse bg-[var(--border)] md:h-56" />
-          <div className="flex flex-1 flex-col gap-3 p-4">
-            <SkeletonBlock className="h-4 w-2/3" />
-            <SkeletonBlock className="h-6 w-3/4" />
-            <SkeletonBlock className="h-4 w-full" />
-            <SkeletonBlock className="h-4 w-5/6" />
-            <SkeletonBlock className="mt-auto h-5 w-1/3" />
-          </div>
+      <div
+        className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
+        aria-hidden="true"
+      >
+        <div className="h-52 w-full animate-pulse bg-[var(--border)] md:h-56" />
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <SkeletonBlock className="h-4 w-2/3" />
+          <SkeletonBlock className="h-6 w-3/4" />
+          <SkeletonBlock className="h-4 w-full" />
+          <SkeletonBlock className="h-4 w-5/6" />
+          <SkeletonBlock className="mt-auto h-5 w-1/3" />
         </div>
-      ))}
+      </div>
     </>
   );
 }
 
 export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
-  return <VenueCardsSkeleton count={count} />;
+  return (
+    <>
+      {Array.from({ length: count }, (_, index) => (
+        <VenueCardSkeleton key={`venue-skeleton-${index}`} />
+      ))}
+    </>
+  );
+}
+
+export function BookingCardSkeleton() {
+  return (
+    <>
+      <div
+        className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
+        aria-hidden="true"
+      >
+        <div className="h-52 w-full animate-pulse bg-[var(--border)] md:h-56" />
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <SkeletonBlock className="h-4 w-2/3" />
+          <SkeletonBlock className="h-6 w-3/4" />
+          <SkeletonBlock className="h-4 w-full" />
+          <SkeletonBlock className="h-4 w-5/6" />
+          <SkeletonBlock className="mt-auto h-5 w-1/3" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function BookingGridSkeleton({ count = 12 }: { count?: number }) {
+  return (
+    <>
+      {Array.from({ length: count }, (_, index) => (
+        <BookingCardSkeleton key={`booking-skeleton-${index}`} />
+      ))}
+    </>
+  );
 }
 
 export function VenueDetailSkeleton() {

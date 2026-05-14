@@ -15,7 +15,7 @@ type VenueCardProps = {
   onDelete?: (venueId: string) => void;
 };
 
-export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
+const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   const navigate = useNavigate();
   const primaryMedia = venue.media[0];
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
@@ -107,3 +107,5 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
     </div>
   );
 };
+
+export default VenueCard;

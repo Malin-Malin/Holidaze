@@ -18,6 +18,7 @@ import {
 
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
+import { ButtonLink } from "../components/ui/button";
 
 function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();
@@ -206,10 +207,19 @@ const ProfilePage = () => {
       </div>
       <p>{profile.bio}</p>
       {profile.venueManager && (
-        <OverviewVenue
-          venues={profile.venues ?? []}
-          canCreateVenue={Boolean(profile.venueManager)}
-        />
+        <>
+          <OverviewVenue venues={profile.venues ?? []} />
+          <div className="mt-6 flex justify-center px-4">
+            <ButtonLink
+              to="/venues/new"
+              variant="primary"
+              size="lg"
+              className="w-full max-w-md"
+            >
+              Create venue
+            </ButtonLink>
+          </div>
+        </>
       )}
       {profile.venueManager && (
         <OverviewManagedBookings bookings={managedUpcomingBookings} />

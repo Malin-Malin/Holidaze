@@ -1,34 +1,26 @@
+import BookingGrid from "../booking/BookingGrid";
+
 import type { Booking } from "../../types/venue.types";
-import { BookingCard } from "../booking/card";
+import { isUpcomingBooking } from "../../utils/booking";
 
 type OverviewManagedBookingsProps = {
   bookings?: Booking[];
 };
 
-export default function OverviewManagedBookings({
+const OverviewManagedBookings = ({
   bookings = [],
-}: OverviewManagedBookingsProps) {
-  return (
-    <section className="px-4 py-6">
-      <h2 className="p-4 text-center text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
-        Guest bookings at my venues
-      </h2>
+}: OverviewManagedBookingsProps) => {
+  const upcomingBookings = bookings.filter(isUpcomingBooking);
 
-      {bookings.length === 0 ? (
-        <p className="mt-4 text-[var(--text-h)]">
-          You have no upcoming bookings across your venues.
-        </p>
-      ) : (
-        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {bookings.map((booking) => (
-            <BookingCard
-              key={booking.id}
-              booking={booking}
-              showViewVenueButton={false}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+  return (
+    <BookingGrid
+      title="Guest bookings at my venues"
+      bookings={upcomingBookings}
+      isLoading={false}
+      showViewVenueButton={false}
+      fallbackMessage="You have no upcoming bookings across your venues."
+    />
   );
-}
+};
+
+export default OverviewManagedBookings;
