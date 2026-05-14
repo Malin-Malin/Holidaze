@@ -1,15 +1,17 @@
 import { LuHouse } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
-import { useAuth } from "../hooks/useAuth";
-// import { PopularVenuesSection } from "../components/venue/popularVenuesSection";
-import { Banner } from "../components/layout/banner";
+
+import Banner from "../components/layout/banner";
+import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
+import WideCard from "../components/ui/WideCard";
+// import { PopularVenuesSection } from "../components/venue/popularVenuesSection";
+
+import type { Venue } from "../types/venue.types";
+import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { getVenues } from "../api/venueService";
-import type { Venue } from "../types/venue.types";
-import WideCard from "../components/ui/WideCard";
-import PopoutCard from "../components/ui/PopoutCard";
 
 export default function HomePage() {
   const { isLoggedIn, isVenueManager } = useAuth();
