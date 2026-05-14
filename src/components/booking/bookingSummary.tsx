@@ -1,5 +1,6 @@
 import type { Venue } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
+import LocationText from "../ui/locationText";
 
 type BookingSummaryProps = {
   venue: Venue;
@@ -22,13 +23,6 @@ export function BookingSummary({
     (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24),
   );
   const totalPrice = venue.price * nights;
-  const locationParts = [venue.location?.city, venue.location?.country].filter(
-    Boolean,
-  );
-  const locationText =
-    locationParts.length > 0
-      ? locationParts.join(", ")
-      : "Location unavailable";
 
   return (
     <div className="relative mt-6 rounded-xl border border-[var(--color-honey)]/40 bg-[var(--color-honey)]/5 p-6 md:p-8">
@@ -76,7 +70,9 @@ export function BookingSummary({
           <p className="text-sm text-[var(--text)]/60 uppercase tracking-wide">
             Location
           </p>
-          <p className="text-lg font-medium">{locationText}</p>
+          <p className="text-lg font-medium">
+            <LocationText venue={venue} fallback="Location unavailable" />
+          </p>
         </div>
 
         <div>

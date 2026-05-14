@@ -3,10 +3,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";
 import { Amenities } from "../components/ui/amenities";
-import { LocationText } from "../components/ui/locationText";
+import LocationText from "../components/ui/locationText";
 import { Rating } from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import { BookingForm } from "../components/booking/bookingForm";
 import { BookingSummary } from "../components/booking/bookingSummary";
 import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
@@ -108,12 +107,8 @@ export default function VenueDetail() {
           {venue.name}
         </h1>
         <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="inline-flex items-center gap-2 text-[var(--text)]">
-            <FaMapMarkerAlt aria-hidden="true" />
-            <LocationText
-              city={venue.location.city}
-              country={venue.location.country}
-            />
+          <p className="text-[var(--text)]">
+            <LocationText venue={venue} />
           </p>
           <Rating
             rating={venue.rating}
