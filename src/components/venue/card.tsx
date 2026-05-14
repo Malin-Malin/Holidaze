@@ -34,7 +34,7 @@ export const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
       onClick={handleCardClick}
       onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
       className="card-gradient-border group mx-auto my-1 flex h-full w-full max-w-sm cursor-pointer flex-col overflow-hidden text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
-      aria-label={`Venue: ${venueName}, located in ${venue.location.city}, ${venue.location.country}. Description: ${descriptionText}.`}
+      aria-label={`Venue: ${venueName}, located in ${venue.location?.city ?? "city not set"}, ${venue.location?.country ?? "country not set"}. Description: ${descriptionText}.`}
     >
       <div className="relative">
         <img
