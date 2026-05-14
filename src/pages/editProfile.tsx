@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import FormField from "../components/input/formField";
+import { EditProfileSkeleton } from "../components/loading/pageSkeletons";
+
+import type { ProfileData } from "../types/profile.types";
 import { useAuth } from "../hooks/useAuth";
 import { getProfileByName, updateProfile } from "../api/profileService";
-import { FormField } from "../components/input/formField";
-import { EditProfileSkeleton } from "../components/loading/pageSkeletons";
-import type { ProfileData } from "../types/profile.types";
 
 type EditProfileFormData = {
   avatarUrl: string;

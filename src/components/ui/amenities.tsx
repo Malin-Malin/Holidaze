@@ -8,7 +8,7 @@ type AmenitiesProps = {
   meta?: VenueMeta;
 };
 
-export function Amenities({ meta }: AmenitiesProps) {
+const Amenities = ({ meta }: AmenitiesProps) => {
   const amenities = [
     { key: "wifi", label: "WiFi", icon: FaWifi, enabled: meta?.wifi },
     { key: "pets", label: "Pets allowed", icon: PiCat, enabled: meta?.pets },
@@ -53,4 +53,6 @@ export function Amenities({ meta }: AmenitiesProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Amenities;

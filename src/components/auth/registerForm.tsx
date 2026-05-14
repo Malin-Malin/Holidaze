@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+
+import FormField from "../input/formField";
+import AuthFormLayout from "./authFormLayout";
+
 import { register } from "../../api/authService";
-import { FormField } from "../input/formField";
 import {
   validateNoroffEmail,
   validateUsername,
 } from "../../utils/authValidation";
-import { AuthFormLayout } from "./authFormLayout";
 
 type RegisterErrors = {
   name?: string;

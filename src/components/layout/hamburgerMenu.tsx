@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { useAuth } from "../../hooks/useAuth";
 
-export function HamburgerMenu() {
+const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -114,4 +114,6 @@ export function HamburgerMenu() {
       )}
     </div>
   );
-}
+};
+
+export default HamburgerMenu;

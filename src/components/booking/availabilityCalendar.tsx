@@ -56,7 +56,7 @@ function buildBookedDateSet(bookings: VenueBooking[]): Set<string> {
   return result;
 }
 
-export function AvailabilityCalendar({
+const AvailabilityCalendar = ({
   bookings = [],
   title = "Availability calendar",
   onRangeSelect,
@@ -65,7 +65,7 @@ export function AvailabilityCalendar({
   canViewBookedByName = false,
   currentUserName,
   currentUserEmail,
-}: AvailabilityCalendarProps) {
+}: AvailabilityCalendarProps) => {
   const today = useMemo(() => startOfDay(new Date()), []);
   const todayKey = useMemo(() => toDateKey(today), [today]);
   const [visibleMonth, setVisibleMonth] = useState<Date>(startOfMonth(today));
@@ -345,4 +345,6 @@ export function AvailabilityCalendar({
       </div>
     </section>
   );
-}
+};
+
+export default AvailabilityCalendar;

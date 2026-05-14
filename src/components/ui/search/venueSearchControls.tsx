@@ -15,7 +15,7 @@ type VenueSearchControlsProps = {
 
 const ratingOptions = [0, 1, 2, 3, 4, 5] as const;
 
-export function VenueSearchControls({
+const VenueSearchControls = ({
   query,
   minRating,
   pets,
@@ -28,7 +28,7 @@ export function VenueSearchControls({
   onParkingChange,
   onWifiChange,
   onBreakfastChange,
-}: VenueSearchControlsProps) {
+}: VenueSearchControlsProps) => {
   return (
     <section className="mb-6 p-4">
       <div className="flex w-full flex-col gap-3">
@@ -110,4 +110,6 @@ export function VenueSearchControls({
       </div>
     </section>
   );
-}
+};
+
+export default VenueSearchControls;

@@ -4,7 +4,7 @@ type RatingProps = {
   max?: number;
 };
 
-export function Rating({ rating, className = "", max = 5 }: RatingProps) {
+const Rating = ({ rating, className = "", max = 5 }: RatingProps) => {
   const filledStarCount = Math.floor(Math.max(0, Math.min(max, rating)));
 
   return (
@@ -16,4 +16,6 @@ export function Rating({ rating, className = "", max = 5 }: RatingProps) {
       {"★".repeat(filledStarCount)}
     </p>
   );
-}
+};
+
+export default Rating;

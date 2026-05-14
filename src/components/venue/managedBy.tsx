@@ -8,7 +8,7 @@ type VenueFooterProps = {
   updated: string;
 };
 
-export function ManagedBy({ manager, created, updated }: VenueFooterProps) {
+const ManagedBy = ({ manager, created, updated }: VenueFooterProps) => {
   return (
     <div className="mx-auto mt-6 w-full max-w-6xl px-8 py-5 text-sm text-[var(--text)] md:px-10">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -36,4 +36,6 @@ export function ManagedBy({ manager, created, updated }: VenueFooterProps) {
       </div>
     </div>
   );
-}
+};
+
+export default ManagedBy;

@@ -11,13 +11,13 @@ type BookingSummaryProps = {
   onDismiss?: () => void;
 };
 
-export function BookingSummary({
+const BookingSummary = ({
   venue,
   dateFrom,
   dateTo,
   guests,
   onDismiss,
-}: BookingSummaryProps) {
+}: BookingSummaryProps) => {
   const checkInDate = new Date(dateFrom);
   const checkOutDate = new Date(dateTo);
   const nights = Math.ceil(
@@ -107,4 +107,6 @@ export function BookingSummary({
       </p>
     </div>
   );
-}
+};
+
+export default BookingSummary;

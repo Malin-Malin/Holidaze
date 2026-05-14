@@ -14,7 +14,7 @@ const SOCIAL_LINKS = [
   { href: "https://x.com", label: "X (Twitter)", Icon: FaXTwitter },
 ];
 
-export const Footer = () => {
+const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
@@ -114,3 +114,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

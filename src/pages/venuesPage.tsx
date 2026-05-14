@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Pagination } from "../components/ui/pagination";
-import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
-import { useVenues } from "../hooks/useVenues";
+
+import Pagination from "../components/ui/pagination";
+import VenueSearchControls from "../components/ui/search/venueSearchControls";
 import Banner from "../components/layout/banner";
 import VenueGrid from "../components/venue/VenueGrid";
+
+import { useVenues } from "../hooks/useVenues";
 
 const VenuesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();

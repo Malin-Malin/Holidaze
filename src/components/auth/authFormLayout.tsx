@@ -6,11 +6,7 @@ type AuthFormLayoutProps = {
   children: ReactNode;
 };
 
-export function AuthFormLayout({
-  title,
-  onSubmit,
-  children,
-}: AuthFormLayoutProps) {
+const AuthFormLayout = ({ title, onSubmit, children }: AuthFormLayoutProps) => {
   return (
     <section className="auth-page-theme relative h-full min-h-0 w-full overflow-hidden">
       <div className="relative mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center px-4 py-4 md:py-6">
@@ -21,4 +17,6 @@ export function AuthFormLayout({
       </div>
     </section>
   );
-}
+};
+
+export default AuthFormLayout;

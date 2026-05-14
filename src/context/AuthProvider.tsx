@@ -34,7 +34,7 @@ function hasCompleteStoredAuth(user: Partial<Profile> | null): boolean {
   return Boolean(user?.name);
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<Partial<Profile> | null>(parseStoredUser);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
     hasCompleteStoredAuth(parseStoredUser()),
@@ -81,4 +81,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default AuthProvider;

@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { HamburgerMenu } from "./hamburgerMenu";
 
-export const Header = () => {
+import HamburgerMenu from "./hamburgerMenu";
+
+import { useAuth } from "../../hooks/useAuth";
+
+const Header = () => {
   const { isLoggedIn } = useAuth();
   return (
     <header className="sticky top-0 z-50 ml-[calc(50%-50vw)] w-screen border-b border-[var(--color-nav-link)]/15 [background:var(--surface-shell)] font-[var(--font-brand)]">
@@ -59,3 +61,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

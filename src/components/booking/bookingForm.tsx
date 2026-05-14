@@ -25,13 +25,13 @@ type BookingFormData = {
 
 type BookingFieldErrors = Partial<Record<keyof BookingFormData, string>>;
 
-export function BookingForm({
+const BookingForm = ({
   venue,
   selectedDateFrom,
   selectedDateTo,
   onDatesChange,
   onBookingConfirmed,
-}: BookingFormProps) {
+}: BookingFormProps) => {
   const { isLoggedIn } = useAuth();
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
@@ -246,4 +246,6 @@ export function BookingForm({
       </form>
     </section>
   );
-}
+};
+
+export default BookingForm;

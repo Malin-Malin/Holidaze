@@ -31,7 +31,7 @@ function applyScrollY(y: number) {
   });
 }
 
-export function ScrollManager() {
+const ScrollManager = () => {
   const location = useLocation();
   const navigationType = useNavigationType();
   const positionsRef = useRef<ScrollPositions>(readPositions());
@@ -63,4 +63,6 @@ export function ScrollManager() {
   }, [location.key, navigationType]);
 
   return null;
-}
+};
+
+export default ScrollManager;

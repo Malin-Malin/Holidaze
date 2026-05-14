@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useVenueById } from "../hooks/useVenueById";
-import { formatPrice } from "../utils/number";
-import { useAuth } from "../hooks/useAuth";
-import { Amenities } from "../components/ui/amenities";
+
+import Amenities from "../components/ui/amenities";
 import LocationText from "../components/ui/locationText";
-import { Rating } from "../components/ui/rating";
+import Rating from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
-import { BookingForm } from "../components/booking/bookingForm";
-import { BookingSummary } from "../components/booking/bookingSummary";
-import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
-import { UpcomingBookings } from "../components/venue/upcomingBookings";
-import { ManagedBy } from "../components/venue/managedBy";
-import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
+import BookingForm from "../components/booking/bookingForm";
+import BookingSummary from "../components/booking/bookingSummary";
+import AvailabilityCalendar from "../components/booking/availabilityCalendar";
+import UpcomingBookings from "../components/venue/upcomingBookings";
+import ManagedBy from "../components/venue/managedBy";
 import Breadcrumb from "../components/layout/breadcrumb";
+import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
+
+import { useVenueById } from "../hooks/useVenueById";
+import { useAuth } from "../hooks/useAuth";
+import { formatPrice } from "../utils/number";
 import { syncVenueNameState } from "../utils/routeState";
 
 function isUpcomingBooking(dateTo: string) {
@@ -80,15 +82,15 @@ const VenueDetail = () => {
         new Date(first.dateFrom).getTime() -
         new Date(second.dateFrom).getTime(),
     );
-  const managerBookingCards = upcomingVenueBookings.map((booking, index) => ({
-    id:
-      booking.id ||
-      `${venue.id}-${booking.dateFrom}-${booking.dateTo}-${index}`,
+  const managerBookingCards = upcomingVenueBookings.map((booking) => ({
+    id: booking.id,
     dateFrom: booking.dateFrom,
     dateTo: booking.dateTo,
     guests: booking.guests,
     customer: booking.customer,
     venue,
+    created: booking.created,
+    updated: booking.updated,
   }));
 
   return (

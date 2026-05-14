@@ -10,7 +10,7 @@ type PaginationProps = {
   goToPage: (page: number) => void;
 };
 
-export function Pagination({
+const Pagination = ({
   currentPage,
   pageCount,
   isFirstPage,
@@ -18,7 +18,7 @@ export function Pagination({
   goToPreviousPage,
   goToNextPage,
   goToPage,
-}: PaginationProps) {
+}: PaginationProps) => {
   const [pageInput, setPageInput] = useState(String(currentPage));
 
   useEffect(() => {
@@ -79,4 +79,6 @@ export function Pagination({
       )}
     </div>
   );
-}
+};
+
+export default Pagination;

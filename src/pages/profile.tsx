@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import type { Profile } from "../types/profile.types";
-import {
-  getProfileByName,
-  getVenuesByProfileName,
-} from "../api/profileService";
-import { useAuth } from "../hooks/useAuth";
+
 import Banner from "../components/layout/banner";
 import Breadcrumb from "../components/layout/breadcrumb";
 import OverviewVenue from "../components/profile/overviewVenue";
 import OverviewBooking from "../components/profile/overviewBooking";
-import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
-import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
-import type { Booking, Venue } from "../types/venue.types";
 import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
 import { ProfilePageSkeleton } from "../components/loading/pageSkeletons";
+
+import type { Profile } from "../types/profile.types";
+import type { Booking, Venue } from "../types/venue.types";
+import { useAuth } from "../hooks/useAuth";
+import {
+  getProfileByName,
+  getVenuesByProfileName,
+} from "../api/profileService";
+
+import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
+import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
 
 function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();

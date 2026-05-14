@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
-import { RatingInput } from "../../input/ratingInput";
-import { FormField } from "../../input/formField";
+
+import RatingInput from "../../input/ratingInput";
+import FormField from "../../input/formField";
+import { CreateVenueSkeleton } from "../../loading/pageSkeletons";
+
 import {
   createVenue,
   getVenueById,
   updateVenue,
 } from "../../../api/venueService";
-import { CreateVenueSkeleton } from "../../loading/pageSkeletons";
 import type { VenueData } from "../../../types/venue.types";
 import type { Media } from "../../../types/common.types";
 import { syncVenueNameState } from "../../../utils/routeState";
@@ -56,7 +58,7 @@ function isValidImageUrl(value: string) {
   }
 }
 
-export const CreateVenue = ({ venueId }: CreateVenueProps) => {
+const CreateVenue = ({ venueId }: CreateVenueProps) => {
   // useRequireAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -425,3 +427,5 @@ export const CreateVenue = ({ venueId }: CreateVenueProps) => {
     </section>
   );
 };
+
+export default CreateVenue;

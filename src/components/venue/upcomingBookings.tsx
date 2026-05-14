@@ -1,16 +1,11 @@
 import { BookingCard } from "../booking/card";
-import type { VenueBooking, Venue } from "../../types/venue.types";
-
-type UpcomingBooking = Pick<
-  VenueBooking,
-  "id" | "dateFrom" | "dateTo" | "guests" | "customer"
-> & { venue: Venue };
+import type { Booking } from "../../types/venue.types";
 
 type UpcomingBookingsProps = {
-  bookings: UpcomingBooking[];
+  bookings: Booking[];
 };
 
-export function UpcomingBookings({ bookings }: UpcomingBookingsProps) {
+const UpcomingBookings = ({ bookings }: UpcomingBookingsProps) => {
   return (
     <div className="mx-auto mt-6 w-full max-w-6xl px-8 md:px-10">
       <h3 className="text-lg font-semibold text-[var(--text-h)]">
@@ -33,4 +28,6 @@ export function UpcomingBookings({ bookings }: UpcomingBookingsProps) {
       )}
     </div>
   );
-}
+};
+
+export default UpcomingBookings;

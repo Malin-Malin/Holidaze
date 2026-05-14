@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { CreateVenue } from "../components/venue/editVenue/createVenue";
+import CreateVenue from "../components/venue/editVenue/createVenue";
 import Breadcrumb from "../components/layout/breadcrumb";
 
 const EditVenuePage = () => {

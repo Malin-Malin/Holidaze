@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+
+import FormField from "../input/formField";
+import AuthFormLayout from "./authFormLayout";
+
 import { login } from "../../api/authService";
 import { useAuth } from "../../hooks/useAuth.tsx";
-import { FormField } from "../input/formField";
 import { validateNoroffEmail } from "../../utils/authValidation";
-import { AuthFormLayout } from "./authFormLayout";
 
 const LoginForm = () => {
   const { login: authLogin } = useAuth();

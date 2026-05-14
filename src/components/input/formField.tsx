@@ -8,13 +8,13 @@ type FormFieldProps = {
   className?: string;
 };
 
-export function FormField({
+const FormField = ({
   label,
   htmlFor,
   error,
   children,
   className = "",
-}: FormFieldProps) {
+}: FormFieldProps) => {
   return (
     <div className={`space-y-1 ${className}`}>
       <label
@@ -31,4 +31,6 @@ export function FormField({
       )}
     </div>
   );
-}
+};
+
+export default FormField;

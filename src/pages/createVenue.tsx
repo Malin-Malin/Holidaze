@@ -1,5 +1,5 @@
 import Breadcrumb from "../components/layout/breadcrumb";
-import { CreateVenue } from "../components/venue/editVenue/createVenue";
+import CreateVenue from "../components/venue/editVenue/createVenue";
 
 const CreateVenuePage = () => {
   return (

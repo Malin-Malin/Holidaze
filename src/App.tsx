@@ -1,8 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Header } from "./components/layout/header";
-import { Footer } from "./components/layout/footer";
-import { ScrollManager } from "./components/layout/scrollManager";
+
+import Header from "./components/layout/header";
+import Footer from "./components/layout/footer";
+
+import ScrollManager from "./components/layout/scrollManager";
+import AuthProvider from "./context/AuthProvider";
+
 import {
   HomePage,
   LoginPage,
@@ -14,7 +18,6 @@ import {
   EditProfilePage,
   VenuesPage,
 } from "./pages";
-import { AuthProvider } from "./context/AuthProvider";
 
 function AppLayout() {
   return (

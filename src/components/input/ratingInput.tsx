@@ -1,4 +1,4 @@
-export function RatingInput({
+const RatingInput = ({
   rating,
   max = 5,
   onChange,
@@ -6,7 +6,7 @@ export function RatingInput({
   rating: number;
   max?: number;
   onChange: (newRating: number) => void;
-}) {
+}) => {
   const clampedRating = Math.max(0, Math.min(max, rating));
 
   return (
@@ -39,4 +39,6 @@ export function RatingInput({
       })}
     </div>
   );
-}
+};
+
+export default RatingInput;
