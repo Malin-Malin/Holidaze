@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { CreateVenue } from "../components/venue/editVenue/createVenue";
+import Breadcrumb from "../components/layout/breadcrumb";
 
 export default function EditVenuePage() {
   const { id } = useParams<{ id: string }>();
@@ -9,5 +10,10 @@ export default function EditVenuePage() {
     return <p>Venue not found</p>;
   }
 
-  return <CreateVenue venueId={id} />;
+  return (
+    <>
+      <Breadcrumb />
+      <CreateVenue venueId={id} />
+    </>
+  );
 }
