@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useVenueById } from "../hooks/useVenueById";
+import { formatPrice } from "../utils/number";
 import { useAuth } from "../hooks/useAuth";
 import { Amenities } from "../components/ui/amenities";
 import LocationText from "../components/ui/locationText";
@@ -18,14 +19,6 @@ import { syncVenueNameState } from "../utils/routeState";
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
   return new Date(dateTo) >= now;
-}
-
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
 }
 
 const VenueDetail = () => {

@@ -1,5 +1,6 @@
 import type { Venue } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
+import { formatPrice } from "../../utils/number";
 import LocationText from "../ui/locationText";
 
 type BookingSummaryProps = {
@@ -22,7 +23,7 @@ export function BookingSummary({
   const nights = Math.ceil(
     (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24),
   );
-  const totalPrice = venue.price * nights;
+  const totalPrice = formatPrice(venue.price * nights);
 
   return (
     <div className="relative mt-6 rounded-xl border border-[var(--color-honey)]/40 bg-[var(--color-honey)]/5 p-6 md:p-8">
@@ -93,9 +94,9 @@ export function BookingSummary({
       <div className="mt-8 border-t border-[var(--text)]/20 pt-6 pb-1">
         <div className="flex items-center justify-center text-center">
           <span className="text-base font-medium text-[var(--text)]/90 md:text-lg">
-            {venue.price.toFixed(0)} $ /night × {nights} nights =
+            {formatPrice(venue.price)} /night × {nights} nights =
             <span className="ml-2 text-xl font-semibold text-[var(--color-honey)] md:text-2xl">
-              ${totalPrice.toFixed(0)}
+              {totalPrice}
             </span>
           </span>
         </div>
