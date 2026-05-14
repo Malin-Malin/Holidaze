@@ -21,6 +21,7 @@ export const Banner = ({
       className="banner-hero relative flex min-h-[320px] items-end justify-end bg-cover bg-center p-6"
       aria-label={ariaLabel}
       role="img"
+      // only apply background image if imageUrl is provided, otherwise just show the default background from CSS.
       style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
     >
       <div className="absolute inset-0 bg-black/35" aria-hidden="true" />

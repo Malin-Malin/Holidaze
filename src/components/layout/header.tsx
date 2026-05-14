@@ -29,7 +29,7 @@ export const Header = () => {
               `rounded px-3 py-2 text-[var(--color-nav-link)] transition hover:underline hover:decoration-[var(--shell-underline)] hover:underline-offset-4 ${isActive ? "underline decoration-[var(--shell-underline)] underline-offset-4" : ""}`
             }
           >
-            Venue
+            Venues
           </NavLink>
           {isLoggedIn && (
             <>

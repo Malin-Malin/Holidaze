@@ -154,7 +154,7 @@ export default function ProfilePage() {
   const bannerAlt = profile.banner?.alt || "placeholder profile banner";
 
   return (
-    <section>
+    <>
       <Banner
         imageUrl={bannerSrc}
         imageAlt={bannerAlt}
@@ -228,6 +228,6 @@ export default function ProfilePage() {
           Logout
         </button>
       </div>
-    </section>
+    </>
   );
 }

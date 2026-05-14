@@ -5,6 +5,7 @@ import { Pagination } from "../components/ui/pagination";
 import { VenueSearchControls } from "../components/ui/search/venueSearchControls";
 import { VenueGridSkeleton } from "../components/loading/pageSkeletons";
 import { useVenues } from "../hooks/useVenues";
+import { Banner } from "../components/layout/banner";
 
 export default function VenuesGrid() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,49 +60,55 @@ export default function VenuesGrid() {
   }, [currentPage, searchParams, setSearchParams]);
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 md:py-10">
-      <VenueSearchControls
-        query={query}
-        minRating={minRating}
-        pets={pets}
-        parking={parking}
-        wifi={wifi}
-        breakfast={breakfast}
-        onQueryChange={(value) => updateSearchParam("q", value)}
-        onMinRatingChange={(value) => updateSearchParam("rating", value)}
-        onPetsChange={(value) => updateSearchParam("pets", value)}
-        onParkingChange={(value) => updateSearchParam("parking", value)}
-        onWifiChange={(value) => updateSearchParam("wifi", value)}
-        onBreakfastChange={(value) => updateSearchParam("breakfast", value)}
-      />
-
-      {errorMessage && (
-        <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
-      )}
-
-      {!isLoading && !errorMessage && venues.length === 0 && (
-        <p className="p-6 text-left">No venues found.</p>
-      )}
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
-        {isLoading && <VenueGridSkeleton count={12} />}
-
-        {!isLoading &&
-          !errorMessage &&
-          venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
-      </div>
-
-      {!isLoading && !errorMessage && (
-        <Pagination
-          currentPage={currentPage}
-          pageCount={pageCount}
-          isFirstPage={isFirstPage}
-          isLastPage={isLastPage}
-          goToPreviousPage={goToPreviousPage}
-          goToNextPage={goToNextPage}
-          goToPage={goToPage}
+    <>
+      <Banner />
+      <section className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 md:py-10">
+        <h1 className="mb-6 text-3xl font-[var(--font-display)] text-[var(--text-h)] dark:text-white md:text-4xl">
+          Venues
+        </h1>
+        <VenueSearchControls
+          query={query}
+          minRating={minRating}
+          pets={pets}
+          parking={parking}
+          wifi={wifi}
+          breakfast={breakfast}
+          onQueryChange={(value) => updateSearchParam("q", value)}
+          onMinRatingChange={(value) => updateSearchParam("rating", value)}
+          onPetsChange={(value) => updateSearchParam("pets", value)}
+          onParkingChange={(value) => updateSearchParam("parking", value)}
+          onWifiChange={(value) => updateSearchParam("wifi", value)}
+          onBreakfastChange={(value) => updateSearchParam("breakfast", value)}
         />
-      )}
-    </section>
+
+        {errorMessage && (
+          <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
+        )}
+
+        {!isLoading && !errorMessage && venues.length === 0 && (
+          <p className="p-6 text-left">No venues found.</p>
+        )}
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+          {isLoading && <VenueGridSkeleton count={12} />}
+
+          {!isLoading &&
+            !errorMessage &&
+            venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
+        </div>
+
+        {!isLoading && !errorMessage && (
+          <Pagination
+            currentPage={currentPage}
+            pageCount={pageCount}
+            isFirstPage={isFirstPage}
+            isLastPage={isLastPage}
+            goToPreviousPage={goToPreviousPage}
+            goToNextPage={goToNextPage}
+            goToPage={goToPage}
+          />
+        )}
+      </section>
+    </>
   );
 }
