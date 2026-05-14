@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import type { Media } from "../../types/common.types";
-import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
+
 import "./gallery.css";
 import GalleryImage from "./galleryImage";
 import GalleryLightbox from "./galleryLightbox";
+
+import placeholderImage from "../../assets/placeholderImage.jpg";
+
+import type { Media } from "../../types/common.types";
 
 type GalleryProps = {
   media: Media[];

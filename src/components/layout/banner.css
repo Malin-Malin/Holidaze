@@ -1,10 +1,10 @@
 .banner-hero {
-  background-image: url("../../assets/placeholderImage03.jpg");
+  background-image: url("../../assets/bannerLight.jpg");
 }
 
 @media (prefers-color-scheme: dark) {
   .banner-hero {
-    background-image: url("../../assets/city_view_banner.jpg");
+    background-image: url("../../assets/bannerDark.jpg");
   }
 }
 

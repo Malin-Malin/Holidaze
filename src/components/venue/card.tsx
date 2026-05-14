@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { Venue } from "../../types/venue.types";
-import placeholderImage from "../../assets/placeholderImage.jpg";
 import { MdOutlineImageNotSupported } from "react-icons/md";
-import { Rating } from "../ui/rating";
+
+import Rating from "../ui/rating";
 import LocationText from "../ui/locationText";
+
+import placeholderImage from "../../assets/placeholderImage.jpg";
+
+import type { Venue } from "../../types/venue.types";
 
 type VenueCardProps = {
   venue: Venue;

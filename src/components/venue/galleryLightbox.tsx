@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import type { Media } from "../../types/common.types";
+
 import placeholderImage from "../../assets/placeholderImage.jpg";
+
+import type { Media } from "../../types/common.types";
 
 type GalleryLightboxProps = {
   media: Media[];
