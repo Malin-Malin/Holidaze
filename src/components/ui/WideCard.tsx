@@ -1,4 +1,4 @@
-import { ButtonLink } from "./button";
+import ButtonLink from "./ButtonLink";
 
 type WideCardProps = {
   title: string;
