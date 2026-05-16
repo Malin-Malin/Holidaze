@@ -2,29 +2,18 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
-import RatingInput from "../input/ratingInput";
-import FormField from "../input/formField";
 import { CreateVenueSkeleton } from "../loading/pageSkeletons";
+import VenueAmenitiesSection from "./form/venueAmenitiesSection";
+import VenueBasicsSection from "./form/venueBasicsSection";
+import VenueLocationSection from "./form/venueLocationSection";
+import VenueMediaSection from "./form/venueMediaSection";
+import type { VenueFormState } from "./form/venueForm.types";
 
 import { createVenue, getVenueById, updateVenue } from "../../api/venueService";
 import type { VenueData } from "../../types/venue.types";
 import type { Media } from "../../types/common.types";
 import { syncVenueNameState } from "../../utils/routeState";
 import { isValidHttpUrl } from "../../utils/url";
-
-type VenueFormState = {
-  name: string;
-  description: string;
-  price: number;
-  maxGuests: number;
-  rating: number;
-  city: string;
-  country: string;
-  wifi: boolean;
-  parking: boolean;
-  breakfast: boolean;
-  pets: boolean;
-};
 
 const initialFormState: VenueFormState = {
   name: "",
@@ -222,177 +211,21 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
       <h2>{isEditMode ? "Edit Venue" : "Create Venue"}</h2>
 
       <form onSubmit={submitForm} noValidate className="mt-4 space-y-4">
-        <FormField label="Venue name" htmlFor="name">
-          <input
-            id="name"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Venue name"
-            className="form-input"
-          />
-        </FormField>
-
-        <FormField label="Description" htmlFor="description">
-          <textarea
-            id="description"
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            placeholder="Description"
-            rows={5}
-            className="form-input min-h-36 resize-y"
-          />
-        </FormField>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-medium">Images</label>
-          {mediaList.map((item, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem_auto] sm:items-center"
-            >
-              <input
-                type="url"
-                value={item.url}
-                onChange={(e) =>
-                  handleMediaChange(index, "url", e.target.value)
-                }
-                placeholder="Image URL"
-                className="form-input sm:flex-1"
-              />
-              <input
-                type="text"
-                value={item.alt}
-                onChange={(e) =>
-                  handleMediaChange(index, "alt", e.target.value)
-                }
-                placeholder="Alt text"
-                className="form-input"
-              />
-              {mediaList.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeMediaRow(index)}
-                  className="self-end rounded border border-[var(--color-danger)] px-3 py-2 text-[var(--color-danger)] hover:bg-[var(--color-danger)]/10 sm:self-auto"
-                  aria-label="Remove image"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addMediaRow}
-            className="text-sm underline"
-          >
-            + Add another image
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <FormField label="Price per night" htmlFor="price">
-            <input
-              id="price"
-              name="price"
-              type="number"
-              min={0}
-              value={form.price}
-              onChange={handleChange}
-              placeholder="Price"
-              className="form-input"
-            />
-          </FormField>
-          <FormField label="Max guests" htmlFor="maxGuests">
-            <input
-              id="maxGuests"
-              name="maxGuests"
-              type="number"
-              min={1}
-              value={form.maxGuests}
-              onChange={handleChange}
-              placeholder="Max guests"
-              className="form-input"
-            />
-          </FormField>
-        </div>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-medium">Venue rating</label>
-          <RatingInput
-            rating={form.rating}
-            onChange={(newRating) =>
-              setForm((prevForm) => ({ ...prevForm, rating: newRating }))
-            }
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <FormField label="City" htmlFor="city">
-            <input
-              id="city"
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              placeholder="City"
-              className="form-input"
-            />
-          </FormField>
-          <FormField label="Country" htmlFor="country">
-            <input
-              id="country"
-              name="country"
-              value={form.country}
-              onChange={handleChange}
-              placeholder="Country"
-              className="form-input"
-            />
-          </FormField>
-        </div>
-
-        <div className="grid grid-cols-4 gap-2">
-          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
-            <input
-              type="checkbox"
-              name="wifi"
-              checked={form.wifi}
-              onChange={handleChange}
-              className="amenity-checkbox"
-            />{" "}
-            Wifi
-          </label>
-          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
-            <input
-              type="checkbox"
-              name="parking"
-              checked={form.parking}
-              onChange={handleChange}
-              className="amenity-checkbox"
-            />{" "}
-            Parking
-          </label>
-          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
-            <input
-              type="checkbox"
-              name="breakfast"
-              checked={form.breakfast}
-              onChange={handleChange}
-              className="amenity-checkbox"
-            />{" "}
-            Breakfast
-          </label>
-          <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
-            <input
-              type="checkbox"
-              name="pets"
-              checked={form.pets}
-              onChange={handleChange}
-              className="amenity-checkbox"
-            />{" "}
-            Pets
-          </label>
-        </div>
+        <VenueBasicsSection
+          form={form}
+          onChange={handleChange}
+          onRatingChange={(newRating) =>
+            setForm((prevForm) => ({ ...prevForm, rating: newRating }))
+          }
+        />
+        <VenueMediaSection
+          mediaList={mediaList}
+          onMediaChange={handleMediaChange}
+          onAddRow={addMediaRow}
+          onRemoveRow={removeMediaRow}
+        />
+        <VenueLocationSection form={form} onChange={handleChange} />
+        <VenueAmenitiesSection form={form} onChange={handleChange} />
 
         {errorMessage && (
           <p className="text-[var(--color-danger)]">{errorMessage}</p>
