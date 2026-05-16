@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
-import { CreateVenueSkeleton } from "../loading/PageSkeletons";
 import VenueAmenitiesSection from "./form/VenueAmenitiesSection";
 import VenueBasicsSection from "./form/VenueBasicsSection";
 import VenueLocationSection from "./form/VenueLocationSection";
 import VenueMediaSection from "./form/VenueMediaSection";
-import type { VenueFormState } from "./form/venueForm.types";
 
-import { createVenue, getVenueById, updateVenue } from "../../api/venueService";
-import type { VenueData } from "../../types/venue.types";
+import type { Venue, VenueData } from "../../types/venue.types";
 import type { Media } from "../../types/common.types";
-import { syncVenueNameState } from "../../utils/routeState";
+import type { VenueFormState } from "./form/venueForm.types";
+import { createVenue, updateVenue } from "../../api/venueService";
 import { isValidHttpUrl } from "../../utils/url";
 
 const initialFormState: VenueFormState = {
@@ -33,82 +31,40 @@ const emptyMedia: Media = { url: "", alt: "" };
 
 type VenueFormProps = {
   venueId?: string;
+  initialVenue?: Venue;
 };
 
-const VenueForm = ({ venueId }: VenueFormProps) => {
-  // useRequireAuth();
+const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const isEditMode = Boolean(venueId);
+
   const [form, setForm] = useState<VenueFormState>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
-  const [isLoadingVenue, setIsLoadingVenue] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    async function loadVenueForEdit() {
-      if (!venueId) return;
-
-      try {
-        setIsLoadingVenue(true);
-        setErrorMessage("");
-        const venue = await getVenueById(venueId);
-
-        setForm({
-          name: venue.name,
-          description: venue.description,
-          price: venue.price,
-          maxGuests: venue.maxGuests,
-          rating: venue.rating,
-          city: venue.location?.city || "",
-          country: venue.location?.country || "",
-          wifi: venue.meta?.wifi ?? false,
-          parking: venue.meta?.parking ?? false,
-          breakfast: venue.meta?.breakfast ?? false,
-          pets: venue.meta?.pets ?? false,
-        });
-
-        setMediaList(
-          venue.media && venue.media.length > 0
-            ? venue.media
-            : [{ ...emptyMedia }],
-        );
-
-        syncVenueNameState({
-          navigate,
-          to: `/venues/${venue.id}/edit`,
-          locationState: location.state,
-          venueName: venue.name,
-        });
-      } catch (error) {
-        setErrorMessage(
-          error instanceof Error ? error.message : "Failed to load venue.",
-        );
-      } finally {
-        setIsLoadingVenue(false);
-      }
-    }
-
-    void loadVenueForEdit();
-  }, [location.state, navigate, venueId]);
-
-  const handleMediaChange = (
-    index: number,
-    field: keyof Media,
-    value: string,
-  ) => {
-    setMediaList((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+    if (!initialVenue) return;
+    setForm({
+      name: initialVenue.name,
+      description: initialVenue.description,
+      price: initialVenue.price,
+      maxGuests: initialVenue.maxGuests,
+      rating: initialVenue.rating,
+      city: initialVenue.location?.city || "",
+      country: initialVenue.location?.country || "",
+      wifi: initialVenue.meta?.wifi ?? false,
+      parking: initialVenue.meta?.parking ?? false,
+      breakfast: initialVenue.meta?.breakfast ?? false,
+      pets: initialVenue.meta?.pets ?? false,
+    });
+    setMediaList(
+      initialVenue.media && initialVenue.media.length > 0
+        ? initialVenue.media
+        : [{ ...emptyMedia }],
     );
-  };
-
-  const addMediaRow = () =>
-    setMediaList((prev) => [...prev, { ...emptyMedia }]);
-
-  const removeMediaRow = (index: number) =>
-    setMediaList((prev) => prev.filter((_, i) => i !== index));
+  }, [initialVenue]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -118,14 +74,31 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
       type === "checkbox"
         ? (e.target as HTMLInputElement).checked
         : e.target.value;
-
-    setForm((prevForm) => ({
-      ...prevForm,
+    setForm((prev) => ({
+      ...prev,
       [name]: name === "price" || name === "maxGuests" ? Number(value) : value,
     }));
   };
 
-  async function submitForm(e: SyntheticEvent<HTMLFormElement>) {
+  const handleRatingChange = (rating: number) =>
+    setForm((prev) => ({ ...prev, rating }));
+
+  const handleMediaChange = (
+    index: number,
+    field: keyof Media,
+    value: string,
+  ) =>
+    setMediaList((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+    );
+
+  const addMediaRow = () =>
+    setMediaList((prev) => [...prev, { ...emptyMedia }]);
+
+  const removeMediaRow = (index: number) =>
+    setMediaList((prev) => prev.filter((_, i) => i !== index));
+
+  const submitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
@@ -140,71 +113,60 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
       alt: item.alt.trim(),
     }));
 
-    const hasInvalidMediaUrl = normalizedMedia.some(
-      (item) => item.url && !isValidHttpUrl(item.url),
-    );
-
-    if (hasInvalidMediaUrl) {
+    if (normalizedMedia.some((item) => item.url && !isValidHttpUrl(item.url))) {
       setErrorMessage(
         "Please enter valid image URLs (including http:// or https://).",
       );
       return;
     }
 
+    const payload: VenueData = {
+      name: form.name,
+      description: form.description,
+      media: normalizedMedia.filter((m) => m.url !== ""),
+      price: form.price,
+      maxGuests: form.maxGuests,
+      rating: form.rating,
+      meta: {
+        wifi: form.wifi,
+        parking: form.parking,
+        breakfast: form.breakfast,
+        pets: form.pets,
+      },
+      location: {
+        address: "",
+        city: form.city,
+        zip: "",
+        country: form.country,
+        continent: "",
+        lat: 0,
+        lng: 0,
+      },
+    };
+
     try {
       setIsSubmitting(true);
-      const payload: VenueData = {
-        name: form.name,
-        description: form.description,
-        media: normalizedMedia.filter((m) => m.url !== ""),
-        price: form.price,
-        maxGuests: form.maxGuests,
-        rating: form.rating,
-        meta: {
-          wifi: form.wifi,
-          parking: form.parking,
-          breakfast: form.breakfast,
-          pets: form.pets,
-        },
-        location: {
-          address: "",
-          city: form.city,
-          zip: "",
-          country: form.country,
-          continent: "",
-          lat: 0,
-          lng: 0,
-        },
-      };
-
       const savedVenue = isEditMode
         ? await updateVenue(venueId as string, payload)
         : await createVenue(payload);
-
       setSuccessMessage(
         isEditMode
           ? "Venue updated successfully."
           : "Venue created successfully.",
       );
-
       if (!isEditMode) {
         setForm(initialFormState);
         setMediaList([{ ...emptyMedia }]);
       }
-
-      navigate(`/venue/${savedVenue.id}`);
+      navigate(`/venues/${savedVenue.id}`);
     } catch (error) {
       setErrorMessage(
-        error instanceof Error ? error.message : "Failed to create venue.",
+        error instanceof Error ? error.message : "Failed to save venue.",
       );
     } finally {
       setIsSubmitting(false);
     }
-  }
-
-  if (isLoadingVenue) {
-    return <CreateVenueSkeleton />;
-  }
+  };
 
   return (
     <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left pb-10">
@@ -214,9 +176,7 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
         <VenueBasicsSection
           form={form}
           onChange={handleChange}
-          onRatingChange={(newRating) =>
-            setForm((prevForm) => ({ ...prevForm, rating: newRating }))
-          }
+          onRatingChange={handleRatingChange}
         />
         <VenueMediaSection
           mediaList={mediaList}
