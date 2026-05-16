@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Banner from "../components/layout/Banner";
@@ -12,6 +11,7 @@ import { ProfilePageSkeleton } from "../components/loading/PageSkeletons";
 
 import { useAuth } from "../hooks/useAuth";
 import { useProfileData } from "../hooks/useProfileData";
+import { useResolvedImageSrc } from "../hooks/useResolvedImageSrc";
 
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
@@ -20,37 +20,11 @@ const ProfilePage = () => {
   const { user, logout } = useAuth();
   const { profile, managedUpcomingBookings, isLoading, errorMessage } =
     useProfileData(user?.name);
-  const [resolvedBannerSrc, setResolvedBannerSrc] = useState(
-    placeholderProfileBanner,
-  );
   const bannerUrl = profile?.banner?.url?.trim();
-
-  useEffect(() => {
-    if (!bannerUrl) {
-      return;
-    }
-
-    let isCancelled = false;
-    const image = new Image();
-
-    image.onload = () => {
-      if (!isCancelled) {
-        setResolvedBannerSrc(bannerUrl);
-      }
-    };
-
-    image.onerror = () => {
-      if (!isCancelled) {
-        setResolvedBannerSrc(placeholderProfileBanner);
-      }
-    };
-
-    image.src = bannerUrl;
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [bannerUrl]);
+  const bannerSrc = useResolvedImageSrc({
+    src: bannerUrl,
+    fallbackSrc: placeholderProfileBanner,
+  });
 
   if (isLoading) {
     return <ProfilePageSkeleton />;
@@ -64,10 +38,6 @@ const ProfilePage = () => {
     return <p className="px-4 py-6 text-[var(--text)]">Profile not found.</p>;
   }
 
-  const bannerSrc =
-    bannerUrl && resolvedBannerSrc === bannerUrl
-      ? resolvedBannerSrc
-      : placeholderProfileBanner;
   const bannerAlt = profile.banner?.alt || "placeholder profile banner";
 
   return (
