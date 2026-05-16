@@ -1,42 +1,19 @@
 import { LuHouse } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
-
 import Banner from "../components/layout/Banner";
 import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
 import WideCard from "../components/ui/WideCard";
 // import { PopularVenuesSection } from "../components/venue/PopularVenuesSection";
 
-import type { Venue } from "../types/venue.types";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect, useState } from "react";
-import { getVenues } from "../api/venueService";
+import { useRecentVenues } from "../hooks/useRecentVenues";
 
 const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
-  const [isLoadingRecent, setIsLoadingRecent] = useState(false);
-  const [recentVenues, setRecentVenues] = useState<Venue[]>([]);
-
-  // Load recent venues
-  useEffect(() => {
-    async function loadRecentVenues() {
-      try {
-        setIsLoadingRecent(true);
-        const response = await getVenues(1, 3, false, "created", "desc");
-        const latest = [...response.data];
-
-        setRecentVenues(latest);
-      } catch (error) {
-        console.error("Error loading recent venues:", error);
-        setRecentVenues([]);
-      } finally {
-        setIsLoadingRecent(false);
-      }
-    }
-
-    void loadRecentVenues();
-  }, []);
+  const { venues: recentVenues, isLoading: isLoadingRecent } =
+    useRecentVenues(3);
 
   return (
     <>
