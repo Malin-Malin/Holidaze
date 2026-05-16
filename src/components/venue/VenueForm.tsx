@@ -10,6 +10,7 @@ import { createVenue, getVenueById, updateVenue } from "../../api/venueService";
 import type { VenueData } from "../../types/venue.types";
 import type { Media } from "../../types/common.types";
 import { syncVenueNameState } from "../../utils/routeState";
+import { isValidHttpUrl } from "../../utils/url";
 
 type VenueFormState = {
   name: string;
@@ -44,15 +45,6 @@ const emptyMedia: Media = { url: "", alt: "" };
 type VenueFormProps = {
   venueId?: string;
 };
-
-function isValidImageUrl(value: string) {
-  try {
-    const parsed = new URL(value);
-    return parsed.protocol === "http:" || parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
 
 const VenueForm = ({ venueId }: VenueFormProps) => {
   // useRequireAuth();
@@ -160,7 +152,7 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
     }));
 
     const hasInvalidMediaUrl = normalizedMedia.some(
-      (item) => item.url && !isValidImageUrl(item.url),
+      (item) => item.url && !isValidHttpUrl(item.url),
     );
 
     if (hasInvalidMediaUrl) {

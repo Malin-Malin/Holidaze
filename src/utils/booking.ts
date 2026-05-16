@@ -163,3 +163,18 @@ export function buildAvailabilityCalendarCells(
     };
   });
 }
+
+export function hasInclusiveBookingOverlap(
+  from: string,
+  to: string,
+  bookings: Array<Pick<Booking, "dateFrom" | "dateTo">>,
+): boolean {
+  const start = new Date(from);
+  const end = new Date(to);
+
+  return bookings.some((booking) => {
+    const bookingStart = new Date(booking.dateFrom);
+    const bookingEnd = new Date(booking.dateTo);
+    return start <= bookingEnd && end >= bookingStart;
+  });
+}

@@ -6,6 +6,8 @@ import FormField from "../input/formField";
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
 import type { Venue } from "../../types/venue.types";
+import { hasInclusiveBookingOverlap } from "../../utils/booking";
+import { addDaysToDateKey } from "../../utils/date";
 
 type BookingFormProps = {
   venue: Venue;
@@ -44,13 +46,7 @@ const BookingForm = ({
 
   const today = new Date().toISOString().split("T")[0];
 
-  function addDays(dateString: string, days: number) {
-    const date = new Date(dateString);
-    date.setDate(date.getDate() + days);
-    return date.toISOString().split("T")[0];
-  }
-
-  const checkOutMinDate = dateFrom ? addDays(dateFrom, 1) : today;
+  const checkOutMinDate = dateFrom ? addDaysToDateKey(dateFrom, 1) : today;
 
   useEffect(() => {
     if (!selectedDateFrom || !selectedDateTo) return;
@@ -61,13 +57,7 @@ const BookingForm = ({
   }, [selectedDateFrom, selectedDateTo]);
 
   function hasOverlapWithExisting(from: string, to: string) {
-    const a = new Date(from);
-    const b = new Date(to);
-    return (venue.bookings ?? []).some((booking) => {
-      const bFrom = new Date(booking.dateFrom);
-      const bTo = new Date(booking.dateTo);
-      return a <= bTo && b >= bFrom;
-    });
+    return hasInclusiveBookingOverlap(from, to, venue.bookings ?? []);
   }
 
   function validate() {

@@ -7,6 +7,7 @@ import { EditProfileSkeleton } from "../loading/pageSkeletons";
 import { getProfileByName, updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";
 import type { ProfileData } from "../../types/profile.types";
+import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
 
 type ProfileFormData = {
   avatarUrl: string;
@@ -72,31 +73,15 @@ const ProfileForm = () => {
   function validate(): ProfileFieldErrors {
     const next: ProfileFieldErrors = {};
 
-    if (formData.avatarUrl && !isValidUrl(formData.avatarUrl)) {
+    if (formData.avatarUrl && !isValidHttpUrl(formData.avatarUrl)) {
       next.avatarUrl = "Avatar URL must be a valid URL.";
     }
 
-    if (formData.bannerUrl && !isValidUrl(formData.bannerUrl)) {
+    if (formData.bannerUrl && !isValidHttpUrl(formData.bannerUrl)) {
       next.bannerUrl = "Banner URL must be a valid URL.";
     }
 
     return next;
-  }
-
-  function isValidUrl(value: string) {
-    try {
-      new URL(value);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  function toHttpUrl(value: string | undefined | null): string {
-    if (!value) return "";
-    return value.startsWith("http://") || value.startsWith("https://")
-      ? value
-      : "";
   }
 
   function handleChange(

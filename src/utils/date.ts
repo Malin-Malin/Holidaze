@@ -42,3 +42,9 @@ export function toDateKey(value: Date): string {
   const day = String(value.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+export function addDaysToDateKey(dateString: string, days: number): string {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + days);
+  return toDateKey(date);
+}
