@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getVenues, type PaginationMeta } from "../../api/venueService";
+
+import VenueGrid from "./VenueGrid";
+
+import { getVenues } from "../../api/venueService";
 import type { Venue } from "../../types/venue.types";
-import { VenueCardsSkeleton } from "../loading/pageSkeletons";
-import { ButtonLink } from "../ui/button";
-import { VenueCard } from "./card";
 
 const TARGET_COUNT = 3;
 const TOP_POOL_SIZE = 40;
@@ -127,8 +127,7 @@ export function PopularVenuesSection() {
           const response = await getVenues(page, 50, true);
           collected.push(...response.data);
 
-          const meta = (response.meta ?? {}) as PaginationMeta;
-          nextPage = meta.nextPage ?? null;
+          nextPage = response.meta?.nextPage ?? null;
           page = nextPage ?? page + 1;
         }
 
@@ -145,36 +144,14 @@ export function PopularVenuesSection() {
 
   return (
     <section className="py-10 md:py-14">
-      <div className="mb-4 grid items-center gap-3 md:grid-cols-[1fr_auto_1fr]">
-        <h2 className="m-0 text-center text-2xl text-[var(--text-h)] md:col-start-2">
-          Popular venues
-        </h2>
-        <div className="md:col-start-3 md:justify-self-end">
-          <ButtonLink to="/venues" variant="outline" size="md">
-            View all
-          </ButtonLink>
-        </div>
-      </div>
-
-      {isLoading && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          <VenueCardsSkeleton count={3} />
-        </div>
-      )}
-
-      {!isLoading && popularVenues.length === 0 && (
-        <p className="py-4 text-left text-[var(--text)]">
-          No popular venues match the criteria right now.
-        </p>
-      )}
-
-      {!isLoading && popularVenues.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {popularVenues.map((venue) => (
-            <VenueCard key={venue.id} venue={venue} />
-          ))}
-        </div>
-      )}
+      <VenueGrid
+        title="Popular venues"
+        venues={popularVenues}
+        numberOfVenues={TARGET_COUNT}
+        fallbackMessage="No popular venues match the criteria right now."
+        showViewAllButton={true}
+        isLoading={isLoading}
+      />
     </section>
   );
 }
