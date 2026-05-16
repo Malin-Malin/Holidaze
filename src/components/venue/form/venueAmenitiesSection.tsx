@@ -1,14 +1,14 @@
 import type { ChangeEvent } from "react";
 
-import type { VenueFormState } from "./venueForm.types";
+import type { VenueFormAmenities } from "./venueForm.types";
 
 type VenueAmenitiesSectionProps = {
-  form: VenueFormState;
+  amenities: VenueFormAmenities;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
 const VenueAmenitiesSection = ({
-  form,
+  amenities,
   onChange,
 }: VenueAmenitiesSectionProps) => {
   return (
@@ -17,7 +17,7 @@ const VenueAmenitiesSection = ({
         <input
           type="checkbox"
           name="wifi"
-          checked={form.wifi}
+          checked={amenities.wifi}
           onChange={onChange}
           className="amenity-checkbox"
         />{" "}
@@ -27,7 +27,7 @@ const VenueAmenitiesSection = ({
         <input
           type="checkbox"
           name="parking"
-          checked={form.parking}
+          checked={amenities.parking}
           onChange={onChange}
           className="amenity-checkbox"
         />{" "}
@@ -37,7 +37,7 @@ const VenueAmenitiesSection = ({
         <input
           type="checkbox"
           name="breakfast"
-          checked={form.breakfast}
+          checked={amenities.breakfast}
           onChange={onChange}
           className="amenity-checkbox"
         />{" "}
@@ -47,7 +47,7 @@ const VenueAmenitiesSection = ({
         <input
           type="checkbox"
           name="pets"
-          checked={form.pets}
+          checked={amenities.pets}
           onChange={onChange}
           className="amenity-checkbox"
         />{" "}

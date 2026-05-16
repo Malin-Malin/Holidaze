@@ -225,7 +225,7 @@ const VenueForm = ({ venueId }: VenueFormProps) => {
           onRemoveRow={removeMediaRow}
         />
         <VenueLocationSection form={form} onChange={handleChange} />
-        <VenueAmenitiesSection form={form} onChange={handleChange} />
+        <VenueAmenitiesSection amenities={form} onChange={handleChange} />
 
         {errorMessage && (
           <p className="text-[var(--color-danger)]">{errorMessage}</p>

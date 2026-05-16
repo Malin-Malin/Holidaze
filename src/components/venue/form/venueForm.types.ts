@@ -6,6 +6,9 @@ export type VenueFormState = {
   rating: number;
   city: string;
   country: string;
+} & VenueFormAmenities;
+
+export type VenueFormAmenities = {
   wifi: boolean;
   parking: boolean;
   breakfast: boolean;
