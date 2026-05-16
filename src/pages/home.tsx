@@ -52,10 +52,10 @@ const HomePage = () => {
           venues={recentVenues}
           isLoading={isLoadingRecent}
           numberOfVenues={3}
+          showViewAllButton={true}
         />
 
         {/* create a CTA create venue */}
-
         <WideCard
           title="Find your next stay"
           primaryButtonText="Browse venues"

@@ -2,12 +2,14 @@ import VenueCard from "./VenueCard";
 import { VenueGridSkeleton } from "../loading/pageSkeletons";
 
 import type { Venue } from "../../types/venue.types";
+import ButtonLink from "../ui/ButtonLink";
 
 type VenueGridProps = {
   title?: string;
   numberOfVenues?: number;
   venues: Venue[];
   isLoading: boolean;
+  showViewAllButton?: boolean;
   fallbackMessage?: string;
   errorMessage?: string;
   handleEdit?: (venueId: string) => void;
@@ -19,6 +21,7 @@ const VenueGrid = ({
   numberOfVenues = 12,
   venues,
   isLoading,
+  showViewAllButton = false,
   fallbackMessage = "No venues found.",
   handleEdit,
   handleDelete,
@@ -26,7 +29,21 @@ const VenueGrid = ({
 }: VenueGridProps) => {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 md:py-10">
-      {title && (
+      {showViewAllButton && (
+        <div className="mb-4 grid items-center gap-3 md:grid-cols-[1fr_auto_1fr]">
+          {title && (
+            <h2 className="m-0 text-center text-2xl text-[var(--text-h)] md:col-start-2">
+              {title}
+            </h2>
+          )}
+          <div className="md:col-start-3 md:justify-self-end">
+            <ButtonLink to="/venues" variant="outline" size="md">
+              View all
+            </ButtonLink>
+          </div>
+        </div>
+      )}
+      {!showViewAllButton && title && (
         <h2 className="m-0 text-center text-2xl text-[var(--text-h)] md:col-start-2">
           {title}
         </h2>
