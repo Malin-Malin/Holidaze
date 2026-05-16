@@ -1,11 +1,11 @@
 import Breadcrumb from "../components/layout/breadcrumb";
-import CreateVenue from "../components/venue/editVenue/createVenue";
+import VenueForm from "../components/venue/VenueForm";
 
 const CreateVenuePage = () => {
   return (
     <>
       <Breadcrumb />
-      <CreateVenue />
+      <VenueForm />
     </>
   );
 };

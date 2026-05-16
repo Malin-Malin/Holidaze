@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import CreateVenue from "../components/venue/editVenue/createVenue";
+import VenueForm from "../components/venue/VenueForm";
 import Breadcrumb from "../components/layout/breadcrumb";
 
 const EditVenuePage = () => {
@@ -13,7 +13,7 @@ const EditVenuePage = () => {
   return (
     <>
       <Breadcrumb />
-      <CreateVenue venueId={id} />
+      <VenueForm venueId={id} />
     </>
   );
 };

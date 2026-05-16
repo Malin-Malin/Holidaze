@@ -2,20 +2,16 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
-import RatingInput from "../../input/ratingInput";
-import FormField from "../../input/formField";
-import { CreateVenueSkeleton } from "../../loading/pageSkeletons";
+import RatingInput from "../input/ratingInput";
+import FormField from "../input/formField";
+import { CreateVenueSkeleton } from "../loading/pageSkeletons";
 
-import {
-  createVenue,
-  getVenueById,
-  updateVenue,
-} from "../../../api/venueService";
-import type { VenueData } from "../../../types/venue.types";
-import type { Media } from "../../../types/common.types";
-import { syncVenueNameState } from "../../../utils/routeState";
+import { createVenue, getVenueById, updateVenue } from "../../api/venueService";
+import type { VenueData } from "../../types/venue.types";
+import type { Media } from "../../types/common.types";
+import { syncVenueNameState } from "../../utils/routeState";
 
-type CreateVenueForm = {
+type VenueFormState = {
   name: string;
   description: string;
   price: number;
@@ -29,7 +25,7 @@ type CreateVenueForm = {
   pets: boolean;
 };
 
-const initialFormState: CreateVenueForm = {
+const initialFormState: VenueFormState = {
   name: "",
   description: "",
   price: 0,
@@ -45,7 +41,7 @@ const initialFormState: CreateVenueForm = {
 
 const emptyMedia: Media = { url: "", alt: "" };
 
-type CreateVenueProps = {
+type VenueFormProps = {
   venueId?: string;
 };
 
@@ -58,12 +54,12 @@ function isValidImageUrl(value: string) {
   }
 }
 
-const CreateVenue = ({ venueId }: CreateVenueProps) => {
+const VenueForm = ({ venueId }: VenueFormProps) => {
   // useRequireAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const isEditMode = Boolean(venueId);
-  const [form, setForm] = useState<CreateVenueForm>(initialFormState);
+  const [form, setForm] = useState<VenueFormState>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
   const [isLoadingVenue, setIsLoadingVenue] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -428,4 +424,4 @@ const CreateVenue = ({ venueId }: CreateVenueProps) => {
   );
 };
 
-export default CreateVenue;
+export default VenueForm;

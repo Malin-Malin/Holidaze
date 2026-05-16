@@ -18,7 +18,7 @@ import {
 
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
-import { ButtonLink } from "../components/ui/button";
+import ButtonLink from "../components/ui/ButtonLink";
 
 function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();
