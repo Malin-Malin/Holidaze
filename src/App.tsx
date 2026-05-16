@@ -8,6 +8,7 @@ import {
 
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import RequireAuth from "./components/auth/RequireAuth";
 
 import AuthProvider from "./context/AuthProvider";
 
@@ -44,13 +45,41 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/venues", element: <VenuesPage /> },
-      { path: "/venues/new", element: <CreateVenuePage /> },
+      {
+        path: "/venues/new",
+        element: (
+          <RequireAuth requireVenueManager>
+            <CreateVenuePage />
+          </RequireAuth>
+        ),
+      },
       { path: "/venues/:id", element: <VenueDetail /> },
-      { path: "/venues/:id/edit", element: <EditVenuePage /> },
+      {
+        path: "/venues/:id/edit",
+        element: (
+          <RequireAuth requireVenueManager>
+            <EditVenuePage />
+          </RequireAuth>
+        ),
+      },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
-      { path: "/profile", element: <ProfilePage /> },
-      { path: "/profile/edit", element: <EditProfilePage /> },
+      {
+        path: "/profile",
+        element: (
+          <RequireAuth>
+            <ProfilePage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "/profile/edit",
+        element: (
+          <RequireAuth>
+            <EditProfilePage />
+          </RequireAuth>
+        ),
+      },
     ],
   },
 ]);

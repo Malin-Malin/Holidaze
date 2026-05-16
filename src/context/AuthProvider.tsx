@@ -1,6 +1,7 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext.tsx";
 import type { Profile } from "../types/profile.types.tsx";
+import { AUTH_UNAUTHORIZED_EVENT } from "../utils/auth";
 
 function parseStoredUser(): Partial<Profile> | null {
   const savedUser = localStorage.getItem("userInfo");
@@ -43,6 +44,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     () => user?.venueManager === true,
   );
 
+  const clearAuthState = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userInfo");
+
+    setUser(null);
+    setIsLoggedIn(false);
+    setIsVenueManager(false);
+  };
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      clearAuthState();
+    };
+
+    window.addEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () => {
+      window.removeEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    };
+  }, []);
+
   const login = (accessToken: string, userInfo: Partial<Profile>) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -59,12 +80,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("userInfo");
-
-    setUser(null);
-    setIsLoggedIn(false);
-    setIsVenueManager(false);
+    clearAuthState();
   };
 
   return (
