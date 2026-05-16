@@ -1,4 +1,5 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
+
 import type { Venue } from "../../types/venue.types";
 
 type LocationTextProps = {

@@ -2,6 +2,7 @@ import { FaWifi } from "react-icons/fa6";
 import { PiCat } from "react-icons/pi";
 import { BsForkKnife } from "react-icons/bs";
 import { IoCarOutline } from "react-icons/io5";
+
 import type { VenueMeta } from "../../types/venue.types";
 
 type AmenitiesProps = {
