@@ -7,8 +7,8 @@ import Rating from "../components/ui/rating";
 import Gallery from "../components/venue/gallery";
 import BookingForm from "../components/booking/bookingForm";
 import BookingSummary from "../components/booking/bookingSummary";
+import BookingGrid from "../components/booking/BookingGrid";
 import AvailabilityCalendar from "../components/booking/availabilityCalendar";
-import UpcomingBookings from "../components/venue/upcomingBookings";
 import ManagedBy from "../components/venue/managedBy";
 import Breadcrumb from "../components/layout/breadcrumb";
 import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
@@ -176,7 +176,13 @@ const VenueDetail = () => {
         </div>
       )}
 
-      {isVenueManager && <UpcomingBookings bookings={managerBookingCards} />}
+      {isVenueManager && (
+        <BookingGrid
+          bookings={managerBookingCards}
+          showViewVenueButton={false}
+          isLoading={isLoading}
+        />
+      )}
 
       <ManagedBy
         manager={manager}
