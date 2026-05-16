@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import FormField from "../input/formField";
+
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
 import type { Venue } from "../../types/venue.types";
-import FormField from "../input/formField";
 
 type BookingFormProps = {
   venue: Venue;
@@ -64,7 +66,7 @@ const BookingForm = ({
     return (venue.bookings ?? []).some((booking) => {
       const bFrom = new Date(booking.dateFrom);
       const bTo = new Date(booking.dateTo);
-      return a < bTo && b > bFrom;
+      return a <= bTo && b >= bFrom;
     });
   }
 
