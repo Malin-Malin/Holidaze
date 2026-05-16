@@ -2,11 +2,11 @@ import { LuHouse } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
 
-import Banner from "../components/layout/banner";
+import Banner from "../components/layout/Banner";
 import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
 import WideCard from "../components/ui/WideCard";
-// import { PopularVenuesSection } from "../components/venue/popularVenuesSection";
+// import { PopularVenuesSection } from "../components/venue/PopularVenuesSection";
 
 import type { Venue } from "../types/venue.types";
 import { useAuth } from "../hooks/useAuth";

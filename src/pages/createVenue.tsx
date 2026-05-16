@@ -1,4 +1,4 @@
-import Breadcrumb from "../components/layout/breadcrumb";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import VenueForm from "../components/venue/VenueForm";
 
 const CreateVenuePage = () => {

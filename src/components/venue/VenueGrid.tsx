@@ -1,5 +1,5 @@
 import VenueCard from "./VenueCard";
-import { VenueGridSkeleton } from "../loading/pageSkeletons";
+import { VenueGridSkeleton } from "../loading/PageSkeletons";
 
 import type { Venue } from "../../types/venue.types";
 import ButtonLink from "../ui/ButtonLink";

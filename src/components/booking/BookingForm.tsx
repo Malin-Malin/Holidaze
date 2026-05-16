@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import FormField from "../input/formField";
+import FormField from "../input/FormField";
 
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";

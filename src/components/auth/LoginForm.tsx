@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import FormField from "../input/formField";
-import AuthFormLayout from "./authFormLayout";
+import FormField from "../input/FormField";
+import AuthFormLayout from "./AuthFormLayout";
 
 import { login } from "../../api/authService";
 import { useAuth } from "../../hooks/useAuth";

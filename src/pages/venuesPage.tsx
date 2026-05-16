@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import Pagination from "../components/ui/pagination";
-import VenueSearchControls from "../components/ui/search/venueSearchControls";
-import Banner from "../components/layout/banner";
+import Pagination from "../components/ui/Pagination";
+import VenueSearchControls from "../components/ui/search/VenueSearchControls";
+import Banner from "../components/layout/Banner";
 import VenueGrid from "../components/venue/VenueGrid";
 
 import { useVenues } from "../hooks/useVenues";

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-import CalendarCell from "./calendarCell";
+import CalendarCell from "./CalendarCell";
 
 import type { VenueBooking } from "../../types/venue.types";
 import {

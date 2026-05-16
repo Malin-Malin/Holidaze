@@ -1,4 +1,4 @@
-import LocationText from "../ui/locationText";
+import LocationText from "../ui/LocationText";
 
 import type { Venue } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";

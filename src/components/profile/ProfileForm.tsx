@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import FormField from "../input/formField";
-import { EditProfileSkeleton } from "../loading/pageSkeletons";
+import FormField from "../input/FormField";
+import { EditProfileSkeleton } from "../loading/PageSkeletons";
 
 import { getProfileByName, updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";

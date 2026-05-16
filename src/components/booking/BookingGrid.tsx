@@ -1,5 +1,5 @@
 import BookingCard from "./BookingCard";
-import { BookingGridSkeleton } from "../loading/pageSkeletons";
+import { BookingGridSkeleton } from "../loading/PageSkeletons";
 
 import type { Booking } from "../../types/venue.types";
 

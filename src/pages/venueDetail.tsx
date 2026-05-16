@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import Amenities from "../components/ui/amenities";
-import LocationText from "../components/ui/locationText";
-import Rating from "../components/ui/rating";
-import Gallery from "../components/venue/gallery";
-import BookingForm from "../components/booking/bookingForm";
-import BookingSummary from "../components/booking/bookingSummary";
+import Amenities from "../components/ui/Amenities";
+import LocationText from "../components/ui/LocationText";
+import Rating from "../components/ui/Rating";
+import Gallery from "../components/venue/Gallery";
+import BookingForm from "../components/booking/BookingForm";
+import BookingSummary from "../components/booking/BookingSummary";
 import BookingGrid from "../components/booking/BookingGrid";
-import AvailabilityCalendar from "../components/booking/availabilityCalendar";
-import ManagedBy from "../components/venue/managedBy";
-import Breadcrumb from "../components/layout/breadcrumb";
-import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
+import AvailabilityCalendar from "../components/booking/AvailabilityCalendar";
+import ManagedBy from "../components/venue/ManagedBy";
+import Breadcrumb from "../components/layout/Breadcrumb";
+import { VenueDetailSkeleton } from "../components/loading/PageSkeletons";
 
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";

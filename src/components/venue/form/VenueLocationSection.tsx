@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-import FormField from "../../input/formField";
+import FormField from "../../input/FormField";
 
 import type { VenueFormState } from "./venueForm.types";
 

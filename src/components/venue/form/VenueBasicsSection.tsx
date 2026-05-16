@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 
-import FormField from "../../input/formField";
-import RatingInput from "../../input/ratingInput";
+import FormField from "../../input/FormField";
+import RatingInput from "../../input/RatingInput";
 
 import type { VenueFormState } from "./venueForm.types";
 

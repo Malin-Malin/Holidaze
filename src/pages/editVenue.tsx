@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import VenueForm from "../components/venue/VenueForm";
-import Breadcrumb from "../components/layout/breadcrumb";
+import Breadcrumb from "../components/layout/Breadcrumb";
 
 const EditVenuePage = () => {
   const { id } = useParams<{ id: string }>();

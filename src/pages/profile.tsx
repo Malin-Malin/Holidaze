@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import Banner from "../components/layout/banner";
-import Breadcrumb from "../components/layout/breadcrumb";
-import OverviewVenue from "../components/profile/overviewVenue";
-import OverviewBooking from "../components/profile/overviewBooking";
-import OverviewManagedBookings from "../components/profile/overviewManagedBookings";
-import { ProfilePageSkeleton } from "../components/loading/pageSkeletons";
+import Banner from "../components/layout/Banner";
+import Breadcrumb from "../components/layout/Breadcrumb";
+import ButtonLink from "../components/ui/ButtonLink";
+import OverviewVenue from "../components/profile/OverviewVenue";
+import OverviewBooking from "../components/profile/OverviewBooking";
+import OverviewManagedBookings from "../components/profile/OverviewManagedBookings";
+import { ProfilePageSkeleton } from "../components/loading/PageSkeletons";
 
 import type { Profile } from "../types/profile.types";
 import type { Booking, Venue } from "../types/venue.types";
@@ -18,7 +19,6 @@ import {
 
 import placeholderProfileAvatar from "../assets/placeholderProfileAvatar.jpg";
 import placeholderProfileBanner from "../assets/placeholderProfileBanner.jpg";
-import ButtonLink from "../components/ui/ButtonLink";
 
 function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();

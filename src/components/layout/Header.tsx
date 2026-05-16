@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-import HamburgerMenu from "./hamburgerMenu";
+import HamburgerMenu from "./HamburgerMenu";
 
 import { useAuth } from "../../hooks/useAuth";
 

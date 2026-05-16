@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 
-import Rating from "../ui/rating";
-import LocationText from "../ui/locationText";
+import Rating from "../ui/Rating";
+import LocationText from "../ui/LocationText";
 
 import placeholderImage from "../../assets/placeholderImage.jpg";
 

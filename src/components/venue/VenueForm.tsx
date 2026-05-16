@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
-import { CreateVenueSkeleton } from "../loading/pageSkeletons";
-import VenueAmenitiesSection from "./form/venueAmenitiesSection";
-import VenueBasicsSection from "./form/venueBasicsSection";
-import VenueLocationSection from "./form/venueLocationSection";
-import VenueMediaSection from "./form/venueMediaSection";
+import { CreateVenueSkeleton } from "../loading/PageSkeletons";
+import VenueAmenitiesSection from "./form/VenueAmenitiesSection";
+import VenueBasicsSection from "./form/VenueBasicsSection";
+import VenueLocationSection from "./form/VenueLocationSection";
+import VenueMediaSection from "./form/VenueMediaSection";
 import type { VenueFormState } from "./form/venueForm.types";
 
 import { createVenue, getVenueById, updateVenue } from "../../api/venueService";
