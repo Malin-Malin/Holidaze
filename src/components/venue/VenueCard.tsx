@@ -4,6 +4,7 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 
 import Rating from "../ui/Rating";
 import LocationText from "../ui/LocationText";
+import SafeImage from "../ui/SafeImage";
 
 import placeholderImage from "../../assets/placeholderImage.jpg";
 
@@ -40,9 +41,11 @@ const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
       aria-label={`Venue: ${venueName}, located in ${venue.location?.city ?? "city not set"}, ${venue.location?.country ?? "country not set"}. Description: ${descriptionText}.`}
     >
       <div className="relative">
-        <img
-          src={showPlaceholder ? placeholderImage : primaryUrl}
+        <SafeImage
+          src={primaryUrl}
           alt={primaryMedia?.alt || venueName}
+          fallbackSrc={placeholderImage}
+          fallbackAlt={venueName}
           onError={() => {
             if (!primaryUrl) return;
             setFailedUrl(primaryUrl);

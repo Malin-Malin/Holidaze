@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Banner from "../components/layout/Banner";
 import Breadcrumb from "../components/layout/Breadcrumb";
 import ButtonLink from "../components/ui/ButtonLink";
+import SafeImage from "../components/ui/SafeImage";
 import OverviewVenue from "../components/profile/OverviewVenue";
 import OverviewBooking from "../components/profile/OverviewBooking";
 import OverviewManagedBookings from "../components/profile/OverviewManagedBookings";
@@ -85,13 +86,11 @@ const ProfilePage = () => {
       <Breadcrumb />
       <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
-          <img
-            src={profile.avatar?.url ?? placeholderProfileAvatar}
-            alt={profile.avatar?.alt ?? "placeholder profile image"}
-            onError={(event) => {
-              event.currentTarget.onerror = null;
-              event.currentTarget.src = placeholderProfileAvatar;
-            }}
+          <SafeImage
+            src={profile.avatar?.url}
+            alt={profile.avatar?.alt}
+            fallbackSrc={placeholderProfileAvatar}
+            fallbackAlt="placeholder profile image"
             className="w-16 h-16 rounded-full"
           />
           <div className="flex min-w-0 flex-col items-start gap-1 p-2">

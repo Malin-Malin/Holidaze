@@ -1,6 +1,5 @@
-import { useState } from "react";
-
 import placeholderImage from "../../assets/placeholderImage.jpg";
+import SafeImage from "../ui/SafeImage";
 
 import type { Media } from "../../types/common.types";
 
@@ -10,16 +9,12 @@ export type GalleryImageProps = {
 };
 
 export default function GalleryImage({ image, className }: GalleryImageProps) {
-  const [failedUrl, setFailedUrl] = useState<string | null>(null);
-  const hasErrorForCurrentUrl = failedUrl === image.url;
-  const src =
-    hasErrorForCurrentUrl || !image.url ? placeholderImage : image.url;
-
   return (
-    <img
-      src={src}
-      alt={image.alt || "Venue image"}
-      onError={() => setFailedUrl(image.url)}
+    <SafeImage
+      src={image.url}
+      alt={image.alt}
+      fallbackSrc={placeholderImage}
+      fallbackAlt="Venue image"
       className={className}
     />
   );
