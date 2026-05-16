@@ -80,6 +80,9 @@ export async function apiClient<T, R>(
     const response = await fetch(BASE_URL + endpoint, config);
     const data = await parseJson<R | ApiErrorPayload>(response);
 
+    // delay for testing loading states
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     if (!response.ok) {
       const errorMessage = getApiErrorMessage(
         data as ApiErrorPayload | null,

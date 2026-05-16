@@ -1,5 +1,6 @@
-import type { Profile } from "../../types/profile.types";
 import placeholderProfileAvatar from "../../assets/placeholderProfileAvatar.jpg";
+
+import type { Profile } from "../../types/profile.types";
 import { formatDate } from "../../utils/date";
 
 type VenueFooterProps = {
