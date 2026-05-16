@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import FormField from "../input/FormField";
 import AuthFormLayout from "./AuthFormLayout";
@@ -16,6 +16,7 @@ type LoginErrors = {
 const LoginForm = () => {
   const { login: authLogin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +45,8 @@ const LoginForm = () => {
       const response = await login(email, password);
       const { accessToken, ...userInfo } = response;
       authLogin(accessToken, userInfo);
-      navigate("/profile");
+      const redirectTo = location.state?.from?.pathname || "/profile";
+      navigate(redirectTo, { replace: true });
     } catch (error) {
       setSubmitError(
         error instanceof Error
