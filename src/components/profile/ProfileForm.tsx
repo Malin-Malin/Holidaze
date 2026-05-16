@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type React from "react";
 
 import FormField from "../input/FormField";
-import { EditProfileSkeleton } from "../loading/PageSkeletons";
 
-import { getProfileByName, updateProfile } from "../../api/profileService";
+import { updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";
-import type { ProfileData } from "../../types/profile.types";
+import type { Profile, ProfileData } from "../../types/profile.types";
 import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
 
 type ProfileFormData = {
@@ -20,67 +20,32 @@ type ProfileFormData = {
 
 type ProfileFieldErrors = Partial<Record<keyof ProfileFormData, string>>;
 
-const ProfileForm = () => {
+type ProfileFormProps = {
+  initialProfile: Partial<Profile>;
+};
+
+const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   const { user, setUserInfo } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<ProfileFormData>({
-    avatarUrl: "",
-    avatarAlt: "",
-    bannerUrl: "",
-    bannerAlt: "",
-    bio: "",
-    venueManager: false,
+    avatarUrl: toHttpUrl(initialProfile.avatar?.url),
+    avatarAlt: initialProfile.avatar?.alt ?? "",
+    bannerUrl: toHttpUrl(initialProfile.banner?.url),
+    bannerAlt: initialProfile.banner?.alt ?? "",
+    bio: initialProfile.bio ?? "",
+    venueManager: initialProfile.venueManager ?? false,
   });
   const [errors, setErrors] = useState<ProfileFieldErrors>({});
-  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loadError, setLoadError] = useState("");
   const [submitError, setSubmitError] = useState("");
-
-  useEffect(() => {
-    async function loadProfile() {
-      if (!user?.name) {
-        setLoadError("You must be logged in to edit your profile.");
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const profile = await getProfileByName(user.name);
-        setFormData({
-          avatarUrl: toHttpUrl(profile.avatar?.url),
-          avatarAlt: profile.avatar?.alt ?? "",
-          bannerUrl: toHttpUrl(profile.banner?.url),
-          bannerAlt: profile.banner?.alt ?? "",
-          bio: profile.bio ?? "",
-          venueManager: profile.venueManager ?? false,
-        });
-      } catch (error) {
-        setLoadError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load your profile.",
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    void loadProfile();
-  }, [user?.name]);
 
   function validate(): ProfileFieldErrors {
     const next: ProfileFieldErrors = {};
-
-    if (formData.avatarUrl && !isValidHttpUrl(formData.avatarUrl)) {
+    if (formData.avatarUrl && !isValidHttpUrl(formData.avatarUrl))
       next.avatarUrl = "Avatar URL must be a valid URL.";
-    }
-
-    if (formData.bannerUrl && !isValidHttpUrl(formData.bannerUrl)) {
+    if (formData.bannerUrl && !isValidHttpUrl(formData.bannerUrl))
       next.bannerUrl = "Banner URL must be a valid URL.";
-    }
-
     return next;
   }
 
@@ -90,40 +55,28 @@ const ProfileForm = () => {
     const { name, value, type } = e.target;
     const checked =
       type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined;
-
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
-  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitError("");
-
     const next = validate();
     if (Object.keys(next).length > 0) {
       setErrors(next);
       return;
     }
-
     if (!user?.name) return;
-
     const payload: ProfileData = {
-      avatar: {
-        url: formData.avatarUrl,
-        alt: formData.avatarAlt,
-      },
-      banner: {
-        url: formData.bannerUrl,
-        alt: formData.bannerAlt,
-      },
+      avatar: { url: formData.avatarUrl, alt: formData.avatarAlt },
+      banner: { url: formData.bannerUrl, alt: formData.bannerAlt },
       bio: formData.bio,
       venueManager: formData.venueManager,
     };
-
     try {
       setIsSubmitting(true);
       const updatedProfile = await updateProfile(user.name, payload);
@@ -138,15 +91,7 @@ const ProfileForm = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }
-
-  if (isLoading) {
-    return <EditProfileSkeleton />;
-  }
-
-  if (loadError) {
-    return <p className="px-4 py-6 text-red-700">{loadError}</p>;
-  }
+  };
 
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-8">

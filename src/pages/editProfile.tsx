@@ -1,7 +1,25 @@
+import Breadcrumb from "../components/layout/Breadcrumb";
 import ProfileForm from "../components/profile/ProfileForm";
 
+import { useAuth } from "../hooks/useAuth";
+
 const EditProfilePage = () => {
-  return <ProfileForm />;
+  const { user, isLoggedIn } = useAuth();
+
+  if (!isLoggedIn || !user) {
+    return (
+      <p className="px-4 py-6 text-red-700">
+        You must be logged in to edit your profile.
+      </p>
+    );
+  }
+
+  return (
+    <>
+      <Breadcrumb />
+      <ProfileForm initialProfile={user} />
+    </>
+  );
 };
 
 export default EditProfilePage;
