@@ -1,7 +1,8 @@
+import LocationText from "../ui/locationText";
+
 import type { Venue } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
 import { formatPrice } from "../../utils/number";
-import LocationText from "../ui/locationText";
 
 type BookingSummaryProps = {
   venue: Venue;

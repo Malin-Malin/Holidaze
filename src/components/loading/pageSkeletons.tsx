@@ -4,7 +4,7 @@ function SkeletonBlock({ className }: { className: string }) {
   );
 }
 
-export function VenueCardSkeleton() {
+const VenueCardSkeleton = () => {
   return (
     <>
       <div
@@ -22,9 +22,9 @@ export function VenueCardSkeleton() {
       </div>
     </>
   );
-}
+};
 
-export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
+const VenueGridSkeleton = ({ count = 12 }: { count?: number }) => {
   return (
     <>
       {Array.from({ length: count }, (_, index) => (
@@ -32,9 +32,9 @@ export function VenueGridSkeleton({ count = 12 }: { count?: number }) {
       ))}
     </>
   );
-}
+};
 
-export function BookingCardSkeleton() {
+const BookingCardSkeleton = () => {
   return (
     <>
       <div
@@ -52,9 +52,9 @@ export function BookingCardSkeleton() {
       </div>
     </>
   );
-}
+};
 
-export function BookingGridSkeleton({ count = 12 }: { count?: number }) {
+const BookingGridSkeleton = ({ count = 12 }: { count?: number }) => {
   return (
     <>
       {Array.from({ length: count }, (_, index) => (
@@ -62,9 +62,9 @@ export function BookingGridSkeleton({ count = 12 }: { count?: number }) {
       ))}
     </>
   );
-}
+};
 
-export function VenueDetailSkeleton() {
+const VenueDetailSkeleton = () => {
   return (
     <section className="pb-10" aria-hidden="true">
       <div className="h-[320px] w-full animate-pulse bg-[var(--border)] md:h-[420px]" />
@@ -98,9 +98,9 @@ export function VenueDetailSkeleton() {
       </div>
     </section>
   );
-}
+};
 
-export function ProfilePageSkeleton() {
+const ProfilePageSkeleton = () => {
   return (
     <section aria-hidden="true" className="pb-8">
       <div className="h-[320px] w-full animate-pulse bg-[var(--border)]" />
@@ -126,9 +126,9 @@ export function ProfilePageSkeleton() {
       </div>
     </section>
   );
-}
+};
 
-export function EditProfileSkeleton() {
+const EditProfileSkeleton = () => {
   return (
     <div aria-hidden="true" className="mx-auto w-full max-w-xl px-4 py-8">
       <SkeletonBlock className="h-10 w-48" />
@@ -156,9 +156,9 @@ export function EditProfileSkeleton() {
       </div>
     </div>
   );
-}
+};
 
-export function CreateVenueSkeleton() {
+const CreateVenueSkeleton = () => {
   return (
     <section
       className="mx-auto w-full max-w-3xl px-4 py-8 text-left"
@@ -203,4 +203,15 @@ export function CreateVenueSkeleton() {
       </div>
     </section>
   );
-}
+};
+
+export {
+  VenueCardSkeleton,
+  VenueGridSkeleton,
+  BookingCardSkeleton,
+  BookingGridSkeleton,
+  VenueDetailSkeleton,
+  ProfilePageSkeleton,
+  EditProfileSkeleton,
+  CreateVenueSkeleton,
+};

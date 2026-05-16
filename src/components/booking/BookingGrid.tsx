@@ -1,5 +1,6 @@
 import BookingCard from "./BookingCard";
 import { BookingGridSkeleton } from "../loading/pageSkeletons";
+
 import type { Booking } from "../../types/venue.types";
 
 type BookingGridProps = {
