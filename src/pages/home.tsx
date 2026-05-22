@@ -13,8 +13,8 @@ const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
   const { venues: recentVenues, isLoading: isLoadingRecent } =
     useRecentVenues(3);
-  const { venues: popularVenues, isLoading: isLoadingPopular } =
-    useRecentVenues(3, "rating", "desc");
+  const { venues: featuredVenues, isLoading: isLoadingFeatured } =
+    useRecentVenues(3, "created", "desc", true);
 
   return (
     <>
@@ -59,11 +59,11 @@ const HomePage = () => {
           </p>
         </WideCard>
 
-        {/* Top rated venues */}
+        {/* Discover more venues */}
         <VenueGrid
-          title="Top rated venues"
-          venues={popularVenues}
-          isLoading={isLoadingPopular}
+          title="Discover more venues"
+          venues={featuredVenues}
+          isLoading={isLoadingFeatured}
           numberOfVenues={3}
           showViewAllButton={true}
         />

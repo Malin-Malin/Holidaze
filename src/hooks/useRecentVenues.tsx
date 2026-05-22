@@ -11,6 +11,7 @@ export function useRecentVenues(
   count = 3,
   sortBy: string = "created",
   sortOrder: "asc" | "desc" = "desc",
+  useRandomPage = false,
 ): UseRecentVenuesResult {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,34 @@ export function useRecentVenues(
     async function load() {
       try {
         setIsLoading(true);
-        const response = await getVenues(1, count, false, sortBy, sortOrder);
+        const firstPageResponse = await getVenues(
+          1,
+          count,
+          false,
+          sortBy,
+          sortOrder,
+        );
+
+        let response = firstPageResponse;
+        const resolvedPageCount = Math.max(
+          1,
+          Number(firstPageResponse.meta?.pageCount ?? 1),
+        );
+
+        if (useRandomPage && resolvedPageCount > 1) {
+          const randomPage = Math.floor(Math.random() * resolvedPageCount) + 1;
+
+          if (randomPage !== 1) {
+            response = await getVenues(
+              randomPage,
+              count,
+              false,
+              sortBy,
+              sortOrder,
+            );
+          }
+        }
+
         if (!isCancelled) {
           setVenues(response.data);
         }
@@ -41,7 +69,7 @@ export function useRecentVenues(
     return () => {
       isCancelled = true;
     };
-  }, [count, sortBy, sortOrder]);
+  }, [count, sortBy, sortOrder, useRandomPage]);
 
   return { venues, isLoading };
 }
