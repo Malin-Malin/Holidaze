@@ -46,13 +46,8 @@ const ProfilePage = () => {
         imageUrl={bannerSrc}
         imageAlt={bannerAlt}
         ariaLabel="Profile banner"
-      >
-        <div className="text-right">
-          <h1 className="banner-title-contrast text-3xl font-[var(--font-display)]">
-            My Profile
-          </h1>
-        </div>
-      </Banner>
+        title="My Profile"
+      />
       <Breadcrumb />
       <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
