@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
-import { getVenues } from "../api/venueService";
+import { getVenues, searchVenues } from "../api/venueService";
 import type { Venue } from "../types/venue.types";
-
-type UseVenuesFilters = {
-  query?: string;
-  minRating?: number;
-  pets?: boolean;
-  parking?: boolean;
-  wifi?: boolean;
-  breakfast?: boolean;
-};
 
 type UseVenuesResult = {
   venues: Venue[];
@@ -24,36 +15,36 @@ type UseVenuesResult = {
   goToPage: (page: number) => void;
 };
 
+type UseVenuesOptions = {
+  query?: string;
+  count?: number;
+  orderBy?: string;
+  orderDirection?: "asc" | "desc";
+  useRandomPage?: boolean;
+};
+
 export function useVenues(
   initialPage = 1,
-  filters: UseVenuesFilters = {},
+  options: UseVenuesOptions = {},
 ): UseVenuesResult {
+  const {
+    query = "",
+    count = 12,
+    orderBy = "name",
+    orderDirection = "asc",
+    useRandomPage = false,
+  } = options;
+
   const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [pageCount, setPageCount] = useState(1);
   const [hasResolvedPageCount, setHasResolvedPageCount] = useState(false);
-  const pageSize = 12;
-  const apiPageSize = 100;
+  const pageSize = count;
 
-  const {
-    query = "",
-    minRating = 0,
-    pets = false,
-    parking = false,
-    wifi = false,
-    breakfast = false,
-  } = filters;
-
-  const normalizedQuery = query.trim().toLowerCase();
-  const hasActiveFilters =
-    normalizedQuery.length > 0 ||
-    minRating > 0 ||
-    pets ||
-    parking ||
-    wifi ||
-    breakfast;
+  const searchQuery = query.trim();
+  const hasSearchQuery = searchQuery.length > 0;
 
   useEffect(() => {
     if (!Number.isFinite(initialPage) || initialPage < 1) return;
@@ -69,13 +60,36 @@ export function useVenues(
         setErrorMessage(null);
         setHasResolvedPageCount(false);
 
-        if (!hasActiveFilters) {
-          const response = await getVenues(currentPage, pageSize);
-          const meta = response.meta ?? {};
+        if (!hasSearchQuery) {
+          const firstPageResponse = await getVenues(
+            currentPage,
+            pageSize,
+            false,
+            orderBy,
+            orderDirection,
+          );
+          const meta = firstPageResponse.meta ?? {};
           const resolvedPageCount =
             Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
               ? Math.floor(meta.pageCount as number)
               : 1;
+
+          let response = firstPageResponse;
+
+          if (useRandomPage && resolvedPageCount > 1) {
+            const randomPage =
+              Math.floor(Math.random() * resolvedPageCount) + 1;
+
+            if (randomPage !== currentPage) {
+              response = await getVenues(
+                randomPage,
+                pageSize,
+                false,
+                orderBy,
+                orderDirection,
+              );
+            }
+          }
 
           if (!isCancelled) {
             setPageCount(Math.max(1, resolvedPageCount));
@@ -86,57 +100,17 @@ export function useVenues(
           return;
         }
 
-        const matchedVenues: Venue[] = [];
-        let page = 1;
-        let nextPage: number | null | undefined = 1;
-
-        while (nextPage) {
-          const response = await getVenues(page, apiPageSize);
-          matchedVenues.push(
-            ...response.data.filter((venue) => {
-              const searchable = [
-                venue.name,
-                venue.location.city,
-                venue.location.country,
-              ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-              const matchesQuery =
-                !normalizedQuery || searchable.includes(normalizedQuery);
-              const matchesRating = venue.rating >= minRating;
-              const matchesPets = !pets || venue.meta.pets;
-              const matchesParking = !parking || venue.meta.parking;
-              const matchesWifi = !wifi || venue.meta.wifi;
-              const matchesBreakfast = !breakfast || venue.meta.breakfast;
-
-              return (
-                matchesQuery &&
-                matchesRating &&
-                matchesPets &&
-                matchesParking &&
-                matchesWifi &&
-                matchesBreakfast
-              );
-            }),
-          );
-
-          const meta = response.meta ?? {};
-          nextPage = meta.nextPage ?? null;
-          page = nextPage ?? page + 1;
-        }
+        const response = await searchVenues(searchQuery, currentPage, pageSize);
+        const matchedVenues = response.data;
 
         const filteredPageCount = Math.max(
           1,
-          Math.ceil(matchedVenues.length / pageSize),
+          Math.floor(response.meta?.pageCount ?? 1),
         );
-        const start = (currentPage - 1) * pageSize;
-        const end = start + pageSize;
 
         if (!isCancelled) {
           setPageCount(filteredPageCount);
-          setVenues(matchedVenues.slice(start, end));
+          setVenues(matchedVenues);
           setHasResolvedPageCount(true);
         }
       } catch {
@@ -159,14 +133,13 @@ export function useVenues(
       isCancelled = true;
     };
   }, [
-    breakfast,
     currentPage,
-    hasActiveFilters,
-    minRating,
-    normalizedQuery,
-    parking,
-    pets,
-    wifi,
+    hasSearchQuery,
+    searchQuery,
+    orderBy,
+    orderDirection,
+    pageSize,
+    useRandomPage,
   ]);
 
   useEffect(() => {

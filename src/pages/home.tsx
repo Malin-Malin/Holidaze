@@ -5,15 +5,25 @@ import Banner from "../components/layout/Banner";
 import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
 import WideCard from "../components/ui/WideCard";
-// import { PopularVenuesSection } from "../components/venue/PopularVenuesSection";
 
 import { useAuth } from "../hooks/useAuth";
-import { useRecentVenues } from "../hooks/useRecentVenues";
+import { useVenues } from "../hooks/useVenues";
 
 const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
   const { venues: recentVenues, isLoading: isLoadingRecent } =
-    useRecentVenues(3);
+    useVenues(1, { count: 3, orderBy: "created", orderDirection: "desc" });
+  const { venues: featuredVenues, isLoading: isLoadingFeatured } =
+    useVenues(1, {
+      count: 3,
+      orderBy: "created",
+      orderDirection: "desc",
+      useRandomPage: true,
+    });
+  const featuredVenueId = featuredVenues[0]?.id;
+  const venueDetailLink = featuredVenueId
+    ? `/venues/${featuredVenueId}`
+    : "/venues";
 
   return (
     <>
@@ -58,30 +68,14 @@ const HomePage = () => {
           </p>
         </WideCard>
 
-        {/* <PopularVenuesSection /> */}
-
-        {/* add a section divider- brown - a home away from home */}
-
-        <section className="py-12 md:py-16">
-          <div className="grid gap-6 md:grid-cols-3">
-            <PopoutCard
-              icon={<LuHouse />}
-              title="Unique places"
-              text="Hundreds of venues across the world, from cozy cabins to city apartments."
-            />
-
-            <PopoutCard
-              icon={<SlCalender />}
-              title="Easy booking"
-              text="Check availability, pick your dates and book! It's that simple."
-            />
-            <PopoutCard
-              icon={<IoKeyOutline />}
-              title="Host too"
-              text="Do you have a property to list? Become a host and list your property in minutes."
-            />
-          </div>
-        </section>
+        {/* Discover more venues */}
+        <VenueGrid
+          title="Discover more venues"
+          venues={featuredVenues}
+          isLoading={isLoadingFeatured}
+          numberOfVenues={3}
+          showViewAllButton={true}
+        />
 
         <WideCard title="A home away from home">
           <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
@@ -92,6 +86,41 @@ const HomePage = () => {
         </WideCard>
 
         {/* login/register */}
+
+        <section className="py-12 md:py-16">
+          <div className="grid gap-6 md:grid-cols-3">
+            <PopoutCard
+              icon={<LuHouse />}
+              title={isLoggedIn ? "Browse venues" : "Unique places"}
+              text={
+                isLoggedIn
+                  ? "Hundreds of venues across the world, from cozy apartments to luxurious villas."
+                  : "Create an account to unlock venue browsing and booking features."
+              }
+              to={isLoggedIn ? "/venues" : "/register"}
+            />
+            <PopoutCard
+              icon={<SlCalender />}
+              title={isLoggedIn ? "Easy booking" : "Easy booking"}
+              text={
+                isLoggedIn
+                  ? "Jump into one of our featured venues and complete your booking in minutes."
+                  : "Register in order to book your next stay at one of our unique venues."
+              }
+              to={isLoggedIn ? venueDetailLink : "/register"}
+            />
+            <PopoutCard
+              icon={<IoKeyOutline />}
+              title={isLoggedIn ? "Your profile" : "Join Holidaze"}
+              text={
+                isLoggedIn
+                  ? "Manage your bookings and view the booking details for your venues."
+                  : "Create your account to manage stays and become a host."
+              }
+              to={isLoggedIn ? "/profile" : "/register"}
+            />
+          </div>
+        </section>
       </main>
     </>
   );
