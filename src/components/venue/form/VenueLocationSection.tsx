@@ -2,7 +2,7 @@ import type { ChangeEvent } from "react";
 
 import FormField from "../../input/FormField";
 
-import type { VenueFormState } from "./venueForm.types";
+import type { VenueFormState } from "./VenueForm.types";
 
 type VenueLocationSectionProps = {
   form: VenueFormState;
