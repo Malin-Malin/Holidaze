@@ -6,6 +6,7 @@ import FormField from "../input/FormField";
 
 import { updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 import type { Profile, ProfileData } from "../../types/profile.types";
 import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
 
@@ -38,6 +39,7 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   });
   const [errors, setErrors] = useState<ProfileFieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showToast } = useToast();
   const [submitError, setSubmitError] = useState("");
 
   function validate(): ProfileFieldErrors {
@@ -81,13 +83,15 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
       setIsSubmitting(true);
       const updatedProfile = await updateProfile(user.name, payload);
       setUserInfo(updatedProfile);
+      showToast("Profile updated successfully!", "success");
       navigate("/profile");
     } catch (error) {
-      setSubmitError(
+      const msg =
         error instanceof Error
           ? error.message
-          : "Failed to update your profile. Please try again.",
-      );
+          : "Failed to update your profile. Please try again.";
+      setSubmitError(msg);
+      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }

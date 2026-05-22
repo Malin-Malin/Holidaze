@@ -11,6 +11,8 @@ import Footer from "./components/layout/Footer";
 import RequireAuth from "./components/auth/RequireAuth";
 
 import AuthProvider from "./context/AuthProvider";
+import ToastProvider from "./context/ToastProvider";
+import { ToastContainer } from "./components/ui/Toast";
 
 import {
   HomePage,
@@ -29,6 +31,7 @@ function AppLayout() {
   return (
     <>
       <ScrollRestoration />
+      <ToastContainer />
       <div className="flex min-h-[100svh] flex-col">
         <Header />
         <main className="flex-1">
@@ -89,7 +92,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </AuthProvider>
   );
 }

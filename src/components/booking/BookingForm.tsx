@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import FormField from "../input/FormField";
+import { useToast } from "../../hooks/useToast";
 
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
@@ -46,6 +47,8 @@ const BookingForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
+  const { showToast } = useToast();
+
   const checkInDate = new Date(dateFrom);
   const checkOutDate = new Date(dateTo);
   const hasValidDateRange =
@@ -139,17 +142,19 @@ const BookingForm = ({
         guests: Number(guests),
         venueId: venue.id,
       });
+      showToast("Booking successfully created!", "success");
       onBookingConfirmed?.({ dateFrom, dateTo, guests: Number(guests) });
       setDateFrom("");
       setDateTo("");
       setGuests(1);
       setErrors({});
     } catch (error) {
-      setSubmitError(
+      const msg =
         error instanceof Error
           ? error.message
-          : "Failed to book this venue. Please try again.",
-      );
+          : "Failed to book this venue. Please try again.";
+      setSubmitError(msg);
+      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }

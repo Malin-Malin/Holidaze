@@ -1,5 +1,6 @@
 import type { Venue } from "../../types/venue.types";
 import { useEffect, useState } from "react";
+import { useToast } from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import { deleteVenue } from "../../api/venueService";
 import VenueGrid from "../venue/VenueGrid";
@@ -16,8 +17,7 @@ const OverviewVenue = ({
   const navigate = useNavigate();
   const [myVenues, setMyVenues] = useState<Venue[]>(venues);
   const [errorMessage, setErrorMessage] = useState("");
-  //TODO: Add toast for success messages instead of inline text
-  // const [successMessage, setSuccessMessage] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     setMyVenues(venues);
@@ -29,15 +29,14 @@ const OverviewVenue = ({
 
     try {
       setErrorMessage("");
-      // setSuccessMessage("");
       await deleteVenue(venueId);
       setMyVenues((prev) => prev.filter((venue) => venue.id !== venueId));
-      // setSuccessMessage("Venue successfully deleted.");
+      showToast("Venue successfully deleted.", "success");
     } catch (error) {
-      // setSuccessMessage("");
-      setErrorMessage(
-        error instanceof Error ? error.message : "Failed to delete venue.",
-      );
+      const msg =
+        error instanceof Error ? error.message : "Failed to delete venue.";
+      setErrorMessage(msg);
+      showToast(msg, "error");
     }
   }
 
