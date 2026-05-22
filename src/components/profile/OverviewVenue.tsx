@@ -33,9 +33,10 @@ const OverviewVenue = ({
       setMyVenues((prev) => prev.filter((venue) => venue.id !== venueId));
       showToast("Venue successfully deleted.", "success");
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Failed to delete venue.",
-      );
+      const msg =
+        error instanceof Error ? error.message : "Failed to delete venue.";
+      setErrorMessage(msg);
+      showToast(msg, "error");
     }
   }
 

@@ -149,11 +149,12 @@ const BookingForm = ({
       setGuests(1);
       setErrors({});
     } catch (error) {
-      setSubmitError(
+      const msg =
         error instanceof Error
           ? error.message
-          : "Failed to book this venue. Please try again.",
-      );
+          : "Failed to book this venue. Please try again.";
+      setSubmitError(msg);
+      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }

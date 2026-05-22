@@ -161,9 +161,9 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       }
       navigate(`/venues/${savedVenue.id}`);
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Failed to save venue.",
-      );
+      const msg = error instanceof Error ? error.message : "Failed to save venue.";
+      setErrorMessage(msg);
+      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }

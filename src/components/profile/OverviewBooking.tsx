@@ -36,9 +36,10 @@ const OverviewBooking = ({
       );
       showToast("Booking successfully canceled.", "success");
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Failed to cancel booking.",
-      );
+      const msg =
+        error instanceof Error ? error.message : "Failed to cancel booking.";
+      setErrorMessage(msg);
+      showToast(msg, "error");
     }
   }
 

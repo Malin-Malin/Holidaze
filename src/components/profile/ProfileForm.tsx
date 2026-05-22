@@ -86,11 +86,12 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
       showToast("Profile updated successfully!", "success");
       navigate("/profile");
     } catch (error) {
-      setSubmitError(
+      const msg =
         error instanceof Error
           ? error.message
-          : "Failed to update your profile. Please try again.",
-      );
+          : "Failed to update your profile. Please try again.";
+      setSubmitError(msg);
+      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }
