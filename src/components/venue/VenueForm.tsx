@@ -9,7 +9,7 @@ import VenueMediaSection from "./form/VenueMediaSection";
 
 import type { Venue, VenueData } from "../../types/venue.types";
 import type { Media } from "../../types/common.types";
-import type { VenueFormState } from "./form/venueForm.types";
+import type { VenueFormState } from "./form/VenueForm.types";
 import { createVenue, updateVenue } from "../../api/venueService";
 import { isValidHttpUrl } from "../../utils/url";
 

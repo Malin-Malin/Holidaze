@@ -7,3 +7,4 @@ export { default as VenueDetail } from "./venueDetail";
 export { default as VenuesPage } from "./venuesPage";
 export { default as LoginPage } from "./login";
 export { default as RegisterPage } from "./register";
+export { default as NotFoundPage } from "./notFound";

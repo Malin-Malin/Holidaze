@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-import type { VenueFormAmenities } from "./venueForm.types";
+import type { VenueFormAmenities } from "./VenueForm.types";
 
 type VenueAmenitiesSectionProps = {
   amenities: VenueFormAmenities;
