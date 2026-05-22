@@ -164,7 +164,11 @@ const BookingForm = ({
       {!isLoggedIn && (
         <p className="mt-2 text-sm text-[var(--text)]/80">
           You need to be logged in to book this venue.{" "}
-          <Link to="/login" className="underline">
+          <Link
+            to="/login"
+            state={{ from: `/venues/${venue.id}` }}
+            className="underline"
+          >
             Log in
           </Link>
           .

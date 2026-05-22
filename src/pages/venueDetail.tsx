@@ -168,6 +168,7 @@ const VenueDetail = () => {
               Please log in to book this venue.
               <Link
                 to="/login"
+                state={{ from: `/venues/${venue.id}` }}
                 className="ml-1 font-semibold text-[var(--color-honey)] hover:underline"
               >
                 Log in
