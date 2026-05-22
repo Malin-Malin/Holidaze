@@ -2,10 +2,6 @@ import { useEffect, useState } from "react";
 import { getVenues, searchVenues } from "../api/venueService";
 import type { Venue } from "../types/venue.types";
 
-type UseVenuesFilters = {
-  query?: string;
-};
-
 type UseVenuesResult = {
   venues: Venue[];
   isLoading: boolean;
@@ -19,19 +15,33 @@ type UseVenuesResult = {
   goToPage: (page: number) => void;
 };
 
+type UseVenuesOptions = {
+  query?: string;
+  count?: number;
+  orderBy?: string;
+  orderDirection?: "asc" | "desc";
+  useRandomPage?: boolean;
+};
+
 export function useVenues(
   initialPage = 1,
-  filters: UseVenuesFilters = {},
+  options: UseVenuesOptions = {},
 ): UseVenuesResult {
+  const {
+    query = "",
+    count = 12,
+    orderBy = "name",
+    orderDirection = "asc",
+    useRandomPage = false,
+  } = options;
+
   const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [pageCount, setPageCount] = useState(1);
   const [hasResolvedPageCount, setHasResolvedPageCount] = useState(false);
-  const pageSize = 12;
-
-  const { query = "" } = filters;
+  const pageSize = count;
 
   const searchQuery = query.trim();
   const hasSearchQuery = searchQuery.length > 0;
@@ -51,12 +61,35 @@ export function useVenues(
         setHasResolvedPageCount(false);
 
         if (!hasSearchQuery) {
-          const response = await getVenues(currentPage, pageSize);
-          const meta = response.meta ?? {};
+          const firstPageResponse = await getVenues(
+            currentPage,
+            pageSize,
+            false,
+            orderBy,
+            orderDirection,
+          );
+          const meta = firstPageResponse.meta ?? {};
           const resolvedPageCount =
             Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
               ? Math.floor(meta.pageCount as number)
               : 1;
+
+          let response = firstPageResponse;
+
+          if (useRandomPage && resolvedPageCount > 1) {
+            const randomPage =
+              Math.floor(Math.random() * resolvedPageCount) + 1;
+
+            if (randomPage !== currentPage) {
+              response = await getVenues(
+                randomPage,
+                pageSize,
+                false,
+                orderBy,
+                orderDirection,
+              );
+            }
+          }
 
           if (!isCancelled) {
             setPageCount(Math.max(1, resolvedPageCount));
@@ -99,7 +132,15 @@ export function useVenues(
     return () => {
       isCancelled = true;
     };
-  }, [currentPage, hasSearchQuery, searchQuery]);
+  }, [
+    currentPage,
+    hasSearchQuery,
+    searchQuery,
+    orderBy,
+    orderDirection,
+    pageSize,
+    useRandomPage,
+  ]);
 
   useEffect(() => {
     if (hasResolvedPageCount && currentPage > pageCount) {

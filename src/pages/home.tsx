@@ -7,14 +7,19 @@ import VenueGrid from "../components/venue/VenueGrid";
 import WideCard from "../components/ui/WideCard";
 
 import { useAuth } from "../hooks/useAuth";
-import { useRecentVenues } from "../hooks/useRecentVenues";
+import { useVenues } from "../hooks/useVenues";
 
 const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
   const { venues: recentVenues, isLoading: isLoadingRecent } =
-    useRecentVenues(3);
+    useVenues(1, { count: 3, orderBy: "created", orderDirection: "desc" });
   const { venues: featuredVenues, isLoading: isLoadingFeatured } =
-    useRecentVenues(3, "created", "desc", true);
+    useVenues(1, {
+      count: 3,
+      orderBy: "created",
+      orderDirection: "desc",
+      useRandomPage: true,
+    });
   const featuredVenueId = featuredVenues[0]?.id;
   const venueDetailLink = featuredVenueId
     ? `/venues/${featuredVenueId}`
