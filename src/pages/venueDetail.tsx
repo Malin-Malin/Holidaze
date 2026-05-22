@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Amenities from "../components/ui/Amenities";
 import LocationText from "../components/ui/LocationText";
@@ -28,7 +28,7 @@ const VenueDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { venue, isLoading, errorMessage, refresh } = useVenueById(id);
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const [selectedDateFrom, setSelectedDateFrom] = useState("");
   const [selectedDateTo, setSelectedDateTo] = useState("");
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
@@ -145,22 +145,35 @@ const VenueDetail = () => {
         <section className="px-4 text-start md:px-6 lg:w-64 lg:flex-none">
           <h2>Book</h2>
           <h3>{venue.name}</h3>
-          <BookingForm
-            venue={venue}
-            selectedDateFrom={selectedDateFrom}
-            selectedDateTo={selectedDateTo}
-            onDatesChange={(dateFrom, dateTo) => {
-              setSelectedDateFrom(dateFrom);
-              setSelectedDateTo(dateTo);
-            }}
-            onBookingConfirmed={(data) => {
-              setConfirmedData(data);
-              setBookingConfirmed(true);
-              setSelectedDateFrom("");
-              setSelectedDateTo("");
-              void refresh();
-            }}
-          />
+          {isLoggedIn && (
+            <BookingForm
+              venue={venue}
+              selectedDateFrom={selectedDateFrom}
+              selectedDateTo={selectedDateTo}
+              onDatesChange={(dateFrom, dateTo) => {
+                setSelectedDateFrom(dateFrom);
+                setSelectedDateTo(dateTo);
+              }}
+              onBookingConfirmed={(data) => {
+                setConfirmedData(data);
+                setBookingConfirmed(true);
+                setSelectedDateFrom("");
+                setSelectedDateTo("");
+                void refresh();
+              }}
+            />
+          )}
+          {!isLoggedIn && (
+            <p className="rounded-md border border-[var(--color-honey)]/60 bg-[var(--color-honey)]/15 px-4 py-3 text-sm text-[var(--text)]">
+              Please log in to book this venue.
+              <Link
+                to="/login"
+                className="ml-1 font-semibold text-[var(--color-honey)] hover:underline"
+              >
+                Log in
+              </Link>
+            </p>
+          )}
         </section>
       </div>
 
