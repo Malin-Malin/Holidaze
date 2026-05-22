@@ -75,12 +75,15 @@ async function deleteVenue(id: string) {
   }
 }
 
-async function searchVenues(query: string) {
+async function searchVenues(query: string, page = 1, limit = 12) {
   try {
     const response = await get<ApiResponse<Venue[]>>(
-      `${VENUES_ENDPOINT}?search=${encodeURIComponent(query)}`,
+      `${VENUES_ENDPOINT}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`,
     );
-    return response.data;
+    return {
+      data: response.data,
+      meta: response.meta,
+    };
   } catch (error) {
     console.error(`Error searching venues with query "${query}":`, error);
     throw error; // Let the caller handle the error

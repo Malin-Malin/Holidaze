@@ -14,11 +14,6 @@ const VenuesPage = () => {
   const initialPage =
     Number.isFinite(parsedPage) && parsedPage > 0 ? Math.floor(parsedPage) : 1;
   const query = searchParams.get("q") ?? "";
-  const minRating = Number(searchParams.get("rating") ?? "0") || 0;
-  const pets = searchParams.get("pets") === "true";
-  const parking = searchParams.get("parking") === "true";
-  const wifi = searchParams.get("wifi") === "true";
-  const breakfast = searchParams.get("breakfast") === "true";
 
   const {
     venues,
@@ -33,11 +28,6 @@ const VenuesPage = () => {
     goToPage,
   } = useVenues(initialPage, {
     query,
-    minRating,
-    pets,
-    parking,
-    wifi,
-    breakfast,
   });
 
   function updateSearchParam(key: string, value: string | boolean | number) {
@@ -69,17 +59,7 @@ const VenuesPage = () => {
         </h1>
         <VenueSearchControls
           query={query}
-          minRating={minRating}
-          pets={pets}
-          parking={parking}
-          wifi={wifi}
-          breakfast={breakfast}
           onQueryChange={(value) => updateSearchParam("q", value)}
-          onMinRatingChange={(value) => updateSearchParam("rating", value)}
-          onPetsChange={(value) => updateSearchParam("pets", value)}
-          onParkingChange={(value) => updateSearchParam("parking", value)}
-          onWifiChange={(value) => updateSearchParam("wifi", value)}
-          onBreakfastChange={(value) => updateSearchParam("breakfast", value)}
         />
 
         <VenueGrid
