@@ -1,5 +1,6 @@
 import type { Booking } from "../../types/venue.types";
 import { useEffect, useMemo, useState } from "react";
+import { useToast } from "../../hooks/useToast";
 
 import BookingGrid from "../booking/BookingGrid";
 
@@ -17,8 +18,7 @@ const OverviewBooking = ({
 }: OverviewBookingProps) => {
   const [myBookings, setMyBookings] = useState<Booking[]>(bookings);
   const [errorMessage, setErrorMessage] = useState("");
-  // TODO: Add toast for success messages instead of inline text
-  // const [successMessage, setSuccessMessage] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     setMyBookings(bookings);
@@ -30,14 +30,12 @@ const OverviewBooking = ({
 
     try {
       setErrorMessage("");
-      // setSuccessMessage("");
       await deleteBooking(bookingId);
       setMyBookings((prev) =>
         prev.filter((booking) => booking.id !== bookingId),
       );
-      // setSuccessMessage("Booking successfully canceled.");
+      showToast("Booking successfully canceled.", "success");
     } catch (error) {
-      // setSuccessMessage("");
       setErrorMessage(
         error instanceof Error ? error.message : "Failed to cancel booking.",
       );

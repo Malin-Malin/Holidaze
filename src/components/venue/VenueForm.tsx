@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useToast } from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
@@ -42,7 +43,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (!initialVenue) return;
@@ -101,7 +102,6 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const submitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
-    setSuccessMessage("");
 
     if (!form.name || !form.description || !form.city || !form.country) {
       setErrorMessage("Please fill in all required fields.");
@@ -149,10 +149,11 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       const savedVenue = isEditMode
         ? await updateVenue(venueId as string, payload)
         : await createVenue(payload);
-      setSuccessMessage(
+      showToast(
         isEditMode
           ? "Venue updated successfully."
           : "Venue created successfully.",
+        "success"
       );
       if (!isEditMode) {
         setForm(initialFormState);
@@ -190,9 +191,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
         {errorMessage && (
           <p className="text-[var(--color-danger)]">{errorMessage}</p>
         )}
-        {successMessage && (
-          <p className="text-[var(--color-success)]">{successMessage}</p>
-        )}
+
         <button
           type="submit"
           disabled={isSubmitting}
