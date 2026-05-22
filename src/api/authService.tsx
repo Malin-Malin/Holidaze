@@ -50,10 +50,6 @@ export async function login(
       LOGIN_ENDPOINT + "?_holidaze=true",
       { email, password },
     );
-    if (response) {
-      // Store tokens securely (consider using HttpOnly cookies in a real app)
-      localStorage.setItem("accessToken", response.data.accessToken);
-    }
     return response.data;
   } catch (error) {
     console.error("Login failed:", error);

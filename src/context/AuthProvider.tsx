@@ -1,6 +1,7 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext.tsx";
 import type { Profile } from "../types/profile.types.tsx";
+import { AUTH_UNAUTHORIZED_EVENT } from "../utils/auth";
 
 function parseStoredUser(): Partial<Profile> | null {
   const savedUser = localStorage.getItem("userInfo");
@@ -34,49 +35,68 @@ function hasCompleteStoredAuth(user: Partial<Profile> | null): boolean {
   return Boolean(user?.name);
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<Partial<Profile> | null>(parseStoredUser);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
     hasCompleteStoredAuth(parseStoredUser()),
   );
-  const [apiKey, setApiKey] = useState<string | null>(
-    localStorage.getItem("apiKey"),
+  const [isVenueManager, setIsVenueManager] = useState<boolean>(
+    () => user?.venueManager === true,
   );
 
-  const login = (
-    accessToken: string,
-    apiKey: string,
-    userInfo: Partial<Profile>,
-  ) => {
+  const clearAuthState = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userInfo");
+
+    setUser(null);
+    setIsLoggedIn(false);
+    setIsVenueManager(false);
+  };
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      clearAuthState();
+    };
+
+    window.addEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () => {
+      window.removeEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    };
+  }, []);
+
+  const login = (accessToken: string, userInfo: Partial<Profile>) => {
     localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("apiKey", apiKey);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
-    setApiKey(apiKey);
     setUser(userInfo);
     setIsLoggedIn(true);
+    setIsVenueManager(userInfo.venueManager === true);
   };
 
   const setUserInfo = (userInfo: Partial<Profile>) => {
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     setUser(userInfo);
+    setIsVenueManager(userInfo.venueManager === true);
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("apiKey");
-    localStorage.removeItem("userInfo");
-
-    setApiKey(null);
-    setUser(null);
-    setIsLoggedIn(false);
+    clearAuthState();
   };
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, user, apiKey, login, setUserInfo, logout }}
+      value={{
+        isLoggedIn,
+        isVenueManager,
+        user,
+        login,
+        setUserInfo,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default AuthProvider;

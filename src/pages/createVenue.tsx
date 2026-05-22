@@ -1,12 +1,13 @@
-import { useParams } from "react-router-dom";
-import { CreateVenue } from "../components/venue/editVenue/createVenue";
+import Breadcrumb from "../components/layout/Breadcrumb";
+import VenueForm from "../components/venue/VenueForm";
 
-export default function CreateVenuePage() {
-  const { id } = useParams<{ id: string }>();
-
+const CreateVenuePage = () => {
   return (
-    <section className="pb-10">
-      <CreateVenue venueId={id} />
-    </section>
+    <>
+      <Breadcrumb />
+      <VenueForm />
+    </>
   );
-}
+};
+
+export default CreateVenuePage;

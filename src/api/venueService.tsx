@@ -4,30 +4,7 @@ import { post, get, put, del } from "./api";
 
 const VENUES_ENDPOINT = "/holidaze/venues";
 
-export type PaginationMeta = {
-  isFirstPage?: boolean;
-  isLastPage?: boolean;
-  currentPage?: number;
-  previousPage?: number | null;
-  nextPage?: number | null;
-  pageSize?: number;
-  pageCount?: number;
-  total?: number;
-  totalCount?: number;
-};
-
-export type VenuesPageResponse = {
-  data: Venue[];
-  meta: PaginationMeta;
-};
-
-function normalizeMeta(meta: unknown): PaginationMeta {
-  if (meta && typeof meta === "object" && "pagination" in meta) {
-    return (meta as { pagination?: PaginationMeta }).pagination ?? {};
-  }
-
-  return (meta as PaginationMeta) ?? {};
-}
+export type VenuesPageResponse = ApiResponse<Venue[]>;
 
 async function createVenue(venueData: VenueData) {
   try {
@@ -46,15 +23,17 @@ async function getVenues(
   page = 1,
   limit = 12,
   includeBookings = false,
+  orderBy = "name",
+  orderDirection: "asc" | "desc" = "asc",
 ): Promise<VenuesPageResponse> {
   try {
     const bookingsQuery = includeBookings ? "&_bookings=true" : "";
     const response = await get<ApiResponse<Venue[]>>(
-      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=name&sortOrder=asc${bookingsQuery}`,
+      `${VENUES_ENDPOINT}?page=${page}&limit=${limit}&sort=${orderBy}&sortOrder=${orderDirection}${bookingsQuery}`,
     );
     return {
       data: response.data,
-      meta: normalizeMeta(response.meta),
+      meta: response.meta,
     };
   } catch (error) {
     console.error("Error fetching venues:", error);

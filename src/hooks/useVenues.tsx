@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getVenues, type PaginationMeta } from "../api/venueService";
+import { getVenues } from "../api/venueService";
 import type { Venue } from "../types/venue.types";
 
 type UseVenuesFilters = {
@@ -71,7 +71,7 @@ export function useVenues(
 
         if (!hasActiveFilters) {
           const response = await getVenues(currentPage, pageSize);
-          const meta = (response.meta ?? {}) as PaginationMeta;
+          const meta = response.meta ?? {};
           const resolvedPageCount =
             Number.isFinite(meta.pageCount) && (meta.pageCount ?? 0) > 0
               ? Math.floor(meta.pageCount as number)
@@ -122,7 +122,7 @@ export function useVenues(
             }),
           );
 
-          const meta = (response.meta ?? {}) as PaginationMeta;
+          const meta = response.meta ?? {};
           nextPage = meta.nextPage ?? null;
           page = nextPage ?? page + 1;
         }

@@ -1,6 +1,8 @@
 const BASE_URL = "https://v2.api.noroff.dev";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
+import { AUTH_UNAUTHORIZED_EVENT } from "../utils/auth";
+
 type ApiErrorPayload = {
   errors?: Array<{ message?: string } | string>;
   message?: string;
@@ -26,6 +28,15 @@ function getApiErrorMessage(payload: ApiErrorPayload | null, status: number) {
   }
 
   return `API error (${status})`;
+}
+
+function notifyUnauthorized() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("userInfo");
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(AUTH_UNAUTHORIZED_EVENT));
+  }
 }
 
 /**
@@ -80,7 +91,14 @@ export async function apiClient<T, R>(
     const response = await fetch(BASE_URL + endpoint, config);
     const data = await parseJson<R | ApiErrorPayload>(response);
 
+    // delay for testing loading states
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     if (!response.ok) {
+      if (response.status === 401) {
+        notifyUnauthorized();
+      }
+
       const errorMessage = getApiErrorMessage(
         data as ApiErrorPayload | null,
         response.status,

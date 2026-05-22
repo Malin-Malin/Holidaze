@@ -1,35 +1,32 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+import Amenities from "../components/ui/Amenities";
+import LocationText from "../components/ui/LocationText";
+import Rating from "../components/ui/Rating";
+import Gallery from "../components/venue/Gallery";
+import BookingForm from "../components/booking/BookingForm";
+import BookingSummary from "../components/booking/BookingSummary";
+import BookingGrid from "../components/booking/BookingGrid";
+import AvailabilityCalendar from "../components/booking/AvailabilityCalendar";
+import ManagedBy from "../components/venue/ManagedBy";
+import Breadcrumb from "../components/layout/Breadcrumb";
+import { VenueDetailSkeleton } from "../components/loading/PageSkeletons";
+
 import { useVenueById } from "../hooks/useVenueById";
 import { useAuth } from "../hooks/useAuth";
-import { Amenities } from "../components/ui/amenities";
-import { LocationText } from "../components/ui/locationText";
-import { Rating } from "../components/ui/rating";
-import Gallery from "../components/venue/gallery";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { BookingForm } from "../components/booking/bookingForm";
-import { BookingSummary } from "../components/booking/bookingSummary";
-import { AvailabilityCalendar } from "../components/booking/availabilityCalendar";
-import { UpcomingBookings } from "../components/venue/upcomingBookings";
-import { ManagedBy } from "../components/venue/managedBy";
-import { VenueDetailSkeleton } from "../components/loading/pageSkeletons";
-import { Breadcrumb } from "../components/layout/breadcrumb";
+import { formatPrice } from "../utils/number";
+import { syncVenueNameState } from "../utils/routeState";
 
 function isUpcomingBooking(dateTo: string) {
   const now = new Date();
   return new Date(dateTo) >= now;
 }
 
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-export default function VenueDetail() {
+const VenueDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { venue, isLoading, errorMessage, refresh } = useVenueById(id);
   const { user } = useAuth();
   const [selectedDateFrom, setSelectedDateFrom] = useState("");
@@ -40,6 +37,19 @@ export default function VenueDetail() {
     dateTo: string;
     guests: number;
   } | null>(null);
+
+  useEffect(() => {
+    if (!venue?.id || !venue?.name) {
+      return;
+    }
+
+    syncVenueNameState({
+      navigate,
+      to: `/venues/${venue.id}`,
+      locationState: location.state,
+      venueName: venue.name,
+    });
+  }, [location.state, navigate, venue?.id, venue?.name]);
 
   if (isLoading) {
     return <VenueDetailSkeleton />;
@@ -72,15 +82,15 @@ export default function VenueDetail() {
         new Date(first.dateFrom).getTime() -
         new Date(second.dateFrom).getTime(),
     );
-  const managerBookingCards = upcomingVenueBookings.map((booking, index) => ({
-    id:
-      booking.id ||
-      `${venue.id}-${booking.dateFrom}-${booking.dateTo}-${index}`,
+  const managerBookingCards = upcomingVenueBookings.map((booking) => ({
+    id: booking.id,
     dateFrom: booking.dateFrom,
     dateTo: booking.dateTo,
     guests: booking.guests,
     customer: booking.customer,
     venue,
+    created: booking.created,
+    updated: booking.updated,
   }));
 
   return (
@@ -92,12 +102,8 @@ export default function VenueDetail() {
           {venue.name}
         </h1>
         <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="inline-flex items-center gap-2 text-[var(--text)]">
-            <FaMapMarkerAlt aria-hidden="true" />
-            <LocationText
-              city={venue.location.city}
-              country={venue.location.country}
-            />
+          <p className="text-[var(--text)]">
+            <LocationText venue={venue} />
           </p>
           <Rating
             rating={venue.rating}
@@ -170,7 +176,13 @@ export default function VenueDetail() {
         </div>
       )}
 
-      {isVenueManager && <UpcomingBookings bookings={managerBookingCards} />}
+      {isVenueManager && (
+        <BookingGrid
+          bookings={managerBookingCards}
+          showViewVenueButton={false}
+          isLoading={isLoading}
+        />
+      )}
 
       <ManagedBy
         manager={manager}
@@ -179,4 +191,6 @@ export default function VenueDetail() {
       />
     </section>
   );
-}
+};
+
+export default VenueDetail;
