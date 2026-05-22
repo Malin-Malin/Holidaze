@@ -104,6 +104,10 @@ const BookingSummary = ({
       </div>
 
       <p className="mt-6 text-sm text-[var(--text)]/70 italic">
+        Stay information: Check in from 15:00 and check out before 11:00.
+        <br /> Please reach out if you have any questions.
+      </p>
+      <p className="mt-2 text-sm text-[var(--text)]/70 italic pt-2">
         You can manage your bookings on your profile.
       </p>
     </div>

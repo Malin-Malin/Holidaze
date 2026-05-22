@@ -7,7 +7,8 @@ import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
 import type { Venue } from "../../types/venue.types";
 import { hasInclusiveBookingOverlap } from "../../utils/booking";
-import { addDaysToDateKey } from "../../utils/date";
+import { addDaysToDateKey, formatDate } from "../../utils/date";
+import { formatPrice } from "../../utils/number";
 
 type BookingFormProps = {
   venue: Venue;
@@ -45,6 +46,31 @@ const BookingForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
+  const checkInDate = new Date(dateFrom);
+  const checkOutDate = new Date(dateTo);
+  const hasValidDateRange =
+    !!checkInDate && !!checkOutDate && checkOutDate > checkInDate;
+  const nights = hasValidDateRange
+    ? Math.ceil(
+        (checkOutDate.getTime() - checkInDate.getTime()) /
+          (1000 * 60 * 60 * 24),
+      )
+    : 0;
+  const guestCount = Number(guests);
+  const isGuestCountValid =
+    Number.isFinite(guestCount) &&
+    guestCount >= 1 &&
+    guestCount <= venue.maxGuests;
+  const canPreviewTotal = hasValidDateRange && isGuestCountValid;
+  const estimatedTotal = venue.price * nights;
+  const selectedRangeLabel = canPreviewTotal
+    ? `${formatDate(dateFrom, { fallback: "Unknown date" })} - ${formatDate(
+        dateTo,
+        {
+          fallback: "Unknown date",
+        },
+      )}`
+    : "";
 
   const checkOutMinDate = dateFrom ? addDaysToDateKey(dateFrom, 1) : today;
 
@@ -222,19 +248,46 @@ const BookingForm = ({
               className="form-input"
             />
           </FormField>
+
+          {canPreviewTotal && (
+            <div className="rounded-md border border-[var(--color-honey)]/35 bg-[var(--color-honey)]/10 p-3 text-center text-sm text-[var(--text)] lg:text-left">
+              <p className="font-semibold text-[var(--text-h)]">
+                Review before confirming
+              </p>
+              <p className="pt-1 text-[var(--text)]/85">
+                Stay: <span className="font-medium">{selectedRangeLabel}</span>
+              </p>
+              <p className="pt-1 text-[var(--text)]/85">
+                Guests: <span className="font-medium">{guestCount}</span>
+              </p>
+              <p className="pt-1">
+                {formatPrice(venue.price)} /night x {nights} night
+                {nights === 1 ? "" : "s"} ={" "}
+                <span className="font-semibold text-[var(--color-honey)]">
+                  {formatPrice(estimatedTotal)}
+                </span>
+              </p>
+              <p className="mt-1 text-xs text-[var(--text)]/75 pt-2">
+                Review your selected dates and estimated total before confirming
+                your booking.
+              </p>
+            </div>
+          )}
         </fieldset>
         {submitError && (
           <p role="alert" className="mt-2 text-sm text-[var(--color-danger)]">
             {submitError}
           </p>
         )}
-        <button
-          type="submit"
-          disabled={!isLoggedIn || isSubmitting}
-          className="mt-4 inline-flex items-center justify-center rounded-md bg-[var(--color-ink)] px-5 py-2 text-[var(--color-honey)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
-        >
-          {isSubmitting ? "Booking..." : "Create booking"}
-        </button>
+        <div className="mt-4 pt-2 pb-4 flex justify-center">
+          <button
+            type="submit"
+            disabled={!isLoggedIn || isSubmitting}
+            className="inline-flex items-center justify-center rounded-md bg-[var(--color-ink)] px-5 py-2 text-[var(--color-honey)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-honey)]"
+          >
+            {isSubmitting ? "Booking..." : "Create booking"}
+          </button>
+        </div>
       </form>
     </section>
   );
