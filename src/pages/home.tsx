@@ -5,7 +5,6 @@ import Banner from "../components/layout/Banner";
 import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
 import WideCard from "../components/ui/WideCard";
-// import { PopularVenuesSection } from "../components/venue/PopularVenuesSection";
 
 import { useAuth } from "../hooks/useAuth";
 import { useRecentVenues } from "../hooks/useRecentVenues";
@@ -14,6 +13,8 @@ const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
   const { venues: recentVenues, isLoading: isLoadingRecent } =
     useRecentVenues(3);
+  const { venues: popularVenues, isLoading: isLoadingPopular } =
+    useRecentVenues(3, "rating", "desc");
 
   return (
     <>
@@ -58,9 +59,24 @@ const HomePage = () => {
           </p>
         </WideCard>
 
-        {/* <PopularVenuesSection /> */}
+        {/* Top rated venues */}
+        <VenueGrid
+          title="Top rated venues"
+          venues={popularVenues}
+          isLoading={isLoadingPopular}
+          numberOfVenues={3}
+          showViewAllButton={true}
+        />
 
-        {/* add a section divider- brown - a home away from home */}
+        <WideCard title="A home away from home">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
+            At Holidaze, we believe that travel is about more than just visiting
+            new places. It's about creating memories, experiencing different
+            cultures, and finding a home away from home.
+          </p>
+        </WideCard>
+
+        {/* login/register */}
 
         <section className="py-12 md:py-16">
           <div className="grid gap-6 md:grid-cols-3">
@@ -69,7 +85,6 @@ const HomePage = () => {
               title="Unique places"
               text="Hundreds of venues across the world, from cozy cabins to city apartments."
             />
-
             <PopoutCard
               icon={<SlCalender />}
               title="Easy booking"
@@ -82,16 +97,6 @@ const HomePage = () => {
             />
           </div>
         </section>
-
-        <WideCard title="A home away from home">
-          <p className="mx-auto mt-4 max-w-2xl text-center text-base text-[var(--color-nav-link)]/90 md:text-lg">
-            At Holidaze, we believe that travel is about more than just visiting
-            new places. It's about creating memories, experiencing different
-            cultures, and finding a home away from home.
-          </p>
-        </WideCard>
-
-        {/* login/register */}
       </main>
     </>
   );

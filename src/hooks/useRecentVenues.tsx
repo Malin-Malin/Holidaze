@@ -7,7 +7,11 @@ type UseRecentVenuesResult = {
   isLoading: boolean;
 };
 
-export function useRecentVenues(count = 3): UseRecentVenuesResult {
+export function useRecentVenues(
+  count = 3,
+  sortBy: string = "created",
+  sortOrder: "asc" | "desc" = "desc",
+): UseRecentVenuesResult {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +21,7 @@ export function useRecentVenues(count = 3): UseRecentVenuesResult {
     async function load() {
       try {
         setIsLoading(true);
-        const response = await getVenues(1, count, false, "created", "desc");
+        const response = await getVenues(1, count, false, sortBy, sortOrder);
         if (!isCancelled) {
           setVenues(response.data);
         }
@@ -37,7 +41,7 @@ export function useRecentVenues(count = 3): UseRecentVenuesResult {
     return () => {
       isCancelled = true;
     };
-  }, [count]);
+  }, [count, sortBy, sortOrder]);
 
   return { venues, isLoading };
 }
