@@ -15,6 +15,10 @@ const HomePage = () => {
     useRecentVenues(3);
   const { venues: featuredVenues, isLoading: isLoadingFeatured } =
     useRecentVenues(3, "created", "desc", true);
+  const featuredVenueId = featuredVenues[0]?.id;
+  const venueDetailLink = featuredVenueId
+    ? `/venues/${featuredVenueId}`
+    : "/venues";
 
   return (
     <>
@@ -82,18 +86,33 @@ const HomePage = () => {
           <div className="grid gap-6 md:grid-cols-3">
             <PopoutCard
               icon={<LuHouse />}
-              title="Unique places"
-              text="Hundreds of venues across the world, from cozy cabins to city apartments."
+              title={isLoggedIn ? "Browse venues" : "Unique places"}
+              text={
+                isLoggedIn
+                  ? "Hundreds of venues across the world, from cozy apartments to luxurious villas."
+                  : "Create an account to unlock venue browsing and booking features."
+              }
+              to={isLoggedIn ? "/venues" : "/register"}
             />
             <PopoutCard
               icon={<SlCalender />}
-              title="Easy booking"
-              text="Check availability, pick your dates and book! It's that simple."
+              title={isLoggedIn ? "Easy booking" : "Easy booking"}
+              text={
+                isLoggedIn
+                  ? "Jump into one of our featured venues and complete your booking in minutes."
+                  : "Register in order to book your next stay at one of our unique venues."
+              }
+              to={isLoggedIn ? venueDetailLink : "/register"}
             />
             <PopoutCard
               icon={<IoKeyOutline />}
-              title="Host too"
-              text="Do you have a property to list? Become a host and list your property in minutes."
+              title={isLoggedIn ? "Your profile" : "Join Holidaze"}
+              text={
+                isLoggedIn
+                  ? "Manage your bookings and view the booking details for your venues."
+                  : "Create your account to manage stays and become a host."
+              }
+              to={isLoggedIn ? "/profile" : "/register"}
             />
           </div>
         </section>
