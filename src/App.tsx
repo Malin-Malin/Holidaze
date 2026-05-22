@@ -22,6 +22,7 @@ import {
   ProfilePage,
   EditProfilePage,
   VenuesPage,
+  NotFoundPage,
 } from "./pages";
 
 function AppLayout() {
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);
