@@ -8,6 +8,7 @@ import SafeImage from "../ui/SafeImage";
 
 import placeholderImage from "../../assets/placeholderImage.jpg";
 import Button from "../ui/Button";
+import ButtonLink from "../ui/ButtonLink";
 
 import type { Venue } from "../../types/venue.types";
 
@@ -81,18 +82,15 @@ const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
           {(onEdit || onDelete) && (
             <div className="flex items-center justify-start gap-2 pt-2">
               {onEdit && (
-                <Button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEdit(venue.id);
-                  }}
+                <ButtonLink
+                  to={`/venues/${venue.id}/edit`}
+                  onClick={(e) => e.stopPropagation()}
                   variant="outline"
                   size="md"
                   className="text-sm"
                 >
                   Edit
-                </Button>
+                </ButtonLink>
               )}
               {onDelete && (
                 <Button

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 
 import Banner from "../components/layout/Banner";
 import Breadcrumb from "../components/layout/Breadcrumb";
@@ -70,12 +69,14 @@ const ProfilePage = () => {
             )}
           </div>
         </div>
-        <Link
+        <ButtonLink
           to="/profile/edit"
-          className="self-end rounded border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-h)] transition-colors hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] sm:self-auto"
+          variant="outline"
+          size="md"
+          className="self-end sm:self-auto"
         >
           Edit profile
-        </Link>
+        </ButtonLink>
       </div>
       <p>{profile.bio}</p>
       {profile.venueManager && (

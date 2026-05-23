@@ -198,7 +198,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
         <Button
           type="submit"
           disabled={isSubmitting}
-          variant="primary"
+          variant="secondary"
           size="lg"
           width="wide"
         >
