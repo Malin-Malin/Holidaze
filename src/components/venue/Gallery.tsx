@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 
-import "./gallery.css";
+import "./Gallery.css";
 import GalleryImage from "./GalleryImage";
 import GalleryLightbox from "./GalleryLightbox";
 
