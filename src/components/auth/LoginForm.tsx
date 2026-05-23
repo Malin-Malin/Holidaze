@@ -4,6 +4,8 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import FormField from "../input/FormField";
 import AuthFormLayout from "./AuthFormLayout";
 
+import Button from "../ui/Button";
+
 import { login } from "../../api/authService";
 import { useAuth } from "../../hooks/useAuth";
 import { validateNoroffEmail } from "../../utils/authValidation";
@@ -95,12 +97,9 @@ const LoginForm = () => {
           {submitError}
         </p>
       )}
-      <button
-        type="submit"
-        className="w-full rounded bg-[var(--color-ink)] px-3 py-2 text-[var(--color-honey)] transition hover:opacity-90"
-      >
+      <Button type="submit" variant="secondary" size="md" width="full">
         Log In
-      </button>
+      </Button>
 
       <p className="text-sm text-[var(--text)]">
         Don't have an account?{" "}
