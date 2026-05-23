@@ -191,9 +191,6 @@ const VenueDetail = () => {
             dateTo={confirmedData.dateTo}
             guests={confirmedData.guests}
             onDismiss={() => setBookingConfirmed(false)}
-            showActions
-            onConfirm={() => setBookingConfirmed(false)}
-            onCancel={() => setBookingConfirmed(false)}
           />
         </Modal>
       )}
