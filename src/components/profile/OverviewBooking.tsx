@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import ConfirmModal from "../ui/ConfirmModal";
 import BookingGrid from "../booking/BookingGrid";
 
 import type { Booking } from "../../types/venue.types";
@@ -21,26 +22,32 @@ const OverviewBooking = ({
   const [errorMessage, setErrorMessage] = useState("");
   const { showToast } = useToast();
 
+  const [confirmBookingId, setConfirmBookingId] = useState<string | null>(null);
+
   useEffect(() => {
     setMyBookings(bookings);
   }, [bookings]);
 
   async function handleCancel(bookingId: string) {
-    const confirmed = window.confirm("Cancel this booking?");
-    if (!confirmed) return;
+    setConfirmBookingId(bookingId);
+  }
 
+  async function confirmCancelBooking() {
+    if (!confirmBookingId) return;
     try {
       setErrorMessage("");
-      await deleteBooking(bookingId);
+      await deleteBooking(confirmBookingId);
+
       setMyBookings((prev) =>
-        prev.filter((booking) => booking.id !== bookingId),
+        prev.filter((booking) => booking.id !== confirmBookingId),
       );
       showToast("Booking successfully canceled.", "success");
     } catch (error) {
       const msg =
         error instanceof Error ? error.message : "Failed to cancel booking.";
       setErrorMessage(msg);
-      showToast(msg, "error");
+    } finally {
+      setConfirmBookingId(null);
     }
   }
 
@@ -57,14 +64,25 @@ const OverviewBooking = ({
   );
 
   return (
-    <BookingGrid
-      title="My upcoming bookings"
-      bookings={upcomingBookings}
-      isLoading={isLoading}
-      handleCancel={handleCancel}
-      fallbackMessage="You have no upcoming bookings."
-      errorMessage={errorMessage}
-    />
+    <>
+      <BookingGrid
+        title="My upcoming bookings"
+        bookings={upcomingBookings}
+        isLoading={isLoading}
+        handleCancel={handleCancel}
+        fallbackMessage="You have no upcoming bookings."
+        errorMessage={errorMessage}
+      />
+      <ConfirmModal
+        open={!!confirmBookingId}
+        title="Cancel Booking"
+        message="Are you sure you want to cancel this booking? This action cannot be undone."
+        confirmText="Cancel Booking"
+        cancelText="Keep Booking"
+        onConfirm={confirmCancelBooking}
+        onCancel={() => setConfirmBookingId(null)}
+      />
+    </>
   );
 };
 
