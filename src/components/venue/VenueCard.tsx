@@ -7,6 +7,7 @@ import LocationText from "../ui/LocationText";
 import SafeImage from "../ui/SafeImage";
 
 import placeholderImage from "../../assets/placeholderImage.jpg";
+import Button from "../ui/Button";
 
 import type { Venue } from "../../types/venue.types";
 
@@ -80,28 +81,32 @@ const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
           {(onEdit || onDelete) && (
             <div className="flex items-center justify-start gap-2 pt-2">
               {onEdit && (
-                <button
+                <Button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onEdit(venue.id);
                   }}
-                  className="rounded border border-[var(--color-ink)] px-3 py-1 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
+                  variant="outline"
+                  size="md"
+                  className="text-sm"
                 >
                   Edit
-                </button>
+                </Button>
               )}
               {onDelete && (
-                <button
+                <Button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDelete(venue.id);
                   }}
-                  className="rounded border border-[var(--color-danger)] px-3 py-1 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-white"
+                  variant="danger"
+                  size="md"
+                  className="text-sm"
                 >
                   Delete
-                </button>
+                </Button>
               )}
             </div>
           )}

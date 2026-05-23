@@ -7,9 +7,12 @@ import VenueBasicsSection from "./form/VenueBasicsSection";
 import VenueLocationSection from "./form/VenueLocationSection";
 import VenueMediaSection from "./form/VenueMediaSection";
 
+import Button from "../ui/Button";
+
 import type { Venue, VenueData } from "../../types/venue.types";
 import type { Media } from "../../types/common.types";
 import type { VenueFormState } from "./form/VenueForm.types";
+
 import { createVenue, updateVenue } from "../../api/venueService";
 import { isValidHttpUrl } from "../../utils/url";
 import { useToast } from "../../hooks/useToast";
@@ -192,17 +195,19 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
           <p className="text-[var(--color-danger)]">{errorMessage}</p>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
-          className="rounded bg-[var(--color-ink)] px-4 py-2 text-[var(--color-honey)]"
+          variant="primary"
+          size="lg"
+          width="wide"
         >
           {isSubmitting
             ? "Saving..."
             : isEditMode
               ? "Save changes"
               : "Create venue"}
-        </button>
+        </Button>
       </form>
     </section>
   );

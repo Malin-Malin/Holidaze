@@ -1,7 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import type { Booking } from "../../types/venue.types";
 import { formatDate } from "../../utils/date";
+
+import Button from "../ui/Button";
+
+import type { Booking } from "../../types/venue.types";
 
 type BookingCardProps = {
   booking: Booking;
@@ -89,16 +92,18 @@ const BookingCard = ({
           )}
 
           {onCancel && !bookingStarted && (
-            <button
+            <Button
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
                 onCancel(booking.id);
               }}
-              className="ml-auto rounded border border-[var(--color-danger)] px-3 py-1 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-white"
+              variant="danger"
+              size="md"
+              className="ml-auto text-sm"
             >
               Cancel
-            </button>
+            </Button>
           )}
 
           {bookingStarted && (
