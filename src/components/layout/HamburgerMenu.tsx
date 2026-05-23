@@ -4,6 +4,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useEffect } from "react";
 import { useRef } from "react";
 
+import Button from "../ui/Button";
+
 import { useAuth } from "../../hooks/useAuth";
 
 const NAV_LINKS = [
@@ -35,16 +37,16 @@ const HamburgerMenu = () => {
 
   return (
     <div className="relative md:hidden" ref={menuRef}>
-      <button
+      <Button
         type="button"
+        variant="icon"
         onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded text-[var(--shell-accent)] transition hover:bg-white/10 hover:ring-1 hover:ring-[var(--shell-accent)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--shell-accent)]"
         aria-expanded={isOpen}
         aria-controls="mobile-nav-menu"
         aria-label="Toggle navigation menu"
       >
         <RxHamburgerMenu size={30} aria-hidden="true" />
-      </button>
+      </Button>
 
       {isOpen && (
         <nav
