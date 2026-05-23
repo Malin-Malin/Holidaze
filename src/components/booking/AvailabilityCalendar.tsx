@@ -112,7 +112,7 @@ const AvailabilityCalendar = ({
       isBeforeSelectedStart(cell.dateKey, activeDateFrom, activeDateTo);
 
     if (isStart || isEnd || inRange) {
-      return `${baseClass} ${isStart || isEnd ? "rounded-md ring-2 ring-[var(--color-honey)]" : "rounded-none border-y-2 border-x-0"} border-[var(--color-honey)] bg-[var(--color-honey)] text-[var(--color-ink)] font-semibold cursor-pointer${dim}`;
+      return `${baseClass} ${isStart || isEnd ? "rounded-md ring-2 ring-[var(--color-honey)]" : "rounded-none border-y-2 border-x-0"} border-[var(--color-honey)] bg-[var(--color-honey)] text-[var(--color-ink)] hover:text-[var(--color-ink)] hover:brightness-105 font-semibold cursor-pointer${dim}`;
     }
     if (beforeStart) {
       return `${baseClass} rounded-md border-[var(--border)] bg-[var(--border)] text-[var(--text)] opacity-50 cursor-pointer${dim}`;
@@ -124,7 +124,7 @@ const AvailabilityCalendar = ({
       return `${baseClass} rounded-md border-[var(--color-danger)]/40 bg-[var(--color-danger)]/15 text-[var(--color-danger)]${dim}`;
     }
     if (cell.isAvailable) {
-      return `${baseClass} rounded-md border-[var(--color-honey)]/30 bg-[var(--color-honey)]/10 text-[var(--text-h)] transition-colors cursor-pointer hover:bg-[var(--color-honey)]/80 hover:border-[var(--color-honey)] dark:hover:bg-[var(--color-honey)] dark:hover:border-[var(--color-honey)]${dim}`;
+      return `${baseClass} rounded-md border-[var(--color-honey)]/30 bg-[var(--color-honey)]/10 text-[var(--text-h)] transition-colors cursor-pointer hover:bg-[var(--color-honey)]/80 hover:border-[var(--color-honey)] hover:text-[var(--color-ink)] dark:hover:bg-[var(--color-honey)] dark:hover:border-[var(--color-honey)] dark:hover:text-[var(--color-ink)]${dim}`;
     }
     return `${baseClass} rounded-md border-[var(--border)] bg-transparent text-[var(--text)] opacity-40${dim}`;
   }
