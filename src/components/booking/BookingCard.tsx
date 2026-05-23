@@ -1,7 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { formatDate } from "../../utils/date";
+
+import Button from "../ui/Button";
+import ButtonLink from "../ui/ButtonLink";
 
 import type { Booking } from "../../types/venue.types";
-import { formatDate } from "../../utils/date";
 
 type BookingCardProps = {
   booking: Booking;
@@ -79,26 +83,30 @@ const BookingCard = ({
 
         <div className="flex items-center pt-4">
           {showViewVenueButton && booking.venue?.id && !bookingStarted && (
-            <Link
+            <ButtonLink
               to={`/venues/${booking.venue.id}`}
               onClick={(event) => event.stopPropagation()}
-              className="rounded border border-[var(--color-ink)] px-3 py-1 text-sm text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
+              variant="outline"
+              size="md"
+              className="text-sm"
             >
               View venue
-            </Link>
+            </ButtonLink>
           )}
 
           {onCancel && !bookingStarted && (
-            <button
+            <Button
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
                 onCancel(booking.id);
               }}
-              className="ml-auto rounded border border-[var(--color-danger)] px-3 py-1 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-white"
+              variant="danger"
+              size="md"
+              className="ml-auto text-sm"
             >
               Cancel
-            </button>
+            </Button>
           )}
 
           {bookingStarted && (

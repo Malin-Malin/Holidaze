@@ -1,3 +1,5 @@
+import Button from "../../ui/Button";
+
 import type { Media } from "../../../types/common.types";
 
 type VenueMediaSectionProps = {
@@ -36,20 +38,28 @@ const VenueMediaSection = ({
             className="form-input"
           />
           {mediaList.length > 1 && (
-            <button
+            <Button
               type="button"
               onClick={() => onRemoveRow(index)}
-              className="self-end rounded border border-[var(--color-danger)] px-3 py-2 text-[var(--color-danger)] hover:bg-[var(--color-danger)]/10 sm:self-auto"
+              variant="danger"
+              size="md"
+              className="self-end sm:self-auto"
               aria-label="Remove image"
             >
               X
-            </button>
+            </Button>
           )}
         </div>
       ))}
-      <button type="button" onClick={onAddRow} className="text-sm underline">
+      <Button
+        type="button"
+        onClick={onAddRow}
+        variant="outline"
+        size="md"
+        className="text-sm underline"
+      >
         + Add another image
-      </button>
+      </Button>
     </div>
   );
 };

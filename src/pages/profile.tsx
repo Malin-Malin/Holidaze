@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
 
 import Banner from "../components/layout/Banner";
 import Breadcrumb from "../components/layout/Breadcrumb";
 import ButtonLink from "../components/ui/ButtonLink";
+import Button from "../components/ui/Button";
 import SafeImage from "../components/ui/SafeImage";
 import OverviewVenue from "../components/profile/OverviewVenue";
 import OverviewBooking from "../components/profile/OverviewBooking";
@@ -69,12 +69,14 @@ const ProfilePage = () => {
             )}
           </div>
         </div>
-        <Link
+        <ButtonLink
           to="/profile/edit"
-          className="self-end rounded border border-[var(--border)] px-4 py-2 text-sm text-[var(--text-h)] transition-colors hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] sm:self-auto"
+          variant="outline"
+          size="md"
+          className="self-end sm:self-auto"
         >
           Edit profile
-        </Link>
+        </ButtonLink>
       </div>
       <p>{profile.bio}</p>
       {profile.venueManager && (
@@ -103,13 +105,15 @@ const ProfilePage = () => {
         isLoading={isLoading}
       />
       <div className="flex justify-center py-6">
-        <button
+        <Button
           type="button"
           onClick={logout}
-          className="rounded border border-red-700 px-3 py-1 text-xl text-red-700 hover:bg-red-700 hover:text-white"
+          variant="danger"
+          size="lg"
+          className="text-xl"
         >
           Logout
-        </button>
+        </Button>
       </div>
     </>
   );

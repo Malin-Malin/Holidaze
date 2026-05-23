@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import CircleIconButton from "../ui/CircleIconButton";
+
 import placeholderImage from "../../assets/placeholderImage.jpg";
 
 import type { Media } from "../../types/common.types";
@@ -77,14 +79,14 @@ export default function GalleryLightbox({
         className="relative w-full max-w-6xl"
         onClick={(event) => event.stopPropagation()}
       >
-        <button
-          type="button"
+        <CircleIconButton
           onClick={onClose}
-          className="absolute right-2 top-2 z-10 cursor-pointer rounded-full bg-black/60 px-3 py-1 text-2xl leading-none text-white hover:bg-black/80"
+          className="absolute right-2 top-2 z-10"
           aria-label="Close fullscreen gallery"
+          size="md"
         >
-          x
-        </button>
+          ×
+        </CircleIconButton>
 
         <img
           src={showPlaceholder ? placeholderImage : activeMedia.url}
@@ -98,30 +100,30 @@ export default function GalleryLightbox({
 
         {totalImages > 1 && (
           <>
-            <button
-              type="button"
+            <CircleIconButton
               onClick={() =>
                 onActiveIndexChange(
                   activeIndex === 0 ? totalImages - 1 : activeIndex - 1,
                 )
               }
-              className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/60 px-3 py-1 text-2xl text-white hover:bg-black/80"
+              className="absolute left-2 top-1/2 -translate-y-1/2"
               aria-label="Show previous image"
+              size="lg"
             >
               ‹
-            </button>
-            <button
-              type="button"
+            </CircleIconButton>
+            <CircleIconButton
               onClick={() =>
                 onActiveIndexChange(
                   activeIndex === totalImages - 1 ? 0 : activeIndex + 1,
                 )
               }
-              className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/60 px-3 py-1 text-2xl text-white hover:bg-black/80"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
               aria-label="Show next image"
+              size="lg"
             >
               ›
-            </button>
+            </CircleIconButton>
           </>
         )}
       </div>

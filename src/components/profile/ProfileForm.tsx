@@ -4,6 +4,9 @@ import type React from "react";
 
 import FormField from "../input/FormField";
 
+import Button from "../ui/Button";
+import ButtonLink from "../ui/ButtonLink";
+
 import { updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";
 import { useToast } from "../../hooks/useToast";
@@ -213,20 +216,18 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
         )}
 
         <div className="flex gap-3">
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="rounded bg-[var(--color-honey)] px-6 py-2 font-medium text-[var(--color-ink)] transition hover:brightness-95 dark:bg-[var(--color-honey)] dark:text-[var(--color-ink)] dark:hover:brightness-95 disabled:opacity-50"
+            variant="secondary"
+            size="md"
+            className="px-6"
           >
             {isSubmitting ? "Saving..." : "Save changes"}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/profile")}
-            className="rounded border border-red-700 px-6 py-2 text-red-700 transition hover:bg-red-700 hover:text-white"
-          >
+          </Button>
+          <ButtonLink to="/profile" variant="danger" size="md" className="px-6">
             Cancel
-          </button>
+          </ButtonLink>
         </div>
       </form>
     </div>

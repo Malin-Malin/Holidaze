@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import Button from "./Button";
+
 type PaginationProps = {
   currentPage: number;
   pageCount: number;
@@ -41,14 +43,16 @@ const Pagination = ({
 
   return (
     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <button
+      <Button
         type="button"
         onClick={goToPreviousPage}
         disabled={isFirstPage}
-        className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] transition-colors duration-200 enabled:hover:bg-[var(--color-ink)] enabled:hover:text-[var(--color-honey)] disabled:cursor-not-allowed disabled:opacity-40"
+        variant="outline"
+        size="md"
+        className="px-4"
       >
         Previous
-      </button>
+      </Button>
       <p className="flex items-center gap-2 text-sm text-[var(--text-h)]">
         <span>Page</span>
         <input
@@ -69,13 +73,15 @@ const Pagination = ({
         <span>of {pageCount}</span>
       </p>
       {!isLastPage && (
-        <button
+        <Button
           type="button"
           onClick={handleNextPage}
-          className="rounded border border-[var(--color-ink)] px-4 py-2 text-sm text-[var(--color-ink)] transition-colors duration-200 hover:bg-[var(--color-ink)] hover:text-[var(--color-honey)]"
+          variant="outline"
+          size="md"
+          className="px-4"
         >
           Next
-        </button>
+        </Button>
       )}
     </div>
   );

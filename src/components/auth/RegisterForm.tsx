@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../ui/Button";
 import { useNavigate, Link } from "react-router-dom";
 
 import FormField from "../input/FormField";
@@ -170,13 +171,15 @@ export function RegisterForm() {
         </p>
       )}
 
-      <button
+      <Button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded bg-[var(--color-ink)] px-3 py-2 text-[var(--color-honey)] transition hover:opacity-90 disabled:opacity-50"
+        variant="primary"
+        size="md"
+        width="full"
       >
         {isLoading ? "Registering..." : "Create Account"}
-      </button>
+      </Button>
 
       <p className="text-sm text-[var(--text)]">
         Already have an account?{" "}
@@ -190,3 +193,4 @@ export function RegisterForm() {
     </AuthFormLayout>
   );
 }
+export default RegisterForm;

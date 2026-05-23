@@ -1,4 +1,5 @@
 import type { AvailabilityCalendarCell } from "../../utils/booking";
+import Button from "../ui/Button";
 
 type CalendarCellProps = {
   cell: AvailabilityCalendarCell;
@@ -16,12 +17,14 @@ const CalendarCell = ({
   onSelect,
 }: CalendarCellProps) => {
   return (
-    <button
+    <Button
       type="button"
       onClick={() => onSelect(cell.dateKey, cell.isAvailable)}
       className={className}
       aria-disabled={!cell.isAvailable}
       aria-label={ariaLabel}
+      variant="outline"
+      size="sm"
     >
       {cell.dayNumber}
       {cell.isBooked && (
@@ -34,7 +37,7 @@ const CalendarCell = ({
           Available
         </span>
       )}
-    </button>
+    </Button>
   );
 };
 
