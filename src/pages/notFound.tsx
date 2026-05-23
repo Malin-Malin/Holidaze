@@ -19,10 +19,10 @@ const NotFoundPage = () => {
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <ButtonLink to="/" size="lg">
+          <ButtonLink to="/" size="lg" aria-label="Go to home page">
             Back to home
           </ButtonLink>
-          <ButtonLink to="/venues" size="lg" variant="secondary">
+          <ButtonLink to="/venues" size="lg" variant="secondary" aria-label="Browse venues">
             Browse venues
           </ButtonLink>
         </div>

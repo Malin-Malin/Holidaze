@@ -97,7 +97,7 @@ const LoginForm = () => {
           {submitError}
         </p>
       )}
-      <Button type="submit" variant="secondary" size="md" width="full">
+      <Button type="submit" variant="secondary" size="md" width="full" aria-label="Log In">
         Log In
       </Button>
 

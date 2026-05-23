@@ -37,7 +37,7 @@ const VenueGrid = ({
             </h2>
           )}
           <div className="md:col-start-3 md:justify-self-end">
-            <ButtonLink to="/venues" variant="outline" size="md">
+            <ButtonLink to="/venues" variant="outline" size="md" aria-label="View all venues">
               View all
             </ButtonLink>
           </div>

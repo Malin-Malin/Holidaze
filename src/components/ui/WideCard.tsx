@@ -37,7 +37,7 @@ const WideCard = ({
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
             {primaryButtonText && primaryButtonLink && (
-              <ButtonLink to={primaryButtonLink} variant="primary" size="lg">
+              <ButtonLink to={primaryButtonLink} variant="primary" size="lg" aria-label="{primaryButtonText}">
                 {primaryButtonText}
               </ButtonLink>
             )}

@@ -225,7 +225,7 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
           >
             {isSubmitting ? "Saving..." : "Save changes"}
           </Button>
-          <ButtonLink to="/profile" variant="danger" size="md" className="px-6">
+          <ButtonLink to="/profile" variant="danger" size="md" className="px-6" aria-label="Cancel and return to profile">
             Cancel
           </ButtonLink>
         </div>
