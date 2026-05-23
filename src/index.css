@@ -171,13 +171,14 @@ button:disabled {
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--color-bark);
   border-radius: 9999px;
 
   display: inline-grid;
   place-content: center;
   vertical-align: middle;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .amenity-checkbox::before {
