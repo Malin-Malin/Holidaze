@@ -1,4 +1,10 @@
-type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "icon";
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "danger"
+  | "icon"
+  | "calendar";
 type ButtonSize = "sm" | "md" | "lg";
 type ButtonWidth = "auto" | "full" | "wide";
 
@@ -76,6 +82,15 @@ const variantClass: Record<ButtonVariant, string> = {
     "hover:bg-white/10 hover:ring-1 hover:ring-[var(--shell-accent)]/30",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--shell-accent)]",
     "text-[var(--shell-accent)]",
+  ].join(" "),
+  calendar: [
+    "rounded border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--text-h)] bg-transparent transition-colors",
+    "hover:text-[var(--color-ink)] hover:bg-[var(--color-honey)]/20",
+    "active:bg-[var(--color-honey)]/20",
+    "aria-selected:bg-[var(--color-honey)]/20",
+    "dark:hover:border-[var(--color-honey)] dark:hover:text-[var(--color-honey)]",
+    "focus-visible:outline-[var(--color-honey)]",
+    "disabled:opacity-50",
   ].join(" "),
 };
 

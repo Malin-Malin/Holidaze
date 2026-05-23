@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 
 import CalendarCell from "./CalendarCell";
 
-import type { VenueBooking } from "../../types/venue.types";
 import {
   buildAvailabilityCalendarCells,
   buildBookedDateSet,
@@ -12,6 +11,9 @@ import {
   isInsideSelectedRange,
 } from "../../utils/booking";
 import { startOfDay, startOfMonth, toDateKey } from "../../utils/date";
+import Button from "../ui/Button";
+
+import type { VenueBooking } from "../../types/venue.types";
 
 type AvailabilityCalendarProps = {
   bookings?: VenueBooking[];
@@ -169,32 +171,32 @@ const AvailabilityCalendar = ({
       </div>
 
       <div className="mb-3 mt-1 flex items-center justify-end gap-2">
-        <button
+        <Button
           type="button"
+          variant="calendar"
           onClick={() =>
             setVisibleMonth(
               (previous) =>
                 new Date(previous.getFullYear(), previous.getMonth() - 1, 1),
             )
           }
-          className="rounded border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--text-h)] hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] transition-colors"
-          aria-label="Previous month"
+          aria-label={`Go to ${visibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })} - 1 month`}
         >
           Prev
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="calendar"
           onClick={() =>
             setVisibleMonth(
               (previous) =>
                 new Date(previous.getFullYear(), previous.getMonth() + 1, 1),
             )
           }
-          className="rounded border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--text-h)] hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] transition-colors"
-          aria-label="Next month"
+          aria-label={`Go to ${visibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })} + 1 month`}
         >
           Next
-        </button>
+        </Button>
       </div>
       <p className="mb-3 text-xs text-[var(--text)]/70">
         Mark a check-in day and a check-out day.
@@ -217,17 +219,19 @@ const AvailabilityCalendar = ({
           Selected
         </span>
 
-        <button
+        <Button
           type="button"
+          variant="calendar"
+          className="ml-auto"
+          aria-label="Clear selected dates"
           onClick={() => {
             setLocalSelectedDateFrom("");
             setLocalSelectedDateTo("");
             onRangeSelect?.("", "");
           }}
-          className="ml-auto rounded border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--text-h)] hover:border-[var(--color-honey)] hover:text-[var(--color-honey)] transition-colors"
         >
           Clear
-        </button>
+        </Button>
       </div>
     </section>
   );
