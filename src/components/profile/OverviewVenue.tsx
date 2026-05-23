@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import VenueGrid from "../venue/VenueGrid";
+import ConfirmModal from "../ui/ConfirmModal";
 
 import type { Venue } from "../../types/venue.types";
 
@@ -20,6 +21,7 @@ const OverviewVenue = ({
   const navigate = useNavigate();
   const [myVenues, setMyVenues] = useState<Venue[]>(venues);
   const [errorMessage, setErrorMessage] = useState("");
+  const [confirmVenueId, setConfirmVenueId] = useState<string | null>(null);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -27,19 +29,24 @@ const OverviewVenue = ({
   }, [venues]);
 
   async function handleDelete(venueId: string) {
-    const confirmed = window.confirm("Delete this venue?");
-    if (!confirmed) return;
+    setConfirmVenueId(venueId);
+  }
 
+  async function confirmDeleteVenue() {
+    if (!confirmVenueId) return;
     try {
       setErrorMessage("");
-      await deleteVenue(venueId);
-      setMyVenues((prev) => prev.filter((venue) => venue.id !== venueId));
+      await deleteVenue(confirmVenueId);
+      setMyVenues((prev) =>
+        prev.filter((venue) => venue.id !== confirmVenueId),
+      );
       showToast("Venue successfully deleted.", "success");
     } catch (error) {
       const msg =
         error instanceof Error ? error.message : "Failed to delete venue.";
       setErrorMessage(msg);
-      showToast(msg, "error");
+    } finally {
+      setConfirmVenueId(null);
     }
   }
 
@@ -54,6 +61,15 @@ const OverviewVenue = ({
         errorMessage={errorMessage}
         handleEdit={(venueId) => navigate(`/venues/${venueId}/edit`)}
         handleDelete={handleDelete}
+      />
+      <ConfirmModal
+        open={!!confirmVenueId}
+        title="Delete Venue"
+        message="Are you sure you want to delete this venue? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDeleteVenue}
+        onCancel={() => setConfirmVenueId(null)}
       />
       <p className="mt-1 p-6 text-sm text-[var(--text-h)] text-end">
         You have {myVenues.length} {myVenues.length === 1 ? "venue" : "venues"}

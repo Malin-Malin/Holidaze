@@ -7,6 +7,8 @@ import Rating from "../components/ui/Rating";
 import Gallery from "../components/venue/Gallery";
 import BookingForm from "../components/booking/BookingForm";
 import BookingSummary from "../components/booking/BookingSummary";
+import Modal from "../components/ui/Modal";
+
 import BookingGrid from "../components/booking/BookingGrid";
 import AvailabilityCalendar from "../components/booking/AvailabilityCalendar";
 import ManagedBy from "../components/venue/ManagedBy";
@@ -179,15 +181,21 @@ const VenueDetail = () => {
       </div>
 
       {bookingConfirmed && confirmedData && (
-        <div className="mx-auto mt-6 w-full max-w-3xl px-4 md:px-6">
+        <Modal
+          onClose={() => setBookingConfirmed(false)}
+          ariaLabel="Booking confirmation summary"
+        >
           <BookingSummary
             venue={venue}
             dateFrom={confirmedData.dateFrom}
             dateTo={confirmedData.dateTo}
             guests={confirmedData.guests}
             onDismiss={() => setBookingConfirmed(false)}
+            showActions
+            onConfirm={() => setBookingConfirmed(false)}
+            onCancel={() => setBookingConfirmed(false)}
           />
-        </div>
+        </Modal>
       )}
 
       {isVenueManager && (

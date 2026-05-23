@@ -11,15 +11,20 @@ import { useVenues } from "../hooks/useVenues";
 
 const HomePage = () => {
   const { isLoggedIn, isVenueManager } = useAuth();
-  const { venues: recentVenues, isLoading: isLoadingRecent } =
-    useVenues(1, { count: 3, orderBy: "created", orderDirection: "desc" });
-  const { venues: featuredVenues, isLoading: isLoadingFeatured } =
-    useVenues(1, {
+  const { venues: recentVenues, isLoading: isLoadingRecent } = useVenues(1, {
+    count: 3,
+    orderBy: "created",
+    orderDirection: "desc",
+  });
+  const { venues: featuredVenues, isLoading: isLoadingFeatured } = useVenues(
+    1,
+    {
       count: 3,
       orderBy: "created",
       orderDirection: "desc",
       useRandomPage: true,
-    });
+    },
+  );
   const featuredVenueId = featuredVenues[0]?.id;
   const venueDetailLink = featuredVenueId
     ? `/venues/${featuredVenueId}`
@@ -111,13 +116,13 @@ const HomePage = () => {
             />
             <PopoutCard
               icon={<IoKeyOutline />}
-              title={isLoggedIn ? "Your profile" : "Join Holidaze"}
+              title={isLoggedIn ? "Venue manager" : "Join Holidaze"}
               text={
                 isLoggedIn
-                  ? "Manage your bookings and view the booking details for your venues."
+                  ? "As a venue manager, you can create and manage your venues."
                   : "Create your account to manage stays and become a host."
               }
-              to={isLoggedIn ? "/profile" : "/register"}
+              to={isLoggedIn ? "/venues/new" : "/register"}
             />
           </div>
         </section>
