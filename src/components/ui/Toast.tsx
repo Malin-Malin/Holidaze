@@ -1,6 +1,7 @@
+import "./Toast.css";
+
 import { useToast } from "../../hooks/useToast";
 import type { ToastType } from "../../context/ToastContext";
-import "./Toast.css";
 
 const toastTypeStyles: Record<ToastType, string> = {
   success: "toast-success",

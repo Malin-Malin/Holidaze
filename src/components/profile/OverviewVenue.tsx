@@ -1,9 +1,12 @@
-import type { Venue } from "../../types/venue.types";
 import { useEffect, useState } from "react";
-import { useToast } from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
-import { deleteVenue } from "../../api/venueService";
+
 import VenueGrid from "../venue/VenueGrid";
+
+import type { Venue } from "../../types/venue.types";
+
+import { useToast } from "../../hooks/useToast";
+import { deleteVenue } from "../../api/venueService";
 
 type OverviewVenueProps = {
   venues?: Venue[];
