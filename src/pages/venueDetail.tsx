@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Amenities from "../components/ui/Amenities";
@@ -7,7 +7,6 @@ import Rating from "../components/ui/Rating";
 import Gallery from "../components/venue/Gallery";
 import BookingForm from "../components/booking/BookingForm";
 import BookingSummary from "../components/booking/BookingSummary";
-import modalStyles from "../components/booking/BookingSummaryModal.module.css";
 import BookingGrid from "../components/booking/BookingGrid";
 import AvailabilityCalendar from "../components/booking/AvailabilityCalendar";
 import ManagedBy from "../components/venue/ManagedBy";
@@ -38,7 +37,6 @@ const VenueDetail = () => {
     dateTo: string;
     guests: number;
   } | null>(null);
-  const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!venue?.id || !venue?.name) {
@@ -181,22 +179,14 @@ const VenueDetail = () => {
       </div>
 
       {bookingConfirmed && confirmedData && (
-        <div
-          ref={summaryRef}
-          className={modalStyles.modalOverlay}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setBookingConfirmed(false);
-          }}
-        >
-          <div className={modalStyles.modalContent}>
-            <BookingSummary
-              venue={venue}
-              dateFrom={confirmedData.dateFrom}
-              dateTo={confirmedData.dateTo}
-              guests={confirmedData.guests}
-              onDismiss={() => setBookingConfirmed(false)}
-            />
-          </div>
+        <div className="mx-auto mt-6 w-full max-w-3xl px-4 md:px-6">
+          <BookingSummary
+            venue={venue}
+            dateFrom={confirmedData.dateFrom}
+            dateTo={confirmedData.dateTo}
+            guests={confirmedData.guests}
+            onDismiss={() => setBookingConfirmed(false)}
+          />
         </div>
       )}
 
