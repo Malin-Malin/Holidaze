@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useToast } from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
@@ -13,6 +12,7 @@ import type { Media } from "../../types/common.types";
 import type { VenueFormState } from "./form/VenueForm.types";
 import { createVenue, updateVenue } from "../../api/venueService";
 import { isValidHttpUrl } from "../../utils/url";
+import { useToast } from "../../hooks/useToast";
 
 const initialFormState: VenueFormState = {
   name: "",
@@ -153,7 +153,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
         isEditMode
           ? "Venue updated successfully."
           : "Venue created successfully.",
-        "success"
+        "success",
       );
       if (!isEditMode) {
         setForm(initialFormState);
@@ -161,7 +161,8 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       }
       navigate(`/venues/${savedVenue.id}`);
     } catch (error) {
-      const msg = error instanceof Error ? error.message : "Failed to save venue.";
+      const msg =
+        error instanceof Error ? error.message : "Failed to save venue.";
       setErrorMessage(msg);
       showToast(msg, "error");
     } finally {

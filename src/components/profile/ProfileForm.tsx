@@ -91,7 +91,6 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
           ? error.message
           : "Failed to update your profile. Please try again.";
       setSubmitError(msg);
-      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }

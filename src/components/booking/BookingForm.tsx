@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import FormField from "../input/FormField";
-import { useToast } from "../../hooks/useToast";
 
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 import type { Venue } from "../../types/venue.types";
 import { hasInclusiveBookingOverlap } from "../../utils/booking";
 import { addDaysToDateKey, formatDate } from "../../utils/date";
@@ -154,7 +154,6 @@ const BookingForm = ({
           ? error.message
           : "Failed to book this venue. Please try again.";
       setSubmitError(msg);
-      showToast(msg, "error");
     } finally {
       setIsSubmitting(false);
     }
