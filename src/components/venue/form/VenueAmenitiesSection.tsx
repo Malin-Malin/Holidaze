@@ -12,7 +12,7 @@ const VenueAmenitiesSection = ({
   onChange,
 }: VenueAmenitiesSectionProps) => {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <section className="grid grid-cols-4 gap-2">
       <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
         <input
           type="checkbox"
@@ -57,7 +57,7 @@ const VenueAmenitiesSection = ({
         />{" "}
         Pets
       </label>
-    </div>
+    </section>
   );
 };
 

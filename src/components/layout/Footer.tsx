@@ -112,7 +112,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Divider + copyright */}
         <div className="mt-10 border-t border-[var(--color-nav-link)]/20 pt-6 text-xs text-[var(--color-nav-link)]/50">
           <p className="text-center">
             &copy; {year} Malin Skrettingland. All rights reserved.

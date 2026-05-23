@@ -1,4 +1,3 @@
-
 import Banner from "../components/layout/Banner";
 import Breadcrumb from "../components/layout/Breadcrumb";
 import ButtonLink from "../components/ui/ButtonLink";
@@ -49,8 +48,8 @@ const ProfilePage = () => {
         title="My Profile"
       />
       <Breadcrumb />
-      <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex min-w-0 items-center gap-3">
+      <section className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <section className="flex min-w-0 items-center gap-3">
           <SafeImage
             src={profile.avatar?.url}
             alt={profile.avatar?.alt}
@@ -59,16 +58,16 @@ const ProfilePage = () => {
             className="w-16 h-16 rounded-full"
           />
           <div className="flex min-w-0 flex-col items-start gap-1 p-2">
-            <h2 className="break-words text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
+            <h1 className="break-words text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
               {profile.name}
-            </h2>
+            </h1>
             {profile.venueManager && (
               <span className="rounded-md border border-[var(--color-honey)]/60 bg-[var(--color-honey)]/15 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink)] dark:text-[var(--color-honey)]">
                 Venue Manager
               </span>
             )}
           </div>
-        </div>
+        </section>
         <ButtonLink
           to="/profile/edit"
           variant="outline"
@@ -77,7 +76,7 @@ const ProfilePage = () => {
         >
           Edit profile
         </ButtonLink>
-      </div>
+      </section>
       <p>{profile.bio}</p>
       {profile.venueManager && (
         <>

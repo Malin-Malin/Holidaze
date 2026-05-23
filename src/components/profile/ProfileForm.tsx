@@ -100,7 +100,7 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-xl px-4 py-8">
+    <section className="mx-auto w-full max-w-xl px-4 py-8">
       <h1>Edit Profile</h1>
 
       <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-6">
@@ -225,12 +225,18 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
           >
             {isSubmitting ? "Saving..." : "Save changes"}
           </Button>
-          <ButtonLink to="/profile" variant="danger" size="md" className="px-6" aria-label="Cancel and return to profile">
+          <ButtonLink
+            to="/profile"
+            variant="danger"
+            size="md"
+            className="px-6"
+            aria-label="Cancel and return to profile"
+          >
             Cancel
           </ButtonLink>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

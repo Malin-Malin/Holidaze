@@ -16,10 +16,10 @@ const VenueMediaSection = ({
   onRemoveRow,
 }: VenueMediaSectionProps) => {
   return (
-    <div className="space-y-2">
+    <section className="space-y-2">
       <label className="block text-sm font-medium">Images</label>
       {mediaList.map((item, index) => (
-        <div
+        <section
           key={index}
           className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem_auto] sm:items-center"
         >
@@ -49,7 +49,7 @@ const VenueMediaSection = ({
               X
             </Button>
           )}
-        </div>
+        </section>
       ))}
       <Button
         type="button"
@@ -60,7 +60,7 @@ const VenueMediaSection = ({
       >
         + Add another image
       </Button>
-    </div>
+    </section>
   );
 };
 

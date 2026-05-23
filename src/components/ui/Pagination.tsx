@@ -42,7 +42,7 @@ const Pagination = ({
   }
 
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+    <section className="mt-8 flex flex-wrap items-center justify-center gap-3">
       <Button
         type="button"
         onClick={goToPreviousPage}
@@ -83,7 +83,7 @@ const Pagination = ({
           Next
         </Button>
       )}
-    </div>
+    </section>
   );
 };
 

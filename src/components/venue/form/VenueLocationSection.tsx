@@ -14,7 +14,7 @@ const VenueLocationSection = ({
   onChange,
 }: VenueLocationSectionProps) => {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <section className="grid grid-cols-2 gap-3">
       <FormField label="City" htmlFor="city">
         <input
           id="city"
@@ -35,7 +35,7 @@ const VenueLocationSection = ({
           className="form-input"
         />
       </FormField>
-    </div>
+    </section>
   );
 };
 

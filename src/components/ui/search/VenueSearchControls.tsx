@@ -18,6 +18,7 @@ const VenueSearchControls = ({
             type="text"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
+            aria-label="Search venues"
             placeholder="Search by name, city or country"
             className="w-full rounded border border-[var(--border)] px-3 py-2 text-sm sm:flex-1"
           />

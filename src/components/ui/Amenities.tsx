@@ -44,7 +44,7 @@ const Amenities = ({ meta }: AmenitiesProps) => {
               key={item.key}
               className="flex h-32 w-42 flex-col items-center justify-center gap-2 p-3 text-center"
             >
-              <Icon className="text-white text-2xl" />
+              <Icon className="text-white text-2xl" aria-hidden="true" />
               <p className="flex min-h-[2.5rem] w-full items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap text-black text-md leading-tight">
                 {item.label}
               </p>
