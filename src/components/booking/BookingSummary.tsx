@@ -10,10 +10,6 @@ type BookingSummaryProps = {
   dateTo: string;
   guests: number;
   onDismiss?: () => void;
-  showActions?: boolean;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  children?: React.ReactNode;
 };
 
 const BookingSummary = ({
@@ -22,10 +18,6 @@ const BookingSummary = ({
   dateTo,
   guests,
   onDismiss,
-  showActions,
-  onConfirm,
-  onCancel,
-  children,
 }: BookingSummaryProps) => {
   const checkInDate = new Date(dateFrom);
   const checkOutDate = new Date(dateTo);
