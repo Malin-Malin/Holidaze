@@ -5,6 +5,8 @@ import "./Gallery.css";
 import GalleryImage from "./GalleryImage";
 import GalleryLightbox from "./GalleryLightbox";
 
+import CircleIconButton from "../ui/CircleIconButton";
+
 import placeholderImage from "../../assets/placeholderImage.jpg";
 
 import type { Media } from "../../types/common.types";
@@ -100,12 +102,11 @@ export default function Gallery({ media }: GalleryProps) {
             className="thumb-rail-x flex gap-3 md:hidden"
           >
             {media.map((image, index) => (
-              <button
+              <CircleIconButton
                 key={`${image.url}-${index}`}
-                type="button"
                 data-thumb-index={index}
                 onClick={() => setActiveIndex(index)}
-                className={`shrink-0 cursor-pointer overflow-hidden rounded-md border ${
+                className={`shrink-0 overflow-hidden border ${
                   index === activeIndex
                     ? "border-[var(--color-honey)]"
                     : "border-transparent"
@@ -116,7 +117,7 @@ export default function Gallery({ media }: GalleryProps) {
                   image={image}
                   className="h-20 w-20 object-cover"
                 />
-              </button>
+              </CircleIconButton>
             ))}
           </div>
 
@@ -177,22 +178,22 @@ export default function Gallery({ media }: GalleryProps) {
         )}
         {media.length > 1 && (
           <>
-            <button
-              type="button"
+            <CircleIconButton
               onClick={showPrevious}
-              className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/55 px-3 py-1 text-white"
+              className="absolute left-3 top-1/2 -translate-y-1/2"
               aria-label="Show previous image"
+              size="sm"
             >
               ‹
-            </button>
-            <button
-              type="button"
+            </CircleIconButton>
+            <CircleIconButton
               onClick={showNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-black/55 px-3 py-1 text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2"
               aria-label="Show next image"
+              size="sm"
             >
               ›
-            </button>
+            </CircleIconButton>
           </>
         )}
       </div>
