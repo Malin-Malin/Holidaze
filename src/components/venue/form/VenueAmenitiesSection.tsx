@@ -20,6 +20,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.wifi}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Wifi"
         />{" "}
         Wifi
       </label>
@@ -30,6 +31,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.parking}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Parking"
         />{" "}
         Parking
       </label>
@@ -40,6 +42,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.breakfast}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Breakfast"
         />{" "}
         Breakfast
       </label>
@@ -50,6 +53,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.pets}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Pets"
         />{" "}
         Pets
       </label>
