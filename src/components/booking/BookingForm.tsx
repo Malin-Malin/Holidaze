@@ -45,7 +45,7 @@ const BookingForm = ({
   const { isLoggedIn } = useAuth();
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  const [guests, setGuests] = useState(1);
+  const [guests, setGuests] = useState("1");
   const [errors, setErrors] = useState<BookingFieldErrors>({});
   const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,6 +79,7 @@ const BookingForm = ({
     : 0;
   const guestCount = Number(guests);
   const isGuestCountValid =
+    guests !== "" &&
     Number.isFinite(guestCount) &&
     guestCount >= 1 &&
     guestCount <= venue.maxGuests;
@@ -107,28 +108,36 @@ const BookingForm = ({
     return hasInclusiveBookingOverlap(from, to, venue.bookings ?? []);
   }
 
-  function validate() {
+  function validate(
+    nextDateFrom: string = dateFrom,
+    nextDateTo: string = dateTo,
+    nextGuests: string = guests,
+  ) {
     const next: BookingFieldErrors = {};
-    const guestCount = Number(guests);
+    const guestCount = Number(nextGuests);
 
-    if (!dateFrom) next.dateFrom = "Check in date is required.";
-    if (!dateTo) next.dateTo = "Check out date is required.";
+    if (!nextDateFrom) next.dateFrom = "Check in date is required.";
+    if (!nextDateTo) next.dateTo = "Check out date is required.";
     if (!Number.isFinite(guestCount) || guestCount < 1) {
       next.guests = "At least 1 guest is required.";
     } else if (guestCount > venue.maxGuests) {
       next.guests = `This venue allows up to ${venue.maxGuests} guests.`;
     }
 
-    if (dateFrom && dateTo && new Date(dateTo) <= new Date(dateFrom)) {
+    if (
+      nextDateFrom &&
+      nextDateTo &&
+      new Date(nextDateTo) <= new Date(nextDateFrom)
+    ) {
       next.dateTo = "Check out date must be after check in date.";
     }
 
     if (
-      dateFrom &&
-      dateTo &&
+      nextDateFrom &&
+      nextDateTo &&
       !next.dateFrom &&
       !next.dateTo &&
-      hasOverlapWithExisting(dateFrom, dateTo)
+      hasOverlapWithExisting(nextDateFrom, nextDateTo)
     ) {
       next.dateFrom =
         "These dates overlap with an existing booking. Please choose different dates.";
@@ -164,7 +173,7 @@ const BookingForm = ({
       onBookingConfirmed?.({ dateFrom, dateTo, guests: Number(guests) });
       setDateFrom("");
       setDateTo("");
-      setGuests(1);
+      setGuests("1");
       setErrors({});
     } catch (error) {
       const msg =
@@ -216,20 +225,16 @@ const BookingForm = ({
                 value={dateFrom}
                 onChange={(e) => {
                   const nextDateFrom = e.target.value;
-                  setDateFrom(nextDateFrom);
-
-                  const nextDateTo =
-                    dateTo && nextDateFrom && dateTo <= nextDateFrom
-                      ? ""
-                      : dateTo;
+                  let nextDateTo = dateTo;
                   if (dateTo && nextDateFrom && dateTo <= nextDateFrom) {
                     setDateTo("");
+                    nextDateTo = "";
                   }
-
+                  setDateFrom(nextDateFrom);
                   onDatesChange?.(nextDateFrom, nextDateTo);
-
-                  if (errors.dateFrom)
-                    setErrors((prev) => ({ ...prev, dateFrom: undefined }));
+                  // Run validation with latest values
+                  const nextErrors = validate(nextDateFrom, nextDateTo, guests);
+                  setErrors(nextErrors);
                 }}
                 aria-invalid={!!errors.dateFrom}
                 className="form-input"
@@ -250,8 +255,9 @@ const BookingForm = ({
                   const nextDateTo = e.target.value;
                   setDateTo(nextDateTo);
                   onDatesChange?.(dateFrom, nextDateTo);
-                  if (errors.dateTo)
-                    setErrors((prev) => ({ ...prev, dateTo: undefined }));
+                  // Run validation with latest values
+                  const nextErrors = validate(dateFrom, nextDateTo, guests);
+                  setErrors(nextErrors);
                 }}
                 aria-invalid={!!errors.dateTo}
                 className="form-input"
@@ -270,9 +276,11 @@ const BookingForm = ({
                 max={venue.maxGuests}
                 value={guests}
                 onChange={(e) => {
-                  setGuests(Number(e.target.value));
-                  if (errors.guests)
-                    setErrors((prev) => ({ ...prev, guests: undefined }));
+                  const nextGuests = e.target.value;
+                  setGuests(nextGuests);
+                  // Run validation with latest values
+                  const nextErrors = validate(dateFrom, dateTo, nextGuests);
+                  setErrors(nextErrors);
                 }}
                 aria-invalid={!!errors.guests}
                 className="form-input"
