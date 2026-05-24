@@ -54,7 +54,7 @@ const ProfilePage = () => {
       <Breadcrumb />
       <section className="px-4 py-6">
         <section className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3 pt-5 sm:pt-0">
             <SafeImage
               src={profile.avatar?.url}
               alt={profile.avatar?.alt}
