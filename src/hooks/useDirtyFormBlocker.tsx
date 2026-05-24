@@ -2,8 +2,9 @@ import { useState, useRef, useCallback } from "react";
 import { useBlocker, useNavigate } from "react-router-dom";
 
 /**
- * useDirtyFormBlocker - Custom hook to block navigation when there are unsaved changes in a form.
- * Returns: { showModal, handleConfirm, handleCancel }
+ * Custom hook to block navigation when there are unsaved changes in a form.
+ * @param {boolean} dirty - Whether the form has unsaved changes.
+ * @returns {{ showModal: boolean, handleConfirm: () => void, handleCancel: () => void }} Modal state and handlers for navigation blocking.
  */
 export function useDirtyFormBlocker(dirty: boolean) {
   const [showModal, setShowModal] = useState(false);

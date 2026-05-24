@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 
-type UseResolvedImageSrcOptions = {
-  src?: string | null;
-  fallbackSrc: string;
-};
-
-export function useResolvedImageSrc({
-  src,
-  fallbackSrc,
-}: UseResolvedImageSrcOptions) {
+/**
+ * Custom hook to resolve an image source, falling back if the image fails to load.
+ * @param {string | null | undefined} src - The primary image source URL.
+ * @param {string} fallbackSrc - The fallback image source URL if the primary fails.
+ * @returns {string} The resolved image source URL.
+ */
+export function useResolvedImageSrc(
+  src: string | null | undefined,
+  fallbackSrc: string,
+): string {
   const normalizedSrc = src?.trim() || "";
   const [loadedSrc, setLoadedSrc] = useState("");
 
