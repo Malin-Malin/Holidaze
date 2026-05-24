@@ -32,7 +32,7 @@ const Banner = ({
           {children ? (
             children
           ) : (
-            <span className="block uppercase text-4xl font-[var(--font-display)] text-[var(--color-honey)]">
+            <span className="block uppercase text-4xl font-display text-[var(--color-honey)]">
               {title}
             </span>
           )}

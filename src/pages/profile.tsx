@@ -66,7 +66,7 @@ const ProfilePage = () => {
               className="w-16 h-16 rounded-full"
             />
             <div className="flex min-w-0 flex-col items-start gap-1 p-2">
-              <h1 className="break-words text-2xl font-[var(--font-display)] text-[var(--color-ink)]">
+              <h1 className="break-words text-2xl font-display text-[var(--color-ink)]">
                 {profile.name}
               </h1>
               {profile.venueManager && (

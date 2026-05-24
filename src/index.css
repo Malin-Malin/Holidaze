@@ -40,7 +40,6 @@
   --font-body: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
   --font-display: "Big Shoulders Display SC", "Inter", system-ui, sans-serif;
   --font-brand: "Thasadith", "Inter", system-ui, sans-serif;
-  --sans: var(--font-body);
   --heading: var(--font-display);
   --mono: ui-monospace, Consolas, monospace;
 
@@ -108,6 +107,7 @@
 body {
   margin: 0;
   overflow-x: hidden;
+  font-family: var(--font-body);
 }
 
 button:not(:disabled) {
@@ -263,4 +263,16 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+.font-brand {
+  font-family: var(--font-brand);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
 }

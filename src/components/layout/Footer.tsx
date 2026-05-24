@@ -28,7 +28,7 @@ const Footer = () => {
           {/* Brand */}
           <section className="flex flex-col items-center gap-3 lg:col-span-8 lg:items-start lg:pl-8">
             <a href="/" className="w-fit">
-              <span className="font-[var(--font-brand)] text-4xl text-[var(--shell-accent)] transition hover:opacity-80">
+              <span className="font-brand text-4xl text-[var(--shell-accent)] transition hover:opacity-80">
                 Holidaze
               </span>
             </a>
@@ -54,7 +54,7 @@ const Footer = () => {
 
           {/* Navigation */}
           <section className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
-            <h3 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
+            <h3 className="font-display text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
               Explore
             </h3>
             <nav className="flex flex-col items-center gap-2 lg:items-start">
@@ -76,7 +76,7 @@ const Footer = () => {
 
           {/* Contact */}
           <section className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
-            <h3 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
+            <h3 className="font-display text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
               Contact
             </h3>
             <ul className="flex flex-col gap-2 text-sm">
