@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { isFormDirty, isArrayDirty } from "../../utils/isFormDirty";
+import ConfirmModal from "../ui/ConfirmModal";
+import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import { useNavigate } from "react-router-dom";
 import type { ChangeEvent, SyntheticEvent } from "react";
 
@@ -44,6 +47,19 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
 
   const [form, setForm] = useState<VenueFormState>(initialFormState);
   const [mediaList, setMediaList] = useState<Media[]>([{ ...emptyMedia }]);
+
+  // Dirty check: compare form and mediaList to initial values
+  const dirty = useMemo(() => {
+    const formDirty = isFormDirty(form, initialFormState);
+    const mediaDirty = isArrayDirty(mediaList, [{ ...emptyMedia }]);
+    return formDirty || mediaDirty;
+  }, [form, mediaList]);
+
+  const {
+    showModal: showNavModal,
+    handleConfirm: handleNavConfirm,
+    handleCancel: handleNavCancel,
+  } = useDirtyFormBlocker(dirty);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { showToast } = useToast();
@@ -173,43 +189,54 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   };
 
   return (
-    <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left pb-10">
-      <h1>{isEditMode ? "Edit Venue" : "Create Venue"}</h1>
+    <>
+      <section className="mx-auto w-full max-w-3xl px-4 py-8 text-left pb-10">
+        <h1>{isEditMode ? "Edit Venue" : "Create Venue"}</h1>
 
-      <form onSubmit={submitForm} noValidate className="mt-4 space-y-4">
-        <VenueBasicsSection
-          form={form}
-          onChange={handleChange}
-          onRatingChange={handleRatingChange}
-        />
-        <VenueMediaSection
-          mediaList={mediaList}
-          onMediaChange={handleMediaChange}
-          onAddRow={addMediaRow}
-          onRemoveRow={removeMediaRow}
-        />
-        <VenueLocationSection form={form} onChange={handleChange} />
-        <VenueAmenitiesSection amenities={form} onChange={handleChange} />
+        <form onSubmit={submitForm} noValidate className="mt-4 space-y-4">
+          <VenueBasicsSection
+            form={form}
+            onChange={handleChange}
+            onRatingChange={handleRatingChange}
+          />
+          <VenueMediaSection
+            mediaList={mediaList}
+            onMediaChange={handleMediaChange}
+            onAddRow={addMediaRow}
+            onRemoveRow={removeMediaRow}
+          />
+          <VenueLocationSection form={form} onChange={handleChange} />
+          <VenueAmenitiesSection amenities={form} onChange={handleChange} />
 
-        {errorMessage && (
-          <p className="text-[var(--color-danger)]">{errorMessage}</p>
-        )}
+          {errorMessage && (
+            <p className="text-[var(--color-danger)]">{errorMessage}</p>
+          )}
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          variant="secondary"
-          size="lg"
-          width="wide"
-        >
-          {isSubmitting
-            ? "Saving..."
-            : isEditMode
-              ? "Save changes"
-              : "Create venue"}
-        </Button>
-      </form>
-    </section>
+          <Button
+            type="submit"
+            disabled={isSubmitting || !dirty}
+            variant="secondary"
+            size="lg"
+            width="wide"
+          >
+            {isSubmitting
+              ? "Saving..."
+              : isEditMode
+                ? "Save changes"
+                : "Create venue"}
+          </Button>
+        </form>
+      </section>
+      <ConfirmModal
+        open={showNavModal}
+        title="Unsaved Changes"
+        message="You have unsaved changes. Are you sure you want to leave this page?"
+        confirmText="Leave Page"
+        cancelText="Stay"
+        onConfirm={handleNavConfirm}
+        onCancel={handleNavCancel}
+      />
+    </>
   );
 };
 

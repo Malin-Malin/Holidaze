@@ -1,17 +1,19 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useMemo } from "react";
 import type React from "react";
+import { useNavigate } from "react-router-dom";
 
 import FormField from "../input/FormField";
-
+import ConfirmModal from "../ui/ConfirmModal";
 import Button from "../ui/Button";
 import ButtonLink from "../ui/ButtonLink";
 
 import { updateProfile } from "../../api/profileService";
 import { useAuth } from "../../hooks/useAuth";
 import { useToast } from "../../hooks/useToast";
+import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import type { Profile, ProfileData } from "../../types/profile.types";
 import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
+import { isFormDirty } from "../../utils/isFormDirty";
 
 type ProfileFormData = {
   avatarUrl: string;
@@ -31,7 +33,7 @@ type ProfileFormProps = {
 const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   const { user, setUserInfo } = useAuth();
   const navigate = useNavigate();
-
+  const initialProfileRef = useRef(initialProfile); // For stable reference
   const [formData, setFormData] = useState<ProfileFormData>({
     avatarUrl: toHttpUrl(initialProfile.avatar?.url),
     avatarAlt: initialProfile.avatar?.alt ?? "",
@@ -40,6 +42,25 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
     bio: initialProfile.bio ?? "",
     venueManager: initialProfile.venueManager ?? false,
   });
+  // Track if form is dirty
+  const dirty = useMemo(() => {
+    const initial = {
+      avatarUrl: toHttpUrl(initialProfileRef.current.avatar?.url),
+      avatarAlt: initialProfileRef.current.avatar?.alt ?? "",
+      bannerUrl: toHttpUrl(initialProfileRef.current.banner?.url),
+      bannerAlt: initialProfileRef.current.banner?.alt ?? "",
+      bio: initialProfileRef.current.bio ?? "",
+      venueManager: initialProfileRef.current.venueManager ?? false,
+    };
+    return isFormDirty(formData, initial);
+  }, [formData]);
+
+  // Reusable unsaved changes modal blocker
+  const {
+    showModal: showNavModal,
+    handleConfirm: handleNavConfirm,
+    handleCancel: handleNavCancel,
+  } = useDirtyFormBlocker(dirty);
   const [errors, setErrors] = useState<ProfileFieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showToast } = useToast();
@@ -100,143 +121,154 @@ const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   };
 
   return (
-    <section className="mx-auto w-full max-w-xl px-4 py-8">
-      <h1>Edit Profile</h1>
+    <>
+      <section className="mx-auto w-full max-w-xl px-4 py-8">
+        <h1>Edit Profile</h1>
 
-      <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-6">
-        <fieldset disabled={isSubmitting} className="space-y-6">
-          <section>
-            <h2>Avatar</h2>
-            <div className="space-y-4">
-              <FormField
-                label="Avatar URL"
-                htmlFor="avatarUrl"
-                error={errors.avatarUrl}
+        <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-6">
+          <fieldset disabled={isSubmitting} className="space-y-6">
+            <section>
+              <h2>Avatar</h2>
+              <div className="space-y-4">
+                <FormField
+                  label="Avatar URL"
+                  htmlFor="avatarUrl"
+                  error={errors.avatarUrl}
+                >
+                  <input
+                    id="avatarUrl"
+                    name="avatarUrl"
+                    type="url"
+                    value={formData.avatarUrl}
+                    onChange={handleChange}
+                    placeholder="https://example.com/avatar.jpg"
+                    aria-invalid={!!errors.avatarUrl}
+                    className="form-input"
+                  />
+                </FormField>
+                <FormField
+                  label="Avatar alt text"
+                  htmlFor="avatarAlt"
+                  error={errors.avatarAlt}
+                >
+                  <input
+                    id="avatarAlt"
+                    name="avatarAlt"
+                    type="text"
+                    value={formData.avatarAlt}
+                    onChange={handleChange}
+                    placeholder="A short description of the image"
+                    className="form-input"
+                  />
+                </FormField>
+              </div>
+            </section>
+
+            <section>
+              <h2>Banner</h2>
+              <div className="space-y-4">
+                <FormField
+                  label="Banner URL"
+                  htmlFor="bannerUrl"
+                  error={errors.bannerUrl}
+                >
+                  <input
+                    id="bannerUrl"
+                    name="bannerUrl"
+                    type="url"
+                    value={formData.bannerUrl}
+                    onChange={handleChange}
+                    placeholder="https://example.com/banner.jpg"
+                    aria-invalid={!!errors.bannerUrl}
+                    className="form-input"
+                  />
+                </FormField>
+                <FormField
+                  label="Banner alt text"
+                  htmlFor="bannerAlt"
+                  error={errors.bannerAlt}
+                >
+                  <input
+                    id="bannerAlt"
+                    name="bannerAlt"
+                    type="text"
+                    value={formData.bannerAlt}
+                    onChange={handleChange}
+                    placeholder="A short description of the banner"
+                    className="form-input"
+                  />
+                </FormField>
+              </div>
+            </section>
+
+            <FormField label="Bio" htmlFor="bio" error={errors.bio}>
+              <textarea
+                id="bio"
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
+                rows={4}
+                placeholder="Tell others a bit about yourself"
+                className="form-input resize-none"
+              />
+            </FormField>
+
+            <div className="flex items-center gap-3">
+              <input
+                id="venueManager"
+                name="venueManager"
+                type="checkbox"
+                checked={formData.venueManager}
+                onChange={handleChange}
+                className="amenity-checkbox"
+              />
+              <label
+                htmlFor="venueManager"
+                className="text-sm text-[var(--text-h)]"
               >
-                <input
-                  id="avatarUrl"
-                  name="avatarUrl"
-                  type="url"
-                  value={formData.avatarUrl}
-                  onChange={handleChange}
-                  placeholder="https://example.com/avatar.jpg"
-                  aria-invalid={!!errors.avatarUrl}
-                  className="form-input"
-                />
-              </FormField>
-              <FormField
-                label="Avatar alt text"
-                htmlFor="avatarAlt"
-                error={errors.avatarAlt}
-              >
-                <input
-                  id="avatarAlt"
-                  name="avatarAlt"
-                  type="text"
-                  value={formData.avatarAlt}
-                  onChange={handleChange}
-                  placeholder="A short description of the image"
-                  className="form-input"
-                />
-              </FormField>
+                Register as venue manager
+              </label>
             </div>
-          </section>
+          </fieldset>
 
-          <section>
-            <h2>Banner</h2>
-            <div className="space-y-4">
-              <FormField
-                label="Banner URL"
-                htmlFor="bannerUrl"
-                error={errors.bannerUrl}
-              >
-                <input
-                  id="bannerUrl"
-                  name="bannerUrl"
-                  type="url"
-                  value={formData.bannerUrl}
-                  onChange={handleChange}
-                  placeholder="https://example.com/banner.jpg"
-                  aria-invalid={!!errors.bannerUrl}
-                  className="form-input"
-                />
-              </FormField>
-              <FormField
-                label="Banner alt text"
-                htmlFor="bannerAlt"
-                error={errors.bannerAlt}
-              >
-                <input
-                  id="bannerAlt"
-                  name="bannerAlt"
-                  type="text"
-                  value={formData.bannerAlt}
-                  onChange={handleChange}
-                  placeholder="A short description of the banner"
-                  className="form-input"
-                />
-              </FormField>
-            </div>
-          </section>
+          {submitError && (
+            <p role="alert" className="text-sm text-[var(--color-danger)]">
+              {submitError}
+            </p>
+          )}
 
-          <FormField label="Bio" htmlFor="bio" error={errors.bio}>
-            <textarea
-              id="bio"
-              name="bio"
-              value={formData.bio}
-              onChange={handleChange}
-              rows={4}
-              placeholder="Tell others a bit about yourself"
-              className="form-input resize-none"
-            />
-          </FormField>
-
-          <div className="flex items-center gap-3">
-            <input
-              id="venueManager"
-              name="venueManager"
-              type="checkbox"
-              checked={formData.venueManager}
-              onChange={handleChange}
-              className="amenity-checkbox"
-            />
-            <label
-              htmlFor="venueManager"
-              className="text-sm text-[var(--text-h)]"
+          <div className="flex gap-3">
+            <Button
+              type="submit"
+              disabled={isSubmitting || !dirty}
+              variant="secondary"
+              size="md"
+              className="px-6"
             >
-              Register as venue manager
-            </label>
+              {isSubmitting ? "Saving..." : "Save changes"}
+            </Button>
+            <ButtonLink
+              to="/profile"
+              variant="danger"
+              size="md"
+              className="px-6"
+              aria-label="Cancel and return to profile"
+            >
+              Cancel
+            </ButtonLink>
           </div>
-        </fieldset>
-
-        {submitError && (
-          <p role="alert" className="text-sm text-[var(--color-danger)]">
-            {submitError}
-          </p>
-        )}
-
-        <div className="flex gap-3">
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            variant="secondary"
-            size="md"
-            className="px-6"
-          >
-            {isSubmitting ? "Saving..." : "Save changes"}
-          </Button>
-          <ButtonLink
-            to="/profile"
-            variant="danger"
-            size="md"
-            className="px-6"
-            aria-label="Cancel and return to profile"
-          >
-            Cancel
-          </ButtonLink>
-        </div>
-      </form>
-    </section>
+        </form>
+      </section>
+      <ConfirmModal
+        open={showNavModal}
+        title="Unsaved Changes"
+        message="You have unsaved changes. Are you sure you want to leave this page?"
+        confirmText="Leave Page"
+        cancelText="Stay"
+        onConfirm={handleNavConfirm}
+        onCancel={handleNavCancel}
+      />
+    </>
   );
 };
 
