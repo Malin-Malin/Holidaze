@@ -152,5 +152,5 @@ Accessibility is a priority throughout the app:
 Holidaze was designed and coded by Malin Skrettingland.
 
 <p align="center">
-  <img src="../Holidaze/src/assets/Cartoon-style-portrait-01.5.png" alt="Cartoon-style portrait" width="400">
+  <img src="./src/assets/Cartoon-style-portrait-01.5.png" alt="Cartoon-style portrait" width="400">
 </p>
