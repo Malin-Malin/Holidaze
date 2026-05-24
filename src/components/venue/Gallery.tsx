@@ -96,7 +96,7 @@ export default function Gallery({ media }: GalleryProps) {
   return (
     <section className="flex flex-col gap-4 md:flex-row md:items-stretch">
       {media.length > 1 && (
-        <div className="order-2 flex gap-3 md:order-1 md:h-80 md:w-28 md:flex-col">
+        <section className="order-2 flex gap-3 md:order-1 md:h-80 md:w-28 md:flex-col">
           <div
             ref={mobileThumbRailRef}
             className="thumb-rail-x flex gap-3 md:hidden"
@@ -121,7 +121,7 @@ export default function Gallery({ media }: GalleryProps) {
             ))}
           </div>
 
-          <div className="hidden h-full flex-col items-center md:flex">
+          <section className="hidden h-full flex-col items-center md:flex">
             <div
               ref={desktopThumbRailRef}
               className={`px-1 py-0.5 ${media.length <= 2 ? "flex h-full w-full flex-col gap-3" : "thumb-rail-y h-full w-full space-y-3"}`}
@@ -152,11 +152,11 @@ export default function Gallery({ media }: GalleryProps) {
                 </button>
               ))}
             </div>
-          </div>
-        </div>
+          </section>
+        </section>
       )}
 
-      <div className="order-1 relative flex-1 overflow-hidden md:order-2">
+      <section className="order-1 relative flex-1 overflow-hidden md:order-2">
         <img
           src={showPlaceholder ? placeholderImage : activeMedia.url}
           alt={activeMedia.alt || "Venue image"}
@@ -196,7 +196,7 @@ export default function Gallery({ media }: GalleryProps) {
             </CircleIconButton>
           </>
         )}
-      </div>
+      </section>
 
       {isLightboxOpen && (
         <GalleryLightbox

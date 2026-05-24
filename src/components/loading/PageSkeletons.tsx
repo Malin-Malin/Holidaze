@@ -7,7 +7,7 @@ function SkeletonBlock({ className }: { className: string }) {
 const VenueCardSkeleton = () => {
   return (
     <>
-      <div
+      <section
         className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
         aria-hidden="true"
       >
@@ -19,7 +19,7 @@ const VenueCardSkeleton = () => {
           <SkeletonBlock className="h-4 w-5/6" />
           <SkeletonBlock className="mt-auto h-5 w-1/3" />
         </div>
-      </div>
+      </section>
     </>
   );
 };
@@ -37,7 +37,7 @@ const VenueGridSkeleton = ({ count = 12 }: { count?: number }) => {
 const BookingCardSkeleton = () => {
   return (
     <>
-      <div
+      <section
         className="card-gradient-border mx-auto my-1 flex h-full w-full max-w-sm flex-col overflow-hidden"
         aria-hidden="true"
       >
@@ -49,7 +49,7 @@ const BookingCardSkeleton = () => {
           <SkeletonBlock className="h-4 w-5/6" />
           <SkeletonBlock className="mt-auto h-5 w-1/3" />
         </div>
-      </div>
+      </section>
     </>
   );
 };
@@ -130,7 +130,7 @@ const ProfilePageSkeleton = () => {
 
 const EditProfileSkeleton = () => {
   return (
-    <div aria-hidden="true" className="mx-auto w-full max-w-xl px-4 py-8">
+    <section aria-hidden="true" className="mx-auto w-full max-w-xl px-4 py-8">
       <SkeletonBlock className="h-10 w-48" />
 
       <div className="mt-6 space-y-6">
@@ -154,7 +154,7 @@ const EditProfileSkeleton = () => {
           <SkeletonBlock className="h-10 w-24" />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

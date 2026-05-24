@@ -12,6 +12,7 @@ type ButtonLinkProps = LinkProps & {
   size?: ButtonSize;
   className?: string;
   children: ReactNode;
+  "aria-label"?: string;
 };
 
 const ButtonLink = ({

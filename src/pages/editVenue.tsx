@@ -13,6 +13,8 @@ const EditVenuePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { venue, isLoading, errorMessage } = useVenueById(id);
+  const metaDescription =
+    "Edit your Holidaze venue information, including details, images, and availability.";
 
   useEffect(() => {
     if (!venue?.id || !venue?.name) return;
@@ -33,7 +35,9 @@ const EditVenuePage = () => {
   }
 
   if (errorMessage) {
-    return <p className="px-4 py-6 text-red-700">{errorMessage}</p>;
+    return (
+      <p className="px-4 py-6 text-[var(--color-danger)]">{errorMessage}</p>
+    );
   }
 
   if (!venue) {
@@ -42,6 +46,8 @@ const EditVenuePage = () => {
 
   return (
     <>
+      <title>Holidaze | Edit Venue</title>
+      <meta name="description" content={metaDescription} />
       <Breadcrumb />
       <VenueForm venueId={id} initialVenue={venue} />
     </>

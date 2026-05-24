@@ -63,7 +63,7 @@ const BookingCard = ({
         />
       )}
 
-      <div className="relative z-10">
+      <section className="relative z-10">
         <h3 className="text-xl font-semibold leading-tight text-[var(--text-h)]">
           {booking.venue?.name || "Venue"}
         </h3>
@@ -115,7 +115,7 @@ const BookingCard = ({
             </p>
           )}
         </div>
-      </div>
+      </section>
     </article>
   );
 };

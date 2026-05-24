@@ -10,6 +10,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   width?: ButtonWidth;
+  "aria-label"?: string;
 };
 
 const Button = ({

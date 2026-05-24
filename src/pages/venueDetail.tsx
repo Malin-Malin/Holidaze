@@ -59,7 +59,7 @@ const VenueDetail = () => {
 
   if (errorMessage) {
     return (
-      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left text-red-700">
+      <p className="mx-auto w-full max-w-6xl px-4 py-10 text-left text-[var(--color-danger)]">
         {errorMessage}
       </p>
     );
@@ -72,6 +72,8 @@ const VenueDetail = () => {
       </p>
     );
   }
+
+  const metaDescription = "Browse and book venues on Holidaze.";
 
   const manager = venue.owner ?? user;
   const detailsText = venue.description?.trim() || "More details are coming.";
@@ -96,119 +98,123 @@ const VenueDetail = () => {
   }));
 
   return (
-    <section className="pb-10">
-      <Gallery media={venue.media} />
-      <Breadcrumb />
-      <div className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
-        <h1 className="mb-4 mt-0 break-words px-1 uppercase leading-tight">
-          {venue.name}
-        </h1>
-        <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[var(--text)]">
-            <LocationText venue={venue} />
-          </p>
-          <Rating
-            rating={venue.rating}
-            className="text-end text-lg tracking-wide text-amber-500"
-          />
+    <>
+      <title>Holidaze | {venue.name}</title>
+      <meta name="description" content={metaDescription} />
+      <section className="pb-10">
+        <Gallery media={venue.media} />
+        <Breadcrumb />
+        <div className="mx-auto w-full max-w-6xl space-y-5 px-4 pt-6 text-start md:px-6">
+          <h1 className="mb-4 mt-0 break-words px-1 uppercase leading-tight">
+            {venue.name}
+          </h1>
+          <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[var(--text)]">
+              <LocationText venue={venue} />
+            </p>
+            <Rating
+              rating={venue.rating}
+              className="text-end text-lg tracking-wide text-amber-500"
+            />
+          </div>
+          <div className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-2xl text-[var(--text-h)]">
+              Price: {formatPrice(venue.price)} / night
+            </p>
+            <p className="text-lg text-[var(--text)]">
+              Max guests: {venue.maxGuests}
+            </p>
+          </div>
+          <div className="-mx-4 md:-mx-6">
+            <Amenities meta={venue.meta} />
+          </div>
         </div>
-        <div className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-2xl text-[var(--text-h)]">
-            Price: {formatPrice(venue.price)} / night
-          </p>
-          <p className="text-lg text-[var(--text)]">
-            Max guests: {venue.maxGuests}
-          </p>
-        </div>
-        <div className="-mx-4 md:-mx-6">
-          <Amenities meta={venue.meta} />
-        </div>
-      </div>
-      <div className="mx-auto mt-4 flex w-full max-w-6xl flex-col items-stretch gap-6 px-4 py-3 text-sm text-[var(--text)] md:px-6 lg:flex-row">
-        <section className="flex flex-1 flex-col px-4 text-start md:px-6">
-          <h2>Details</h2>
-          <p className="pt-2 text-[var(--text)]">{detailsText}</p>
-        </section>
-        <section className="px-4 text-start md:px-6 lg:w-auto lg:flex-1">
-          <h3>Availability</h3>
-          <AvailabilityCalendar
-            bookings={venue.bookings ?? []}
-            selectedDateFrom={selectedDateFrom}
-            selectedDateTo={selectedDateTo}
-            canViewBookedByName={isVenueManager}
-            currentUserName={user?.name}
-            currentUserEmail={user?.email}
-            onRangeSelect={(dateFrom, dateTo) => {
-              setSelectedDateFrom(dateFrom);
-              setSelectedDateTo(dateTo);
-            }}
-          />
-        </section>
-        <section className="px-4 text-start md:px-6 lg:w-64 lg:flex-none">
-          <h2>Book</h2>
-          <h3>{venue.name}</h3>
-          {isLoggedIn && (
-            <BookingForm
-              venue={venue}
+        <div className="mx-auto mt-4 flex w-full max-w-6xl flex-col items-stretch gap-6 px-4 py-3 text-sm text-[var(--text)] md:px-6 lg:flex-row">
+          <section className="flex flex-1 flex-col px-4 text-start md:px-6">
+            <h2>Details</h2>
+            <p className="pt-2 text-[var(--text)]">{detailsText}</p>
+          </section>
+          <section className="px-4 text-start md:px-6 lg:w-auto lg:flex-1">
+            <h3>Availability</h3>
+            <AvailabilityCalendar
+              bookings={venue.bookings ?? []}
               selectedDateFrom={selectedDateFrom}
               selectedDateTo={selectedDateTo}
-              onDatesChange={(dateFrom, dateTo) => {
+              canViewBookedByName={isVenueManager}
+              currentUserName={user?.name}
+              currentUserEmail={user?.email}
+              onRangeSelect={(dateFrom, dateTo) => {
                 setSelectedDateFrom(dateFrom);
                 setSelectedDateTo(dateTo);
               }}
-              onBookingConfirmed={(data) => {
-                setConfirmedData(data);
-                setBookingConfirmed(true);
-                setSelectedDateFrom("");
-                setSelectedDateTo("");
-                void refresh();
-              }}
             />
-          )}
-          {!isLoggedIn && (
-            <p className="rounded-md border border-[var(--color-honey)]/60 bg-[var(--color-honey)]/15 px-4 py-3 text-sm text-[var(--text)]">
-              Please log in to book this venue.
-              <Link
-                to="/login"
-                state={{ from: `/venues/${venue.id}` }}
-                className="ml-1 font-semibold text-[var(--color-honey)] hover:underline"
-              >
-                Log in
-              </Link>
-            </p>
-          )}
-        </section>
-      </div>
+          </section>
+          <section className="px-4 text-start md:px-6 lg:w-64 lg:flex-none">
+            <h2>Book</h2>
+            <h3>{venue.name}</h3>
+            {isLoggedIn && (
+              <BookingForm
+                venue={venue}
+                selectedDateFrom={selectedDateFrom}
+                selectedDateTo={selectedDateTo}
+                onDatesChange={(dateFrom, dateTo) => {
+                  setSelectedDateFrom(dateFrom);
+                  setSelectedDateTo(dateTo);
+                }}
+                onBookingConfirmed={(data) => {
+                  setConfirmedData(data);
+                  setBookingConfirmed(true);
+                  setSelectedDateFrom("");
+                  setSelectedDateTo("");
+                  void refresh();
+                }}
+              />
+            )}
+            {!isLoggedIn && (
+              <p className="rounded-md border border-[var(--color-honey)]/60 bg-[var(--color-honey)]/15 px-4 py-3 text-sm text-[var(--text)]">
+                Please log in to book this venue.
+                <Link
+                  to="/login"
+                  state={{ from: `/venues/${venue.id}` }}
+                  className="ml-1 font-semibold text-[var(--color-honey)] hover:underline"
+                >
+                  Log in
+                </Link>
+              </p>
+            )}
+          </section>
+        </div>
 
-      {bookingConfirmed && confirmedData && (
-        <Modal
-          onClose={() => setBookingConfirmed(false)}
-          ariaLabel="Booking confirmation summary"
-        >
-          <BookingSummary
-            venue={venue}
-            dateFrom={confirmedData.dateFrom}
-            dateTo={confirmedData.dateTo}
-            guests={confirmedData.guests}
-            onDismiss={() => setBookingConfirmed(false)}
+        {bookingConfirmed && confirmedData && (
+          <Modal
+            onClose={() => setBookingConfirmed(false)}
+            ariaLabel="Booking confirmation summary"
+          >
+            <BookingSummary
+              venue={venue}
+              dateFrom={confirmedData.dateFrom}
+              dateTo={confirmedData.dateTo}
+              guests={confirmedData.guests}
+              onDismiss={() => setBookingConfirmed(false)}
+            />
+          </Modal>
+        )}
+
+        {isVenueManager && (
+          <BookingGrid
+            bookings={managerBookingCards}
+            showViewVenueButton={false}
+            isLoading={isLoading}
           />
-        </Modal>
-      )}
+        )}
 
-      {isVenueManager && (
-        <BookingGrid
-          bookings={managerBookingCards}
-          showViewVenueButton={false}
-          isLoading={isLoading}
+        <ManagedBy
+          manager={manager}
+          created={venue.created}
+          updated={venue.updated}
         />
-      )}
-
-      <ManagedBy
-        manager={manager}
-        created={venue.created}
-        updated={venue.updated}
-      />
-    </section>
+      </section>
+    </>
   );
 };
 

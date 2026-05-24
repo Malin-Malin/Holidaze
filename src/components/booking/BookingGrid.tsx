@@ -25,15 +25,17 @@ const BookingGrid = ({
   errorMessage,
 }: BookingGridProps) => {
   return (
-    <section className="px-4 py-6">
+    <section className="px-4 py-8">
       {title && (
-        <h2 className="m-0 text-center text-2xl text-[var(--text-h)] md:col-start-2">
+        <h2 className="m-0 p-4 text-center text-2xl text-[var(--text-h)] md:col-start-2">
           {title}
         </h2>
       )}
 
       {errorMessage && (
-        <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
+        <p className="px-2 pb-4 text-left text-[var(--color-danger)]">
+          {errorMessage}
+        </p>
       )}
 
       {!isLoading && !errorMessage && bookings.length === 0 && (

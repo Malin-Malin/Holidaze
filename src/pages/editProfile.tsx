@@ -6,16 +6,25 @@ import { useAuth } from "../hooks/useAuth";
 const EditProfilePage = () => {
   const { user, isLoggedIn } = useAuth();
 
+  const metaDescription =
+    "Edit your Holidaze profile information, including your bio, contact details, and profile picture.";
+
   if (!isLoggedIn || !user) {
     return (
-      <p className="px-4 py-6 text-red-700">
-        You must be logged in to edit your profile.
-      </p>
+      <>
+        <title>Holidaze | Edit Profile</title>
+        <meta name="description" content={metaDescription} />
+        <p className="px-4 py-6 text-[var(--color-danger)]">
+          You must be logged in to edit your profile.
+        </p>
+      </>
     );
   }
 
   return (
     <>
+      <title>Holidaze | Edit Profile</title>
+      <meta name="description" content={metaDescription} />
       <Breadcrumb />
       <ProfileForm initialProfile={user} />
     </>

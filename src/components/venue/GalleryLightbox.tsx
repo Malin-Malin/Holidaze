@@ -68,7 +68,7 @@ export default function GalleryLightbox({
     !activeMedia.url || Boolean(failedUrls[activeMedia.url]);
 
   return (
-    <div
+    <section
       role="dialog"
       aria-modal="true"
       aria-label="Fullscreen image viewer"
@@ -127,6 +127,6 @@ export default function GalleryLightbox({
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 }

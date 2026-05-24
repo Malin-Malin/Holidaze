@@ -18,7 +18,7 @@ const WideCard = ({
   secondaryButtonLink,
 }: WideCardProps) => {
   return (
-    <div className="py-4">
+    <section className="py-10">
       <section className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[linear-gradient(125deg,#f9f3ec_0%,#f4e5d3_48%,#ecd0b0_100%)] px-6 py-14 text-center shadow-lg dark:bg-[linear-gradient(125deg,var(--color-ink)_0%,#1a2f2f_45%,#2a3a2f_100%)] md:px-10 md:py-20">
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[var(--color-honey)]/30 blur-3xl dark:bg-[var(--color-honey)]/20"
@@ -37,7 +37,12 @@ const WideCard = ({
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
             {primaryButtonText && primaryButtonLink && (
-              <ButtonLink to={primaryButtonLink} variant="primary" size="lg">
+              <ButtonLink
+                to={primaryButtonLink}
+                variant="primary"
+                size="lg"
+                aria-label={primaryButtonText}
+              >
                 {primaryButtonText}
               </ButtonLink>
             )}
@@ -46,6 +51,7 @@ const WideCard = ({
                 to={secondaryButtonLink}
                 variant="secondary"
                 size="lg"
+                aria-label={secondaryButtonText}
               >
                 {secondaryButtonText}
               </ButtonLink>
@@ -53,7 +59,7 @@ const WideCard = ({
           </div>
         </div>
       </section>
-    </div>
+    </section>
   );
 };
 

@@ -12,7 +12,7 @@ const VenueAmenitiesSection = ({
   onChange,
 }: VenueAmenitiesSectionProps) => {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <section className="grid grid-cols-4 gap-2">
       <label className="flex flex-col items-center gap-1 rounded px-2 py-1 hover:bg-black/5 sm:flex-row sm:gap-2">
         <input
           type="checkbox"
@@ -20,6 +20,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.wifi}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Wifi"
         />{" "}
         Wifi
       </label>
@@ -30,6 +31,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.parking}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Parking"
         />{" "}
         Parking
       </label>
@@ -40,6 +42,7 @@ const VenueAmenitiesSection = ({
           checked={amenities.breakfast}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Breakfast"
         />{" "}
         Breakfast
       </label>
@@ -50,10 +53,11 @@ const VenueAmenitiesSection = ({
           checked={amenities.pets}
           onChange={onChange}
           className="amenity-checkbox"
+          aria-label="Pets"
         />{" "}
         Pets
       </label>
-    </div>
+    </section>
   );
 };
 

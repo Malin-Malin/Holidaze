@@ -23,7 +23,7 @@ const CalendarCell = ({
       className={className}
       aria-disabled={!cell.isAvailable}
       aria-label={ariaLabel}
-      variant="outline"
+      variant="calendar"
       size="sm"
     >
       {cell.dayNumber}
