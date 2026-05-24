@@ -14,7 +14,6 @@ const VenueSearchControls = ({
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
           <FormField
-            label={<span className="sr-only">Search venues</span>}
             htmlFor="venue-search-input"
             className="w-full sm:flex-1 m-0"
           >
