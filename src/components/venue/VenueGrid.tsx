@@ -37,7 +37,12 @@ const VenueGrid = ({
             </h2>
           )}
           <div className="md:col-start-3 md:justify-self-end">
-            <ButtonLink to="/venues" variant="outline" size="md" aria-label="View all venues">
+            <ButtonLink
+              to="/venues"
+              variant="outline"
+              size="md"
+              aria-label="View all venues"
+            >
               View all
             </ButtonLink>
           </div>
@@ -50,7 +55,9 @@ const VenueGrid = ({
       )}
 
       {errorMessage && (
-        <p className="px-2 pb-4 text-left text-red-700">{errorMessage}</p>
+        <p className="px-2 pb-4 text-left text-[var(--color-danger)]">
+          {errorMessage}
+        </p>
       )}
 
       {!isLoading && !errorMessage && venues.length === 0 && (
