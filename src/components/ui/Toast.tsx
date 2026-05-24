@@ -12,16 +12,16 @@ const toastTypeStyles: Record<ToastType, string> = {
 export const ToastContainer = () => {
   const { toasts, removeToast } = useToast();
   return (
-    <div className="toast-container">
+    <section className="toast-container">
       {toasts.map((toast) => (
-        <div
+        <section
           key={toast.id}
           className={`toast ${toastTypeStyles[toast.type]}`}
           onClick={() => removeToast(toast.id)}
         >
           {toast.message}
-        </div>
+        </section>
       ))}
-    </div>
+    </section>
   );
 };
