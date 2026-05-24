@@ -9,16 +9,16 @@ type ButtonSize = "sm" | "md" | "lg";
 type ButtonWidth = "auto" | "full" | "wide";
 
 const baseClass =
-  "inline-flex items-center justify-center rounded-md border text-sm font-semibold tracking-[0.01em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center font-brand justify-center rounded-md border font-semibold tracking-[0.01em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
 const widthClass: Record<ButtonWidth, string> = {
   auto: "w-auto",
   full: "w-full",
   wide: "min-w-[220px] w-full md:w-[340px]",
 };
 const sizeClass: Record<ButtonSize, string> = {
-  sm: "px-3 py-1.5",
-  md: "px-4 py-2",
-  lg: "px-7 py-3.5",
+  sm: "px-3 py-1.5 text-sm",
+  md: "px-4 py-2 text-base",
+  lg: "px-7 py-3.5 text-lg",
 };
 
 const variantClass: Record<ButtonVariant, string> = {
@@ -64,8 +64,8 @@ const variantClass: Record<ButtonVariant, string> = {
     "hover:text-[var(--color-nav-link)]",
     "hover:bg-[var(--color-nav-link)]/20",
     "focus-visible:outline-[var(--color-honey)]",
-    "dark:border-[var(--color-bark)]",
-    "dark:text-[var(--color-bark)]",
+    "dark:border-[var(--color-clay)]",
+    "dark:text-[var(--color-clay)]",
     "dark:hover:border-[var(--color-honey)]",
     "dark:hover:text-[var(--color-honey)]",
   ].join(" "),

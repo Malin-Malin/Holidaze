@@ -136,7 +136,7 @@ const VenueDetail = () => {
         <div className="mx-auto mt-4 flex w-full max-w-6xl flex-col items-stretch gap-6 px-4 py-3 text-sm text-[var(--text)] md:px-6 lg:flex-row">
           <section className="flex flex-1 flex-col px-4 text-start md:px-6">
             <h2>Details</h2>
-            <p className="pt-2 text-[var(--text)]">{detailsText}</p>
+            <p className="pt-2 text-[var(--text)] text-lg">{detailsText}</p>
           </section>
           <section className="px-4 text-start md:px-6 lg:w-auto lg:flex-1">
             <h2>Availability</h2>

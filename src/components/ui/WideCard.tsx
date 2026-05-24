@@ -30,7 +30,7 @@ const WideCard = ({
         />
 
         <div className="relative z-10 mx-auto max-w-2xl">
-          <h2 className="mt-5 font-[var(--font-display)] text-4xl font-bold leading-tight text-[var(--text-h)] dark:text-white md:text-6xl">
+          <h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[var(--text-h)] dark:text-white md:text-6xl">
             {title}
           </h2>
           {children}
