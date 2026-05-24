@@ -12,9 +12,9 @@ import type {
 /**
  * Authenticate a user by sending their email and password to the login endpoint.
  * On successful login, the API will return user information and an access token.
- * @param email
- * @param password
- * @returns A promise that resolves to the login response containing user info and access token.
+ * @param email The user's email address.
+ * @param password The user's password.
+ * @returns {Promise<LoginResponse>} A promise that resolves to the login response containing user info and access token.
  * @throws An error if the login request fails, which should be handled by the caller (e.g., to show an error message to the user).
  */
 export async function login(
@@ -47,7 +47,7 @@ export async function logout() {
  * @param email The user's email address.
  * @param password The user's password.
  * @param venueManager Optional boolean indicating if the user is a venue manager (default is false).
- * @returns A promise that resolves when the registration is successful.
+ * @returns {Promise<void>} A promise that resolves when the registration is successful.
  * @throws An error if the registration request fails, which should be handled by the caller (e.g., to show an error message to the user).
  */
 export async function register(

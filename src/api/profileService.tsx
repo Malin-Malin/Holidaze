@@ -7,10 +7,10 @@ const PROFILES_ENDPOINT = "/holidaze/profiles";
 
 /**
  * Fetch all profiles from the API.
- * @returns An array of profile objects returned from the API.
+ * @returns {Promise<Profile[]>} A promise that resolves to an array of profile objects returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function getProfiles() {
+async function getProfiles(): Promise<Profile[]> {
   try {
     const response = await get<ApiResponse<Profile[]>>(PROFILES_ENDPOINT);
     return response.data;
@@ -23,10 +23,10 @@ async function getProfiles() {
 /**
  * Fetch a profile by its name from the API.
  * @param name The name of the profile to fetch.
- * @returns The profile object returned from the API.
+ * @returns {Promise<Profile>} A promise that resolves to the profile object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function getProfileByName(name: string) {
+async function getProfileByName(name: string): Promise<Profile> {
   try {
     const response = await get<ApiResponse<Profile>>(
       `${PROFILES_ENDPOINT}/${name}?_venues=true&_bookings=true`,
@@ -42,10 +42,13 @@ async function getProfileByName(name: string) {
  * Update a profile by its name with the provided profile data.
  * @param name The name of the profile to update.
  * @param profileData The data to update the profile with.
- * @returns The updated profile object returned from the API.
+ * @returns {Promise<Profile>} A promise that resolves to the updated profile object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function updateProfile(name: string, profileData: ProfileData) {
+async function updateProfile(
+  name: string,
+  profileData: ProfileData,
+): Promise<Profile> {
   try {
     const response = await put<ProfileData, ApiResponse<Profile>>(
       `${PROFILES_ENDPOINT}/${name}`,
@@ -62,10 +65,13 @@ async function updateProfile(name: string, profileData: ProfileData) {
  * Fetch venues for a profile by its name from the API.
  * @param name The name of the profile whose venues to fetch.
  * @param includeBookings Whether to include bookings in the response.
- * @returns An array of venue objects returned from the API.
+ * @returns {Promise<Venue[]>} A promise that resolves to an array of venue objects returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function getVenuesByProfileName(name: string, includeBookings = false) {
+async function getVenuesByProfileName(
+  name: string,
+  includeBookings = false,
+): Promise<Venue[]> {
   try {
     const query = includeBookings ? "?_bookings=true" : "";
     const response = await get<ApiResponse<Venue[]>>(
@@ -84,10 +90,10 @@ async function getVenuesByProfileName(name: string, includeBookings = false) {
 /**
  * Fetch bookings for a profile by its name from the API.
  * @param name The name of the profile whose bookings to fetch.
- * @returns An array of booking objects returned from the API.
+ * @returns {Promise<Booking[]>} A promise that resolves to an array of booking objects returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function getBookingsByProfileName(name: string) {
+async function getBookingsByProfileName(name: string): Promise<Booking[]> {
   try {
     const response = await get<ApiResponse<Booking[]>>(
       `${PROFILES_ENDPOINT}/${name}/bookings?_venue=true`,
@@ -105,10 +111,10 @@ async function getBookingsByProfileName(name: string) {
 /**
  * Search for profiles by a query string.
  * @param query The search query string.
- * @returns An array of profile objects matching the search query.
+ * @returns {Promise<Profile[]>} A promise that resolves to an array of profile objects matching the search query.
  * @throws Will throw an error if the API request fails.
  */
-async function searchProfiles(query: string) {
+async function searchProfiles(query: string): Promise<Profile[]> {
   try {
     const response = await get<ApiResponse<Profile[]>>(
       `${PROFILES_ENDPOINT}?search=${encodeURIComponent(query)}`,

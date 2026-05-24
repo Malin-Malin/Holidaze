@@ -64,7 +64,7 @@ async function getBookingById(id: string) {
  * Update a booking by its ID with the provided booking data.
  * @param id The ID of the booking to update.
  * @param bookingData The data to update the booking with.
- * @returns The updated booking object returned from the API.
+ * @returns {Promise<Booking>} A promise that resolves to the updated booking object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
 async function updateBooking(id: string, bookingData: BookingUpdateData) {
@@ -83,6 +83,7 @@ async function updateBooking(id: string, bookingData: BookingUpdateData) {
 /**
  * Delete a booking by its ID from the API.
  * @param id The ID of the booking to delete.
+ * @returns {Promise<void>} A promise that resolves when the booking is successfully deleted.
  * @throws Will throw an error if the API request fails.
  */
 async function deleteBooking(id: string) {

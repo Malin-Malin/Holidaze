@@ -9,10 +9,10 @@ export type VenuesPageResponse = ApiResponse<Venue[]>;
 /**
  * Create a new venue with the provided venue data.
  * @param venueData The data for the new venue.
- * @returns The created venue object returned from the API.
+ * @returns {Promise<Venue>} A promise that resolves to the created venue object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function createVenue(venueData: VenueData) {
+async function createVenue(venueData: VenueData): Promise<Venue> {
   try {
     const response = await post<VenueData, ApiResponse<Venue>>(
       VENUES_ENDPOINT,
@@ -32,7 +32,7 @@ async function createVenue(venueData: VenueData) {
  * @param includeBookings Whether to include bookings in the response.
  * @param orderBy The field to sort by.
  * @param orderDirection The direction to sort (asc or desc).
- * @returns An object containing the array of venues and metadata.
+ * @returns {Promise<VenuesPageResponse>} A promise that resolves to an object containing the array of venues and metadata.
  * @throws Will throw an error if the API request fails.
  */
 async function getVenues(
@@ -60,10 +60,10 @@ async function getVenues(
 /**
  * Fetch a venue by its ID from the API.
  * @param id The ID of the venue to fetch.
- * @returns The venue object returned from the API.
+ * @returns {Promise<Venue>} A promise that resolves to the venue object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function getVenueById(id: string) {
+async function getVenueById(id: string): Promise<Venue> {
   try {
     const response = await get<ApiResponse<Venue>>(
       `${VENUES_ENDPOINT}/${id}?_owner=true&_bookings=true`,
@@ -79,10 +79,10 @@ async function getVenueById(id: string) {
  * Update a venue by its ID with the provided venue data.
  * @param id The ID of the venue to update.
  * @param venueData The data to update the venue with.
- * @returns The updated venue object returned from the API.
+ * @returns {Promise<Venue>} A promise that resolves to the updated venue object returned from the API.
  * @throws Will throw an error if the API request fails.
  */
-async function updateVenue(id: string, venueData: VenueData) {
+async function updateVenue(id: string, venueData: VenueData): Promise<Venue> {
   try {
     const response = await put<VenueData, ApiResponse<Venue>>(
       `${VENUES_ENDPOINT}/${id}`,
@@ -98,9 +98,10 @@ async function updateVenue(id: string, venueData: VenueData) {
 /**
  * Delete a venue by its ID from the API.
  * @param id The ID of the venue to delete.
+ * @returns {Promise<void>} A promise that resolves when the venue is successfully deleted.
  * @throws Will throw an error if the API request fails.
  */
-async function deleteVenue(id: string) {
+async function deleteVenue(id: string): Promise<void> {
   try {
     await del(`${VENUES_ENDPOINT}/${id}`);
   } catch (error) {
@@ -116,7 +117,7 @@ async function deleteVenue(id: string) {
  * @param limit The number of venues per page.
  * @param orderBy The field to sort by.
  * @param orderDirection The direction to sort (asc or desc).
- * @returns An object containing the array of venues and metadata.
+ * @returns {Promise<VenuesPageResponse>} A promise that resolves to an object containing the array of venues and metadata.
  * @throws Will throw an error if the API request fails.
  */
 async function searchVenues(
@@ -125,7 +126,7 @@ async function searchVenues(
   limit = 12,
   orderBy = "name",
   orderDirection: "asc" | "desc" = "asc",
-) {
+): Promise<VenuesPageResponse> {
   try {
     const response = await get<ApiResponse<Venue[]>>(
       `${VENUES_ENDPOINT}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}&sort=${orderBy}&sortOrder=${orderDirection}`,
