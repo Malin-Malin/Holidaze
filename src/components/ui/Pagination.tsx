@@ -42,11 +42,11 @@ const Pagination = ({
   }
 
   return (
-    <section className="mt-8 flex items-center w-full gap-3">
-      {/* Left spacer for centering */}
-      <div className="flex-1" />
+    <section className="mt-8 flex flex-col md:flex-row items-center w-full gap-2 md:gap-0">
+      {/* Left spacer for centering on md+ */}
+      <div className="hidden md:block flex-1" />
       {/* Centered Previous/Next/Page Info */}
-      <div className="flex items-center gap-3 justify-center">
+      <div className="flex items-center justify-center gap-3 w-full md:w-auto">
         <Button
           type="button"
           onClick={goToPreviousPage}
@@ -75,7 +75,7 @@ const Pagination = ({
         )}
       </div>
       {/* Right-aligned Go To Page Controls */}
-      <div className="flex-1 flex items-center gap-2 justify-end">
+      <div className="flex items-center gap-2 justify-center md:justify-end w-full md:w-auto flex-1 mt-2 md:mt-0">
         <span>Go to page</span>
         <input
           aria-label="Go to page"
