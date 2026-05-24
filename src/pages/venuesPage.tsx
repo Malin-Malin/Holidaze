@@ -5,8 +5,11 @@ import Pagination from "../components/ui/Pagination";
 import VenueSearchControls from "../components/ui/search/VenueSearchControls";
 import Banner from "../components/layout/Banner";
 import VenueGrid from "../components/venue/VenueGrid";
-import SortControls from "../components/ui/SortControls";
-import type { SortField, SortOrder } from "../components/ui/SortControls";
+import SortControls from "../components/ui/search/SortControls";
+import type {
+  SortField,
+  SortOrder,
+} from "../components/ui/search/SortControls";
 
 import { useVenues } from "../hooks/useVenues";
 
@@ -74,14 +77,14 @@ const VenuesPage = () => {
           Venues
         </h1>
 
-        <div className="flex flex-col gap-2 mb-4 md:flex-row md:items-center md:gap-6 items-center">
-          <div className="flex-1 min-w-0">
+        <div className="flex flex-col gap-2 mb-4 md:flex-row md:items-center md:gap-6">
+          <div className="w-full md:flex-1 min-w-0">
             <VenueSearchControls
               query={query}
               onQueryChange={(value) => updateSearchParam("q", value)}
             />
           </div>
-          <div className="flex items-center justify-end w-full md:w-auto">
+          <div className="w-full md:w-auto">
             <SortControls
               sortField={sortField}
               sortOrder={sortOrder}
