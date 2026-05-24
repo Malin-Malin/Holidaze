@@ -9,7 +9,6 @@ import VenueAmenitiesSection from "./form/VenueAmenitiesSection";
 import VenueBasicsSection from "./form/VenueBasicsSection";
 import VenueLocationSection from "./form/VenueLocationSection";
 import VenueMediaSection from "./form/VenueMediaSection";
-
 import Button from "../ui/Button";
 
 import type { Venue, VenueData } from "../../types/venue.types";
@@ -45,6 +44,14 @@ type VenueFieldErrors = Partial<Record<keyof VenueFormState, string>> & {
   media?: string[];
 };
 
+/**
+ * Venue form component for creating or editing a venue.
+ * Handles input, validation, and submission logic.
+ * @param {VenueFormProps} props
+ * @param {string} [props.venueId] - ID of the venue to edit (if in edit mode).
+ * @param {Venue} [props.initialVenue] - Initial venue data for editing.
+ * @returns {JSX.Element}
+ */
 const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const navigate = useNavigate();
   const isEditMode = Boolean(venueId);

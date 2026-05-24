@@ -9,6 +9,12 @@ type AmenitiesProps = {
   meta?: VenueMeta;
 };
 
+/**
+ * Component for displaying venue amenities as icons and labels.
+ * @param {AmenitiesProps} props
+ * @param {VenueMeta} [props.meta] - Venue amenities metadata.
+ * @returns {JSX.Element}
+ */
 const Amenities = ({ meta }: AmenitiesProps) => {
   const amenities = [
     { key: "wifi", label: "WiFi", icon: FaWifi, enabled: meta?.wifi },

@@ -14,6 +14,19 @@ type BookingGridProps = {
   errorMessage?: string;
 };
 
+/**
+ * Grid component for displaying a list of bookings with optional loading and error states.
+ * @param {BookingGridProps} props
+ * @param {string} [props.title] - Title for the grid.
+ * @param {number} [props.numberOfBookings] - Number of bookings to display.
+ * @param {Booking[]} props.bookings - List of bookings to display.
+ * @param {boolean} props.isLoading - Loading state.
+ * @param {boolean} [props.showViewVenueButton] - Show view venue button for each booking.
+ * @param {(bookingId: string) => void} [props.handleCancel] - Handler for cancel action.
+ * @param {string} [props.fallbackMessage] - Message to show if no bookings found.
+ * @param {string} [props.errorMessage] - Error message to display.
+ * @returns {JSX.Element}
+ */
 const BookingGrid = ({
   title,
   numberOfBookings = 12,

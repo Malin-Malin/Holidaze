@@ -30,6 +30,13 @@ type ProfileFormProps = {
   initialProfile: Partial<Profile>;
 };
 
+/**
+ * Profile form component for editing user profile details.
+ * Handles avatar, banner, bio, and venue manager status.
+ * @param {ProfileFormProps} props
+ * @param {Partial<Profile>} props.initialProfile - The initial profile data.
+ * @returns {JSX.Element}
+ */
 const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   const { user, setUserInfo } = useAuth();
   const navigate = useNavigate();

@@ -3,7 +3,6 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import FormField from "../input/FormField";
 import AuthFormLayout from "./AuthFormLayout";
-
 import Button from "../ui/Button";
 
 import { login } from "../../api/authService";
@@ -15,6 +14,11 @@ type LoginErrors = {
   password?: string;
 };
 
+/**
+ * Login form component for user authentication.
+ * Handles email/password input, validation, and login logic.
+ * @returns {JSX.Element}
+ */
 const LoginForm = () => {
   const { login: authLogin } = useAuth();
   const navigate = useNavigate();

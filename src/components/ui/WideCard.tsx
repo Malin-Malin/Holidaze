@@ -9,6 +9,17 @@ type WideCardProps = {
   secondaryButtonLink?: string;
 };
 
+/**
+ * Wide card component for displaying a title, content, and action buttons.
+ * @param {WideCardProps} props
+ * @param {string} props.title - Card title.
+ * @param {React.ReactNode} props.children - Card content.
+ * @param {string} [props.primaryButtonText] - Primary button text.
+ * @param {string} [props.primaryButtonLink] - Primary button link.
+ * @param {string} [props.secondaryButtonText] - Secondary button text.
+ * @param {string} [props.secondaryButtonLink] - Secondary button link.
+ * @returns {JSX.Element}
+ */
 const WideCard = ({
   title,
   children,

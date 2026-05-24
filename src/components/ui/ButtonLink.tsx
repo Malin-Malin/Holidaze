@@ -15,6 +15,15 @@ type ButtonLinkProps = LinkProps & {
   "aria-label"?: string;
 };
 
+/**
+ * Link component styled as a button, for navigation.
+ * @param {ButtonLinkProps} props
+ * @param {ButtonVariant} [props.variant] - Button style variant.
+ * @param {ButtonSize} [props.size] - Button size.
+ * @param {string} [props.className] - Additional CSS classes.
+ * @param {ReactNode} props.children - Link content.
+ * @returns {JSX.Element}
+ */
 const ButtonLink = ({
   variant = "primary",
   size = "md",

@@ -9,7 +9,11 @@ const toastTypeStyles: Record<ToastType, string> = {
   info: "toast-info",
 };
 
-export const ToastContainer = () => {
+/**
+ * Toast notification container for displaying toasts.
+ * @returns {JSX.Element}
+ */
+const ToastContainer = () => {
   const { toasts, removeToast } = useToast();
   return (
     <div className="toast-container">
@@ -25,3 +29,5 @@ export const ToastContainer = () => {
     </div>
   );
 };
+
+export default ToastContainer;

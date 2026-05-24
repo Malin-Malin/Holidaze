@@ -9,6 +9,16 @@ type BannerProps = {
   children?: ReactNode;
 };
 
+/**
+ * Banner component for displaying a hero image, title, and optional children.
+ * @param {BannerProps} props
+ * @param {string} [props.imageUrl] - URL of the banner image.
+ * @param {string} [props.imageAlt] - Alt text for the image.
+ * @param {string} [props.ariaLabel] - Accessible label for the banner.
+ * @param {string} [props.title] - Title text to display.
+ * @param {ReactNode} [props.children] - Optional children to render instead of the title.
+ * @returns {JSX.Element}
+ */
 const Banner = ({
   imageUrl,
   imageAlt,

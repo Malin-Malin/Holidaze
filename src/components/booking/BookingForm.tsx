@@ -1,11 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import { isFormDirty } from "../../utils/form";
-import ConfirmModal from "../ui/ConfirmModal";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
-import Button from "../ui/Button";
 import { Link } from "react-router-dom";
 
+import ConfirmModal from "../ui/ConfirmModal";
 import FormField from "../input/FormField";
+import Button from "../ui/Button";
 
 import { createBooking } from "../../api/bookingService";
 import { useAuth } from "../../hooks/useAuth";
@@ -35,6 +35,17 @@ type BookingFormData = {
 
 type BookingFieldErrors = Partial<Record<keyof BookingFormData, string>>;
 
+/**
+ * Booking form component for creating a new booking.
+ * Handles date, guest selection, validation, and booking logic.
+ * @param {BookingFormProps} props
+ * @param {Venue} props.venue - The venue to book.
+ * @param {string} [props.selectedDateFrom] - Preselected start date.
+ * @param {string} [props.selectedDateTo] - Preselected end date.
+ * @param {(dateFrom: string, dateTo: string) => void} [props.onDatesChange] - Handler for date changes.
+ * @param {(data: { dateFrom: string; dateTo: string; guests: number }) => void} [props.onBookingConfirmed] - Handler for booking confirmation.
+ * @returns {JSX.Element}
+ */
 const BookingForm = ({
   venue,
   selectedDateFrom,

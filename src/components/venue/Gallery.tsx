@@ -15,6 +15,12 @@ type GalleryProps = {
   media: Media[];
 };
 
+/**
+ * Gallery component for displaying a set of images with thumbnail navigation and lightbox.
+ * @param {GalleryProps} props
+ * @param {Media[]} props.media - Array of media objects to display.
+ * @returns {JSX.Element}
+ */
 export default function Gallery({ media }: GalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);

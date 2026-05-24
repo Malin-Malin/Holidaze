@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import { formatDate } from "../../utils/date";
-
 import Button from "../ui/Button";
 import ButtonLink from "../ui/ButtonLink";
 
 import type { Booking } from "../../types/venue.types";
+
+import { formatDate } from "../../utils/date";
+import { hasBookingStarted } from "../../utils/booking";
 
 type BookingCardProps = {
   booking: Booking;
@@ -13,12 +14,14 @@ type BookingCardProps = {
   showViewVenueButton?: boolean;
 };
 
-function hasBookingStarted(booking: Booking) {
-  const now = new Date();
-  const bookingStart = new Date(booking.dateFrom);
-  return bookingStart <= now;
-}
-
+/**
+ * Card component displaying booking details, with optional cancel and view venue actions.
+ * @param {BookingCardProps} props
+ * @param {Booking} props.booking - The booking to display.
+ * @param {(bookingId: string) => void} [props.onCancel] - Handler for cancel action.
+ * @param {boolean} [props.showViewVenueButton] - Whether to show the view venue button.
+ * @returns {JSX.Element}
+ */
 const BookingCard = ({
   booking,
   onCancel,

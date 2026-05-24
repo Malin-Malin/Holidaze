@@ -17,6 +17,10 @@ const SOCIAL_LINKS = [
   { href: "https://x.com", label: "X (Twitter)", Icon: FaXTwitter },
 ];
 
+/**
+ * Footer component with navigation, brand, and social links.
+ * @returns {JSX.Element}
+ */
 const Footer = () => {
   const { isLoggedIn } = useAuth();
   const year = new Date().getFullYear();

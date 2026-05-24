@@ -8,6 +8,16 @@ type FormFieldProps = {
   className?: string;
 };
 
+/**
+ * Form field wrapper component for labels, errors, and input layout.
+ * @param {FormFieldProps} props
+ * @param {string} [props.label] - The label for the input.
+ * @param {string} props.htmlFor - The id of the input element.
+ * @param {string} [props.error] - Error message to display.
+ * @param {ReactNode} props.children - The input element(s).
+ * @param {string} [props.className] - Additional CSS classes.
+ * @returns {JSX.Element}
+ */
 const FormField = ({
   label,
   htmlFor,

@@ -14,6 +14,13 @@ type OverviewVenueProps = {
   isLoading?: boolean;
 };
 
+/**
+ * Component for displaying and managing the user's venues.
+ * @param {OverviewVenueProps} props
+ * @param {Venue[]} [props.venues] - List of venues to display.
+ * @param {boolean} [props.isLoading] - Loading state.
+ * @returns {JSX.Element}
+ */
 const OverviewVenue = ({
   venues = [],
   isLoading = false,

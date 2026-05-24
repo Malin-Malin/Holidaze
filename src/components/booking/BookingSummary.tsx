@@ -13,6 +13,16 @@ type BookingSummaryProps = {
   onDismiss?: () => void;
 };
 
+/**
+ * Booking summary component displaying confirmation details for a booking.
+ * @param {BookingSummaryProps} props
+ * @param {Venue} props.venue - The booked venue.
+ * @param {string} props.dateFrom - Start date of the booking.
+ * @param {string} props.dateTo - End date of the booking.
+ * @param {number} props.guests - Number of guests.
+ * @param {() => void} [props.onDismiss] - Handler to dismiss the summary.
+ * @returns {JSX.Element}
+ */
 const BookingSummary = ({
   venue,
   dateFrom,

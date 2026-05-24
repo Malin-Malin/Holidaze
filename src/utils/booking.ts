@@ -228,3 +228,14 @@ export function hasInclusiveBookingOverlap(
     return start <= bookingEnd && end >= bookingStart;
   });
 }
+
+/**
+ * Checks if a booking has started.
+ * @param {Booking} booking - The booking to check.
+ * @returns {boolean} True if the booking has started, false otherwise.
+ */
+export function hasBookingStarted(booking: Booking) {
+  const now = new Date();
+  const bookingStart = new Date(booking.dateFrom);
+  return bookingStart <= now;
+}

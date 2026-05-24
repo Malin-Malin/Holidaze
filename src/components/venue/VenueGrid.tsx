@@ -1,8 +1,8 @@
 import VenueCard from "./VenueCard";
+import ButtonLink from "../ui/ButtonLink";
 import { VenueGridSkeleton } from "../loading/PageSkeletons";
 
 import type { Venue } from "../../types/venue.types";
-import ButtonLink from "../ui/ButtonLink";
 
 type VenueGridProps = {
   title?: string;
@@ -16,6 +16,20 @@ type VenueGridProps = {
   handleDelete?: (venueId: string) => void;
 };
 
+/**
+ * Grid component for displaying a list of venues with optional loading and error states.
+ * @param {VenueGridProps} props
+ * @param {string} [props.title] - Title for the grid.
+ * @param {number} [props.numberOfVenues] - Number of venues to display.
+ * @param {Venue[]} props.venues - List of venues to display.
+ * @param {boolean} props.isLoading - Loading state.
+ * @param {boolean} [props.showViewAllButton] - Show view all button.
+ * @param {string} [props.fallbackMessage] - Message to show if no venues found.
+ * @param {string} [props.errorMessage] - Error message to display.
+ * @param {(venueId: string) => void} [props.handleEdit] - Handler for edit action.
+ * @param {(venueId: string) => void} [props.handleDelete] - Handler for delete action.
+ * @returns {JSX.Element}
+ */
 const VenueGrid = ({
   title,
   numberOfVenues = 12,

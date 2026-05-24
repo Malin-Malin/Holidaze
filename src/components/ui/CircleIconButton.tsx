@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type CircleIconButtonSize = "sm" | "md" | "lg";
+
 type CircleIconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   className?: string;
@@ -13,6 +14,14 @@ const sizeClassMap: Record<CircleIconButtonSize, string> = {
   lg: "w-11 h-11 md:w-12 md:h-12 text-2xl",
 };
 
+/**
+ * Circular icon button component for actions.
+ * @param {CircleIconButtonProps} props
+ * @param {ReactNode} props.children - Icon or content inside the button.
+ * @param {string} [props.className] - Additional CSS classes.
+ * @param {"sm"|"md"|"lg"} [props.size] - Button size.
+ * @returns {JSX.Element}
+ */
 const CircleIconButton = ({
   children,
   className = "",

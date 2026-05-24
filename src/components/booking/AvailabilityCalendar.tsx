@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import CalendarCell from "./CalendarCell";
+import Button from "../ui/Button";
 
 import {
   buildAvailabilityCalendarCells,
@@ -11,7 +12,6 @@ import {
   isInsideSelectedRange,
 } from "../../utils/booking";
 import { startOfDay, startOfMonth, toDateKey } from "../../utils/date";
-import Button from "../ui/Button";
 
 import type { VenueBooking } from "../../types/venue.types";
 
@@ -28,6 +28,19 @@ type AvailabilityCalendarProps = {
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+/**
+ * Calendar component for selecting booking date ranges and viewing availability.
+ * @param {AvailabilityCalendarProps} props
+ * @param {VenueBooking[]} [props.bookings] - List of venue bookings.
+ * @param {string} [props.title] - Calendar title.
+ * @param {(dateFrom: string, dateTo: string) => void} [props.onRangeSelect] - Handler for range selection.
+ * @param {string} [props.selectedDateFrom] - Selected start date.
+ * @param {string} [props.selectedDateTo] - Selected end date.
+ * @param {boolean} [props.canViewBookedByName] - Show guest names in tooltips.
+ * @param {string} [props.currentUserName] - Current user's name.
+ * @param {string} [props.currentUserEmail] - Current user's email.
+ * @returns {JSX.Element}
+ */
 const AvailabilityCalendar = ({
   bookings = [],
   title = "Availability calendar",

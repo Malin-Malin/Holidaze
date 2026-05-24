@@ -10,6 +10,15 @@ interface SortControlsProps {
   onSortOrderChange: (order: SortOrder) => void;
 }
 
+/**
+ * Sort controls component for selecting sort field and order.
+ * @param {SortControlsProps} props
+ * @param {SortField} props.sortField - The current sort field.
+ * @param {SortOrder} props.sortOrder - The current sort order.
+ * @param {(field: SortField) => void} props.onSortFieldChange - Handler for sort field changes.
+ * @param {(order: SortOrder) => void} props.onSortOrderChange - Handler for sort order changes.
+ * @returns {JSX.Element}
+ */
 const SortControls: React.FC<SortControlsProps> = ({
   sortField,
   sortOrder,

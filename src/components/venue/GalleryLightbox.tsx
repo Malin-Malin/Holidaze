@@ -15,6 +15,17 @@ type GalleryLightboxProps = {
   onClose: () => void;
 };
 
+/**
+ * Lightbox component for displaying images in a modal with navigation.
+ * @param {GalleryLightboxProps} props
+ * @param {Media[]} props.media - Array of media objects.
+ * @param {number} props.activeIndex - Index of the active image.
+ * @param {Record<string, boolean>} props.failedUrls - Map of failed image URLs.
+ * @param {(url: string) => void} props.onImageError - Handler for image load errors.
+ * @param {(nextIndex: number) => void} props.onActiveIndexChange - Handler for changing active image.
+ * @param {() => void} props.onClose - Handler to close the lightbox.
+ * @returns {JSX.Element}
+ */
 export default function GalleryLightbox({
   media,
   activeIndex,

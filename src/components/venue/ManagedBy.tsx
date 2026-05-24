@@ -10,6 +10,14 @@ type VenueFooterProps = {
   updated: string;
 };
 
+/**
+ * Component for displaying venue manager information and creation/update dates.
+ * @param {VenueFooterProps} props
+ * @param {Partial<Profile> | null | undefined} props.manager - Venue manager info.
+ * @param {string} props.created - Creation date.
+ * @param {string} props.updated - Update date.
+ * @returns {JSX.Element}
+ */
 const ManagedBy = ({ manager, created, updated }: VenueFooterProps) => {
   return (
     <section className="mx-auto mt-6 w-full max-w-6xl px-8 py-5 text-sm text-[var(--text)] md:px-10">

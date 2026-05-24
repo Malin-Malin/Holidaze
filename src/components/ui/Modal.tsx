@@ -7,6 +7,15 @@ interface ModalProps {
   ariaLabel: string;
 }
 
+/**
+ * Modal dialog component for displaying overlay content.
+ * Handles focus, keyboard, and overlay interactions.
+ * @param {ModalProps} props
+ * @param {React.ReactNode} props.children - Modal content.
+ * @param {() => void} props.onClose - Handler to close the modal.
+ * @param {string} props.ariaLabel - Accessible label for the modal.
+ * @returns {JSX.Element}
+ */
 const Modal: React.FC<ModalProps> = ({ children, onClose, ariaLabel }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);

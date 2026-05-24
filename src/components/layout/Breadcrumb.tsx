@@ -2,6 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 
 import { capitalize, toTitleCase } from "../../utils/text.ts";
 
+/**
+ * Breadcrumb navigation component that displays the current path as clickable links.
+ * Uses the router location to generate breadcrumbs and supports venue name display from state.
+ *
+ * @returns {JSX.Element | null} The breadcrumb navigation element or null if at root.
+ */
 const Breadcrumb = () => {
   const location = useLocation();
   const segments = location.pathname.split("/").filter(Boolean);

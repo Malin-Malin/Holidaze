@@ -5,10 +5,10 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 import Rating from "../ui/Rating";
 import LocationText from "../ui/LocationText";
 import SafeImage from "../ui/SafeImage";
-
-import placeholderImage from "../../assets/placeholderImage.jpg";
 import Button from "../ui/Button";
 import ButtonLink from "../ui/ButtonLink";
+
+import placeholderImage from "../../assets/placeholderImage.jpg";
 
 import type { Venue } from "../../types/venue.types";
 
@@ -18,6 +18,14 @@ type VenueCardProps = {
   onDelete?: (venueId: string) => void;
 };
 
+/**
+ * Card component for displaying venue details, image, and actions.
+ * @param {VenueCardProps} props
+ * @param {Venue} props.venue - The venue to display.
+ * @param {(venueId: string) => void} [props.onEdit] - Handler for edit action.
+ * @param {(venueId: string) => void} [props.onDelete] - Handler for delete action.
+ * @returns {JSX.Element}
+ */
 const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   const navigate = useNavigate();
   const primaryMedia = venue.media[0];

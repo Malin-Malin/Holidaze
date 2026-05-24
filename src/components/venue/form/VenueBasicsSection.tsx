@@ -12,6 +12,15 @@ type VenueBasicsSectionProps = {
   errors?: Partial<Record<keyof VenueFormState, string>>;
 };
 
+/**
+ * Section component for venue basic fields (name, description, price, rating).
+ * @param {VenueBasicsSectionProps} props
+ * @param {VenueFormState} props.form - The form state object.
+ * @param {(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void} props.onChange - Handler for input changes.
+ * @param {(rating: number) => void} props.onRatingChange - Handler for rating changes.
+ * @param {Partial<Record<keyof VenueFormState, string>>} [props.errors] - Validation errors.
+ * @returns {JSX.Element}
+ */
 const VenueBasicsSection = ({
   form,
   onChange,

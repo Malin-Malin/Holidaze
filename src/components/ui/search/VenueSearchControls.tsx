@@ -5,6 +5,13 @@ type VenueSearchControlsProps = {
   onQueryChange: (value: string) => void;
 };
 
+/**
+ * Search controls component for filtering venues by query.
+ * @param {VenueSearchControlsProps} props
+ * @param {string} props.query - The search query value.
+ * @param {(value: string) => void} props.onQueryChange - Handler for query changes.
+ * @returns {JSX.Element}
+ */
 const VenueSearchControls = ({
   query,
   onQueryChange,
