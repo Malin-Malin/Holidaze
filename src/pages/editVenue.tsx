@@ -13,6 +13,8 @@ const EditVenuePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { venue, isLoading, errorMessage } = useVenueById(id);
+  const metaDescription =
+    "Edit your Holidaze venue information, including details, images, and availability.";
 
   useEffect(() => {
     if (!venue?.id || !venue?.name) return;
@@ -44,6 +46,8 @@ const EditVenuePage = () => {
 
   return (
     <>
+      <title>Holidaze | Edit Venue</title>
+      <meta name="description" content={metaDescription} />
       <Breadcrumb />
       <VenueForm venueId={id} initialVenue={venue} />
     </>

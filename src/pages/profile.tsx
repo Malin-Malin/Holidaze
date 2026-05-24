@@ -39,10 +39,15 @@ const ProfilePage = () => {
     return <p className="px-4 py-6 text-[var(--text)]">Profile not found.</p>;
   }
 
+  const metaDescription =
+    "View and manage your Holidaze profile, bookings, and venues.";
+
   const bannerAlt = profile.banner?.alt || "placeholder profile banner";
 
   return (
     <>
+      <title>Holidaze | Profile</title>
+      <meta name="description" content={metaDescription} />
       <Banner
         imageUrl={bannerSrc}
         imageAlt={bannerAlt}

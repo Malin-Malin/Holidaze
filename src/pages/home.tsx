@@ -1,6 +1,7 @@
 import { LuHouse } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { IoKeyOutline } from "react-icons/io5";
+
 import Banner from "../components/layout/Banner";
 import PopoutCard from "../components/ui/PopoutCard";
 import VenueGrid from "../components/venue/VenueGrid";
@@ -30,10 +31,15 @@ const HomePage = () => {
     ? `/venues/${featuredVenueId}`
     : "/venues";
 
+  const metaDescription =
+    "Welcome to Holidaze, your go-to platform for booking unique venues around the world. Discover, book, and manage your stays with ease.";
+
   return (
     <>
+      <title>Holidaze | Home</title>
+      <meta name="description" content={metaDescription} />
       <Banner />
-      <main className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6 md:py-14">
+      <section className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6 md:py-14">
         <h1 className="text-4xl font-bold text-center text-[var(--text-h)] dark:text-white md:text-6xl">
           Welcome to Holidaze
         </h1>
@@ -126,7 +132,7 @@ const HomePage = () => {
             />
           </div>
         </section>
-      </main>
+      </section>
     </>
   );
 };
