@@ -23,10 +23,10 @@ const Footer = () => {
 
   return (
     <footer className="relative left-1/2 right-1/2 mt-auto w-screen -translate-x-1/2 [background:var(--surface-shell)] text-[var(--color-nav-link)]">
-      <div className="mx-auto w-full max-w-[1126px] px-6 py-12">
-        <div className="grid grid-cols-1 gap-12 text-center lg:grid-cols-16 lg:gap-8 lg:text-left">
+      <article className="mx-auto w-full max-w-[1126px] px-6 py-12">
+        <section className="grid grid-cols-1 gap-12 text-center lg:grid-cols-16 lg:gap-8 lg:text-left">
           {/* Brand */}
-          <div className="flex flex-col items-center gap-3 lg:col-span-8 lg:items-start lg:pl-8">
+          <section className="flex flex-col items-center gap-3 lg:col-span-8 lg:items-start lg:pl-8">
             <a href="/" className="w-fit">
               <span className="font-[var(--font-brand)] text-4xl text-[var(--shell-accent)] transition hover:opacity-80">
                 Holidaze
@@ -50,10 +50,10 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-          </div>
+          </section>
 
           {/* Navigation */}
-          <div className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
+          <section className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
             <h3 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
               Explore
             </h3>
@@ -72,10 +72,10 @@ const Footer = () => {
                 );
               })}
             </nav>
-          </div>
+          </section>
 
           {/* Contact */}
-          <div className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
+          <section className="flex flex-col items-center gap-3 lg:col-span-4 lg:items-start lg:pl-2">
             <h3 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-widest !text-[var(--footer-heading)]">
               Contact
             </h3>
@@ -109,15 +109,15 @@ const Footer = () => {
                 <span>Oslo, Norway</span>
               </li>
             </ul>
-          </div>
-        </div>
+          </section>
+        </section>
 
-        <div className="mt-10 border-t border-[var(--color-nav-link)]/20 pt-6 text-xs text-[var(--color-nav-link)]/50">
+        <section className="mt-10 border-t border-[var(--color-nav-link)]/20 pt-6 text-xs text-[var(--color-nav-link)]/50">
           <p className="text-center">
             &copy; {year} Malin Skrettingland. All rights reserved.
           </p>
-        </div>
-      </div>
+        </section>
+      </article>
     </footer>
   );
 };

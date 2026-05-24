@@ -34,7 +34,7 @@ const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
   };
 
   return (
-    <div
+    <article
       role="button"
       tabIndex={0}
       onClick={handleCardClick}
@@ -110,7 +110,7 @@ const VenueCard = ({ venue, onEdit, onDelete }: VenueCardProps) => {
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

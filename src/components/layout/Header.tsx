@@ -15,7 +15,7 @@ const Header = () => {
   const { isLoggedIn } = useAuth();
   return (
     <header className="sticky top-0 z-50 ml-[calc(50%-50vw)] w-screen border-b border-[var(--color-nav-link)]/15 [background:var(--surface-shell)] font-[var(--font-brand)]">
-      <div className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-6 py-4">
+      <section className="mx-auto flex w-full max-w-[1126px] items-center justify-between px-6 py-4">
         <a href="/" className="px-2 py-1">
           <span className="font-[var(--font-brand)] text-4xl text-[var(--shell-accent)]">
             Holidaze
@@ -40,7 +40,7 @@ const Header = () => {
           })}
         </nav>
         <HamburgerMenu />
-      </div>
+      </section>
     </header>
   );
 };

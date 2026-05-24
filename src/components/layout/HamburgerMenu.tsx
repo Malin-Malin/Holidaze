@@ -36,7 +36,7 @@ const HamburgerMenu = () => {
   }, []);
 
   return (
-    <div className="relative md:hidden" ref={menuRef}>
+    <section className="relative md:hidden" ref={menuRef}>
       <Button
         type="button"
         variant="icon"
@@ -51,7 +51,7 @@ const HamburgerMenu = () => {
       {isOpen && (
         <nav
           id="mobile-nav-menu"
-          className="absolute -right-6 z-40 mt-2 min-w-40 rounded border border-[var(--color-nav-link)]/20 [background:var(--surface-shell)] p-2 shadow-2xl"
+          className="absolute -right-6 z-40 mt-4 min-w-40 rounded border border-[var(--color-nav-link)]/20 [background:var(--surface-shell)] p-2 shadow-2xl"
           aria-label="Mobile"
         >
           {NAV_LINKS.map(
@@ -91,7 +91,7 @@ const HamburgerMenu = () => {
           )}
         </nav>
       )}
-    </div>
+    </section>
   );
 };
 

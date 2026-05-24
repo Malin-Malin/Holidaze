@@ -12,7 +12,7 @@ type VenueFooterProps = {
 
 const ManagedBy = ({ manager, created, updated }: VenueFooterProps) => {
   return (
-    <div className="mx-auto mt-6 w-full max-w-6xl px-8 py-5 text-sm text-[var(--text)] md:px-10">
+    <section className="mx-auto mt-6 w-full max-w-6xl px-8 py-5 text-sm text-[var(--text)] md:px-10">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <SafeImage
@@ -34,7 +34,7 @@ const ManagedBy = ({ manager, created, updated }: VenueFooterProps) => {
           <p>Updated: {formatDate(updated, { fallback: "Unknown date" })}</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
