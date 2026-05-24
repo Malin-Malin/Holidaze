@@ -30,7 +30,7 @@ const SortControls: React.FC<SortControlsProps> = ({
             id="sort-field"
             value={sortField}
             onChange={(e) => onSortFieldChange(e.target.value as SortField)}
-            className="w-fullrounded border border-[var(--color-honey)] px-3 py-2 text-sm bg-white dark:bg-[var(--bg)] focus:outline-none focus:ring-2 focus:ring-white appearance-none [&::-ms-expand]:hidden"
+            className="rounded border border-[var(--color-honey)] px-3 py-2 text-sm bg-white dark:bg-[var(--bg)] focus:outline-none focus:ring-2 focus:ring-white appearance-none [&::-ms-expand]:hidden"
           >
             <option value="name">Name</option>
             <option value="rating">Rating</option>
@@ -44,7 +44,7 @@ const SortControls: React.FC<SortControlsProps> = ({
             onClick={() =>
               onSortOrderChange(sortOrder === "asc" ? "desc" : "asc")
             }
-            className="ml-1 rounded px-3 py-2 text-sm bg-white dark:bg-[var(--bg)] focus:outline-none focus:ring-2 focus:ring-white flex items-center justify-center"
+            className="ml-1 rounded px-3 py-2 text-sm bg-white dark:bg-[var(--bg)] focus:outline-none focus:ring-2 focus:ring-bark flex items-center justify-center"
           >
             {sortOrder === "asc" ? (
               <span title="Ascending">▲</span>
