@@ -9,6 +9,10 @@ type SyncVenueNameStateParams = {
   venueName: string;
 };
 
+/**
+ * Syncs the venue name in the route state and navigates if necessary.
+ * @param {SyncVenueNameStateParams} params - The parameters for syncing venue name state.
+ */
 export function syncVenueNameState({
   navigate,
   to,
