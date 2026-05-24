@@ -6,6 +6,12 @@ const VENUES_ENDPOINT = "/holidaze/venues";
 
 export type VenuesPageResponse = ApiResponse<Venue[]>;
 
+/**
+ * Create a new venue with the provided venue data.
+ * @param venueData The data for the new venue.
+ * @returns The created venue object returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
 async function createVenue(venueData: VenueData) {
   try {
     const response = await post<VenueData, ApiResponse<Venue>>(
@@ -19,6 +25,16 @@ async function createVenue(venueData: VenueData) {
   }
 }
 
+/**
+ * Fetch a list of venues from the API with optional pagination and sorting.
+ * @param page The page number to fetch.
+ * @param limit The number of venues per page.
+ * @param includeBookings Whether to include bookings in the response.
+ * @param orderBy The field to sort by.
+ * @param orderDirection The direction to sort (asc or desc).
+ * @returns An object containing the array of venues and metadata.
+ * @throws Will throw an error if the API request fails.
+ */
 async function getVenues(
   page = 1,
   limit = 12,
@@ -41,6 +57,12 @@ async function getVenues(
   }
 }
 
+/**
+ * Fetch a venue by its ID from the API.
+ * @param id The ID of the venue to fetch.
+ * @returns The venue object returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
 async function getVenueById(id: string) {
   try {
     const response = await get<ApiResponse<Venue>>(
@@ -53,6 +75,13 @@ async function getVenueById(id: string) {
   }
 }
 
+/**
+ * Update a venue by its ID with the provided venue data.
+ * @param id The ID of the venue to update.
+ * @param venueData The data to update the venue with.
+ * @returns The updated venue object returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
 async function updateVenue(id: string, venueData: VenueData) {
   try {
     const response = await put<VenueData, ApiResponse<Venue>>(
@@ -66,6 +95,11 @@ async function updateVenue(id: string, venueData: VenueData) {
   }
 }
 
+/**
+ * Delete a venue by its ID from the API.
+ * @param id The ID of the venue to delete.
+ * @throws Will throw an error if the API request fails.
+ */
 async function deleteVenue(id: string) {
   try {
     await del(`${VENUES_ENDPOINT}/${id}`);
@@ -75,12 +109,22 @@ async function deleteVenue(id: string) {
   }
 }
 
+/**
+ * Search for venues by a query string.
+ * @param query The search query string.
+ * @param page The page number to fetch.
+ * @param limit The number of venues per page.
+ * @param orderBy The field to sort by.
+ * @param orderDirection The direction to sort (asc or desc).
+ * @returns An object containing the array of venues and metadata.
+ * @throws Will throw an error if the API request fails.
+ */
 async function searchVenues(
   query: string,
   page = 1,
   limit = 12,
   orderBy = "name",
-  orderDirection: "asc" | "desc" = "asc"
+  orderDirection: "asc" | "desc" = "asc",
 ) {
   try {
     const response = await get<ApiResponse<Venue[]>>(

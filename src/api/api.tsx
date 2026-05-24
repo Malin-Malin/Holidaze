@@ -8,6 +8,11 @@ type ApiErrorPayload = {
   message?: string;
 };
 
+/**
+ * Parse the JSON response from the API.
+ * @param response The fetch response object.
+ * @returns The parsed JSON data or null if parsing fails.
+ */
 async function parseJson<T>(response: Response): Promise<T | null> {
   try {
     return (await response.json()) as T;
@@ -16,6 +21,12 @@ async function parseJson<T>(response: Response): Promise<T | null> {
   }
 }
 
+/**
+ *  Extract a user-friendly error message from the API error payload.
+ * @param payload The API error payload.
+ * @param status The HTTP status code.
+ * @returns A user-friendly error message.
+ */
 function getApiErrorMessage(payload: ApiErrorPayload | null, status: number) {
   const firstError = payload?.errors?.[0];
 
@@ -30,6 +41,10 @@ function getApiErrorMessage(payload: ApiErrorPayload | null, status: number) {
   return `API error (${status})`;
 }
 
+/**
+ * Handle unauthorized access by clearing tokens and dispatching an event to notify the application.
+ * This allows the application to react to unauthorized access, such as redirecting to a login page.
+ */
 function notifyUnauthorized() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userInfo");
@@ -48,10 +63,23 @@ function notifyUnauthorized() {
  *
  * @example
  * // GET request
- * TODO: Update example to match actual API endpoints and data structure
+ * const data = await apiClient('/venues');
+ *
  * // POST request
+ * const newVenue = await apiClient('/venues', {
+ *   method: 'POST',
+ *   body: { name: 'New Venue', location: 'City' },
+ * });
+ *
  * // PUT request
+ * const updatedVenue = await apiClient('/venues/123', {
+ *   method: 'PUT',
+ *  body: { name: 'Updated Venue', location: 'New City' },
+ * });
+ *
  * // DELETE request
+ * await apiClient('/venues/123', { method: 'DELETE' });
+ *
  */
 export async function apiClient<T, R>(
   endpoint: string,
@@ -62,8 +90,6 @@ export async function apiClient<T, R>(
   } = {},
 ) {
   const { body, ...customOptions } = options;
-  //TODO: Consider using a library like axios for better error handling and features like interceptors for token refresh
-  //use state management to store tokens and user info instead of localStorage for better security and reactivity
   const accessToken = localStorage.getItem("accessToken");
 
   const headers: Record<string, string> = {

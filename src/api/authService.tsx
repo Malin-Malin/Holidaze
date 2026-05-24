@@ -1,46 +1,22 @@
 const LOGIN_ENDPOINT = "/auth/login";
 
 import { post } from "./api";
-import type { ApiResponse } from "../types/api.types";
-import type { Media } from "../types/common.types";
+import type {
+  ApiResponse,
+  LoginRequest,
+  LoginResponse,
+  RegisterData,
+  RegisterResponse,
+} from "../types/api.types";
 
-//TODO: Make work now, then refactor to AXIOS or improve token storage and state management later.
-
-interface LoginResponse {
-  //TODO: Adjust these fields based on the actual API response structure
-  name: string;
-  email: string;
-  bio?: string;
-  venueManager?: boolean;
-  avatar?: Media;
-  banner?: Media;
-  accessToken: string;
-}
-
-interface RegisterResponse {
-  name: string;
-  email: string;
-  bio?: string;
-  venueManager?: boolean;
-  avatar?: Media;
-  banner?: Media;
-}
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  bio?: string;
-  venueManager?: boolean;
-  avatar?: Media;
-  banner?: Media;
-}
-
+/**
+ * Authenticate a user by sending their email and password to the login endpoint.
+ * On successful login, the API will return user information and an access token.
+ * @param email
+ * @param password
+ * @returns A promise that resolves to the login response containing user info and access token.
+ * @throws An error if the login request fails, which should be handled by the caller (e.g., to show an error message to the user).
+ */
 export async function login(
   email: string,
   password: string,
@@ -57,14 +33,23 @@ export async function login(
   }
 }
 
-// TODO: Implement logout, user registration .
-
+/**
+ * Log out the user by clearing the access token from local storage.
+ */
 export async function logout() {
-  // Clear tokens and user info from storage
   localStorage.removeItem("accessToken");
-  // Optionally, you could also make an API call to invalidate the token on the server
 }
 
+/**
+ * Register a new user by sending their details to the registration endpoint.
+ * On successful registration, the API will return the user's information.
+ * @param name The user's name.
+ * @param email The user's email address.
+ * @param password The user's password.
+ * @param venueManager Optional boolean indicating if the user is a venue manager (default is false).
+ * @returns A promise that resolves when the registration is successful.
+ * @throws An error if the registration request fails, which should be handled by the caller (e.g., to show an error message to the user).
+ */
 export async function register(
   name: string,
   email: string,

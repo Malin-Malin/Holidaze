@@ -9,7 +9,6 @@ type BannerProps = {
   children?: ReactNode;
 };
 
-// TODO: The font looks a bit off, check the font-family and make sure it is applied correctly
 const Banner = ({
   imageUrl,
   imageAlt,
