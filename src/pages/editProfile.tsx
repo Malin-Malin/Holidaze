@@ -8,7 +8,7 @@ const EditProfilePage = () => {
 
   if (!isLoggedIn || !user) {
     return (
-      <p className="px-4 py-6 text-red-700">
+      <p className="px-4 py-6 text-[var(--color-danger)]">
         You must be logged in to edit your profile.
       </p>
     );

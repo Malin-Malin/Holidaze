@@ -33,7 +33,9 @@ const EditVenuePage = () => {
   }
 
   if (errorMessage) {
-    return <p className="px-4 py-6 text-red-700">{errorMessage}</p>;
+    return (
+      <p className="px-4 py-6 text-[var(--color-danger)]">{errorMessage}</p>
+    );
   }
 
   if (!venue) {
