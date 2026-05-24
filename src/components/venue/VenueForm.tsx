@@ -23,8 +23,8 @@ import { useToast } from "../../hooks/useToast";
 const initialFormState: VenueFormState = {
   name: "",
   description: "",
-  price: 0,
-  maxGuests: 1,
+  price: "100",
+  maxGuests: "1",
   rating: 0,
   city: "",
   country: "",
@@ -39,6 +39,10 @@ const emptyMedia: Media = { url: "", alt: "" };
 type VenueFormProps = {
   venueId?: string;
   initialVenue?: Venue;
+};
+
+type VenueFieldErrors = Partial<Record<keyof VenueFormState, string>> & {
+  media?: string[];
 };
 
 const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
@@ -62,6 +66,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   } = useDirtyFormBlocker(dirty);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState<VenueFieldErrors>({});
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -69,8 +74,8 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
     setForm({
       name: initialVenue.name,
       description: initialVenue.description,
-      price: initialVenue.price,
-      maxGuests: initialVenue.maxGuests,
+      price: initialVenue.price?.toString() ?? "",
+      maxGuests: initialVenue.maxGuests?.toString() ?? "",
       rating: initialVenue.rating,
       city: initialVenue.location?.city || "",
       country: initialVenue.location?.country || "",
@@ -89,28 +94,38 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, type } = e.target;
-    const value =
-      type === "checkbox"
-        ? (e.target as HTMLInputElement).checked
-        : e.target.value;
+    const { name, type, value } = e.target;
+    let newValue: string | number | boolean = value;
+    if (type === "checkbox") {
+      newValue = (e.target as HTMLInputElement).checked;
+    }
     setForm((prev) => ({
       ...prev,
-      [name]: name === "price" || name === "maxGuests" ? Number(value) : value,
+      [name]: newValue,
     }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const handleRatingChange = (rating: number) =>
+  const handleRatingChange = (rating: number) => {
     setForm((prev) => ({ ...prev, rating }));
+    setErrors((prev) => ({ ...prev, rating: undefined }));
+  };
 
   const handleMediaChange = (
     index: number,
     field: keyof Media,
     value: string,
-  ) =>
+  ) => {
     setMediaList((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
     );
+    setErrors((prev) => {
+      if (!prev.media) return prev;
+      const newMedia = [...prev.media];
+      if (newMedia[index]) newMedia[index] = "";
+      return { ...prev, media: newMedia };
+    });
+  };
 
   const addMediaRow = () =>
     setMediaList((prev) => [...prev, { ...emptyMedia }]);
@@ -118,12 +133,54 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const removeMediaRow = (index: number) =>
     setMediaList((prev) => prev.filter((_, i) => i !== index));
 
+  function validate(): VenueFieldErrors {
+    const next: VenueFieldErrors = {};
+    if (!form.name) next.name = "Venue name is required.";
+
+    if (!form.description) next.description = "Description is required.";
+
+    if (
+      form.price === "" ||
+      form.price === undefined ||
+      form.price === null ||
+      isNaN(Number(form.price)) ||
+      Number(form.price) < 1
+    ) {
+      next.price = "Price per night should be at least 1.";
+    }
+
+    if (
+      form.maxGuests === "" ||
+      form.maxGuests === undefined ||
+      form.maxGuests === null ||
+      isNaN(Number(form.maxGuests)) ||
+      Number(form.maxGuests) < 1
+    ) {
+      next.maxGuests = "Max guests  should be at least 1.";
+    }
+
+    if (!form.city) next.city = "City is required.";
+    if (!form.country) next.country = "Country is required.";
+
+    // Media validation
+    const mediaErrors: string[] = [];
+    mediaList.forEach((item, idx) => {
+      if (item.url && !isValidHttpUrl(item.url)) {
+        mediaErrors[idx] = "Invalid image URL.";
+      }
+    });
+    if (mediaErrors.some(Boolean)) next.media = mediaErrors;
+
+    return next;
+  }
+
   const submitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!form.name || !form.description || !form.city || !form.country) {
-      setErrorMessage("Please fill in all required fields.");
+    const next = validate();
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
       return;
     }
 
@@ -132,19 +189,12 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       alt: item.alt.trim(),
     }));
 
-    if (normalizedMedia.some((item) => item.url && !isValidHttpUrl(item.url))) {
-      setErrorMessage(
-        "Please enter valid image URLs (including http:// or https://).",
-      );
-      return;
-    }
-
     const payload: VenueData = {
       name: form.name,
       description: form.description,
       media: normalizedMedia.filter((m) => m.url !== ""),
-      price: form.price,
-      maxGuests: form.maxGuests,
+      price: Number(form.price),
+      maxGuests: Number(form.maxGuests),
       rating: form.rating,
       meta: {
         wifi: form.wifi,
@@ -198,14 +248,20 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
             form={form}
             onChange={handleChange}
             onRatingChange={handleRatingChange}
+            errors={errors}
           />
           <VenueMediaSection
             mediaList={mediaList}
             onMediaChange={handleMediaChange}
             onAddRow={addMediaRow}
             onRemoveRow={removeMediaRow}
+            errors={errors.media}
           />
-          <VenueLocationSection form={form} onChange={handleChange} />
+          <VenueLocationSection
+            form={form}
+            onChange={handleChange}
+            errors={errors}
+          />
           <VenueAmenitiesSection amenities={form} onChange={handleChange} />
 
           {errorMessage && (

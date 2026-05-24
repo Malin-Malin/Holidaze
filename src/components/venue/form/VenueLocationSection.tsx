@@ -7,15 +7,17 @@ import type { VenueFormState } from "./VenueForm.types";
 type VenueLocationSectionProps = {
   form: VenueFormState;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  errors?: Partial<Record<keyof VenueFormState, string>>;
 };
 
 const VenueLocationSection = ({
   form,
   onChange,
+  errors = {},
 }: VenueLocationSectionProps) => {
   return (
     <section className="grid grid-cols-2 gap-3">
-      <FormField label="City" htmlFor="city">
+      <FormField label="City" htmlFor="city" error={errors.city}>
         <input
           id="city"
           name="city"
@@ -25,7 +27,7 @@ const VenueLocationSection = ({
           className="form-input"
         />
       </FormField>
-      <FormField label="Country" htmlFor="country">
+      <FormField label="Country" htmlFor="country" error={errors.country}>
         <input
           id="country"
           name="country"

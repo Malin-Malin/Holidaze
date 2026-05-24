@@ -1,8 +1,8 @@
 export type VenueFormState = {
   name: string;
   description: string;
-  price: number;
-  maxGuests: number;
+  price: string;
+  maxGuests: string;
   rating: number;
   city: string;
   country: string;

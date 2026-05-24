@@ -9,16 +9,18 @@ type VenueBasicsSectionProps = {
   form: VenueFormState;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onRatingChange: (rating: number) => void;
+  errors?: Partial<Record<keyof VenueFormState, string>>;
 };
 
 const VenueBasicsSection = ({
   form,
   onChange,
   onRatingChange,
+  errors = {},
 }: VenueBasicsSectionProps) => {
   return (
     <>
-      <FormField label="Venue name" htmlFor="name">
+      <FormField label="Venue name" htmlFor="name" error={errors.name}>
         <input
           id="name"
           name="name"
@@ -29,7 +31,11 @@ const VenueBasicsSection = ({
         />
       </FormField>
 
-      <FormField label="Description" htmlFor="description">
+      <FormField
+        label="Description"
+        htmlFor="description"
+        error={errors.description}
+      >
         <textarea
           id="description"
           name="description"
@@ -42,7 +48,7 @@ const VenueBasicsSection = ({
       </FormField>
 
       <div className="grid grid-cols-2 gap-3">
-        <FormField label="Price per night" htmlFor="price">
+        <FormField label="Price per night" htmlFor="price" error={errors.price}>
           <input
             id="price"
             name="price"
@@ -54,7 +60,11 @@ const VenueBasicsSection = ({
             className="form-input"
           />
         </FormField>
-        <FormField label="Max guests" htmlFor="maxGuests">
+        <FormField
+          label="Max guests"
+          htmlFor="maxGuests"
+          error={errors.maxGuests}
+        >
           <input
             id="maxGuests"
             name="maxGuests"

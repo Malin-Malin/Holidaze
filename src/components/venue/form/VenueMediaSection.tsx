@@ -7,6 +7,7 @@ type VenueMediaSectionProps = {
   onMediaChange: (index: number, field: keyof Media, value: string) => void;
   onAddRow: () => void;
   onRemoveRow: (index: number) => void;
+  errors?: string[];
 };
 
 const VenueMediaSection = ({
@@ -14,6 +15,7 @@ const VenueMediaSection = ({
   onMediaChange,
   onAddRow,
   onRemoveRow,
+  errors = [],
 }: VenueMediaSectionProps) => {
   return (
     <section className="space-y-2">
@@ -23,13 +25,20 @@ const VenueMediaSection = ({
           key={index}
           className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem_auto] sm:items-center"
         >
-          <input
-            type="url"
-            value={item.url}
-            onChange={(e) => onMediaChange(index, "url", e.target.value)}
-            placeholder="Image URL"
-            className="form-input sm:flex-1"
-          />
+          <div>
+            <input
+              type="url"
+              value={item.url}
+              onChange={(e) => onMediaChange(index, "url", e.target.value)}
+              placeholder="Image URL"
+              className="form-input sm:flex-1"
+            />
+            {errors[index] && (
+              <p className="text-sm text-[var(--color-danger)]">
+                {errors[index]}
+              </p>
+            )}
+          </div>
           <input
             type="text"
             value={item.alt}
