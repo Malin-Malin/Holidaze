@@ -54,10 +54,30 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
 
   // Dirty check: compare form and mediaList to initial values
   const dirty = useMemo(() => {
-    const formDirty = isFormDirty(form, initialFormState);
-    const mediaDirty = isArrayDirty(mediaList, [{ ...emptyMedia }]);
+    let initialForm = initialFormState;
+    let initialMedia = [{ ...emptyMedia }];
+    if (isEditMode && initialVenue) {
+      initialForm = {
+        name: initialVenue.name,
+        description: initialVenue.description,
+        price: initialVenue.price?.toString() ?? "",
+        maxGuests: initialVenue.maxGuests?.toString() ?? "",
+        rating: initialVenue.rating,
+        city: initialVenue.location?.city || "",
+        country: initialVenue.location?.country || "",
+        wifi: initialVenue.meta?.wifi ?? false,
+        parking: initialVenue.meta?.parking ?? false,
+        breakfast: initialVenue.meta?.breakfast ?? false,
+        pets: initialVenue.meta?.pets ?? false,
+      };
+      initialMedia = initialVenue.media && initialVenue.media.length > 0
+        ? initialVenue.media
+        : [{ ...emptyMedia }];
+    }
+    const formDirty = isFormDirty(form, initialForm);
+    const mediaDirty = isArrayDirty(mediaList, initialMedia);
     return formDirty || mediaDirty;
-  }, [form, mediaList]);
+  }, [form, mediaList, isEditMode, initialVenue]);
 
   const {
     showModal: showNavModal,

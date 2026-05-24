@@ -75,10 +75,16 @@ async function deleteVenue(id: string) {
   }
 }
 
-async function searchVenues(query: string, page = 1, limit = 12) {
+async function searchVenues(
+  query: string,
+  page = 1,
+  limit = 12,
+  orderBy = "name",
+  orderDirection: "asc" | "desc" = "asc"
+) {
   try {
     const response = await get<ApiResponse<Venue[]>>(
-      `${VENUES_ENDPOINT}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`,
+      `${VENUES_ENDPOINT}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}&sort=${orderBy}&sortOrder=${orderDirection}`,
     );
     return {
       data: response.data,

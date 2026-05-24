@@ -100,7 +100,13 @@ export function useVenues(
           return;
         }
 
-        const response = await searchVenues(searchQuery, currentPage, pageSize);
+        const response = await searchVenues(
+          searchQuery,
+          currentPage,
+          pageSize,
+          orderBy,
+          orderDirection
+        );
         const matchedVenues = response.data;
 
         const filteredPageCount = Math.max(
