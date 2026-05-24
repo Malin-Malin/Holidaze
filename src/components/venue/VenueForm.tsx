@@ -23,8 +23,8 @@ import { useToast } from "../../hooks/useToast";
 const initialFormState: VenueFormState = {
   name: "",
   description: "",
-  price: 0,
-  maxGuests: 1,
+  price: "100",
+  maxGuests: "1",
   rating: 0,
   city: "",
   country: "",
@@ -74,8 +74,8 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
     setForm({
       name: initialVenue.name,
       description: initialVenue.description,
-      price: initialVenue.price,
-      maxGuests: initialVenue.maxGuests,
+      price: initialVenue.price?.toString() ?? "",
+      maxGuests: initialVenue.maxGuests?.toString() ?? "",
       rating: initialVenue.rating,
       city: initialVenue.location?.city || "",
       country: initialVenue.location?.country || "",
@@ -94,14 +94,14 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, type } = e.target;
-    const value =
-      type === "checkbox"
-        ? (e.target as HTMLInputElement).checked
-        : e.target.value;
+    const { name, type, value } = e.target;
+    let newValue: string | number | boolean = value;
+    if (type === "checkbox") {
+      newValue = (e.target as HTMLInputElement).checked;
+    }
     setForm((prev) => ({
       ...prev,
-      [name]: name === "price" || name === "maxGuests" ? Number(value) : value,
+      [name]: newValue,
     }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
@@ -136,10 +136,29 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   function validate(): VenueFieldErrors {
     const next: VenueFieldErrors = {};
     if (!form.name) next.name = "Venue name is required.";
+
     if (!form.description) next.description = "Description is required.";
-    if (!form.price || form.price < 1) next.price = "Price must be at least 1.";
-    if (!form.maxGuests || form.maxGuests < 1)
-      next.maxGuests = "Max guests must be at least 1.";
+
+    if (
+      form.price === "" ||
+      form.price === undefined ||
+      form.price === null ||
+      isNaN(Number(form.price)) ||
+      Number(form.price) < 1
+    ) {
+      next.price = "Price per night should be at least 1.";
+    }
+
+    if (
+      form.maxGuests === "" ||
+      form.maxGuests === undefined ||
+      form.maxGuests === null ||
+      isNaN(Number(form.maxGuests)) ||
+      Number(form.maxGuests) < 1
+    ) {
+      next.maxGuests = "Max guests  should be at least 1.";
+    }
+
     if (!form.city) next.city = "City is required.";
     if (!form.country) next.country = "Country is required.";
 
@@ -174,8 +193,8 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       name: form.name,
       description: form.description,
       media: normalizedMedia.filter((m) => m.url !== ""),
-      price: form.price,
-      maxGuests: form.maxGuests,
+      price: Number(form.price),
+      maxGuests: Number(form.maxGuests),
       rating: form.rating,
       meta: {
         wifi: form.wifi,
