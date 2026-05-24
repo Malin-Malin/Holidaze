@@ -40,6 +40,8 @@
   --font-body: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
   --font-display: "Big Shoulders Display SC", "Inter", system-ui, sans-serif;
   --font-brand: "Thasadith", "Inter", system-ui, sans-serif;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
   --heading: var(--font-display);
   --mono: ui-monospace, Consolas, monospace;
 
