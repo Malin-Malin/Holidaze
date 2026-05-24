@@ -56,7 +56,7 @@ const BookingForm = ({
   const dirty = useMemo(() => {
     return isFormDirty(
       { dateFrom, dateTo, guests },
-      { dateFrom: "", dateTo: "", guests: 1 },
+      { dateFrom: "", dateTo: "", guests: "1" },
     );
   }, [dateFrom, dateTo, guests]);
 
