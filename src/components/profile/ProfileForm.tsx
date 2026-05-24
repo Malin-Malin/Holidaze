@@ -13,7 +13,7 @@ import { useToast } from "../../hooks/useToast";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import type { Profile, ProfileData } from "../../types/profile.types";
 import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
-import { isFormDirty } from "../../utils/isFormDirty";
+import { isFormDirty } from "../../utils/form";
 
 type ProfileFormData = {
   avatarUrl: string;

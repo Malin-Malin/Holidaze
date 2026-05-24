@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { isFormDirty } from "../../utils/isFormDirty";
+import { isFormDirty } from "../../utils/form";
 import ConfirmModal from "../ui/ConfirmModal";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import Button from "../ui/Button";

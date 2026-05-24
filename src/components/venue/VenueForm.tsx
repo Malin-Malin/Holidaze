@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { isFormDirty, isArrayDirty } from "../../utils/isFormDirty";
+import { isFormDirty, isArrayDirty } from "../../utils/form";
 import ConfirmModal from "../ui/ConfirmModal";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import { useNavigate } from "react-router-dom";
@@ -70,9 +70,10 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
         breakfast: initialVenue.meta?.breakfast ?? false,
         pets: initialVenue.meta?.pets ?? false,
       };
-      initialMedia = initialVenue.media && initialVenue.media.length > 0
-        ? initialVenue.media
-        : [{ ...emptyMedia }];
+      initialMedia =
+        initialVenue.media && initialVenue.media.length > 0
+          ? initialVenue.media
+          : [{ ...emptyMedia }];
     }
     const formDirty = isFormDirty(form, initialForm);
     const mediaDirty = isArrayDirty(mediaList, initialMedia);
