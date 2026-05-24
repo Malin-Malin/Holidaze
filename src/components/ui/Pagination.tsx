@@ -42,27 +42,48 @@ const Pagination = ({
   }
 
   return (
-    <section className="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <Button
-        type="button"
-        onClick={goToPreviousPage}
-        disabled={isFirstPage}
-        variant="outline"
-        size="md"
-        className="px-4"
-      >
-        Previous
-      </Button>
-      <p className="flex items-center gap-2 text-sm text-[var(--text-h)]">
-        <span>Page</span>
+    <section className="mt-8 flex flex-col md:flex-row items-center w-full gap-2 md:gap-0">
+      {/* Left spacer for centering on md+ */}
+      <div className="hidden md:block flex-1" />
+      {/* Centered Previous/Next/Page Info */}
+      <div className="flex items-center justify-center gap-3 w-full md:w-auto">
+        <Button
+          type="button"
+          onClick={goToPreviousPage}
+          disabled={isFirstPage}
+          variant="outline"
+          size="md"
+          className="px-4"
+        >
+          Previous
+        </Button>
+        <p className="flex items-center gap-2 text-sm text-[var(--text-h)]">
+          <span>
+            Page {currentPage} of {pageCount}
+          </span>
+        </p>
+        {!isLastPage && (
+          <Button
+            type="button"
+            onClick={handleNextPage}
+            variant="outline"
+            size="md"
+            className="px-4"
+          >
+            Next
+          </Button>
+        )}
+      </div>
+      {/* Right-aligned Go To Page Controls */}
+      <div className="flex items-center gap-2 justify-center md:justify-end w-full md:w-auto flex-1 mt-2 md:mt-0">
+        <span>Go to page</span>
         <input
-          aria-label="Current page"
+          aria-label="Go to page"
           type="number"
           min={1}
           max={pageCount}
           value={pageInput}
           onChange={(e) => setPageInput(e.target.value)}
-          onBlur={handleGoToPage}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleGoToPage();
@@ -70,19 +91,16 @@ const Pagination = ({
           }}
           className="w-16 rounded border border-[var(--border)] px-2 py-1 text-center text-sm"
         />
-        <span>of {pageCount}</span>
-      </p>
-      {!isLastPage && (
         <Button
           type="button"
-          onClick={handleNextPage}
+          onClick={handleGoToPage}
           variant="outline"
           size="md"
           className="px-4"
         >
-          Next
+          Go
         </Button>
-      )}
+      </div>
     </section>
   );
 };
