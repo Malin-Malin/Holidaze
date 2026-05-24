@@ -41,6 +41,10 @@ type VenueFormProps = {
   initialVenue?: Venue;
 };
 
+type VenueFieldErrors = Partial<Record<keyof VenueFormState, string>> & {
+  media?: string[];
+};
+
 const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const navigate = useNavigate();
   const isEditMode = Boolean(venueId);
@@ -62,6 +66,7 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   } = useDirtyFormBlocker(dirty);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState<VenueFieldErrors>({});
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -98,19 +103,29 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       ...prev,
       [name]: name === "price" || name === "maxGuests" ? Number(value) : value,
     }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const handleRatingChange = (rating: number) =>
+  const handleRatingChange = (rating: number) => {
     setForm((prev) => ({ ...prev, rating }));
+    setErrors((prev) => ({ ...prev, rating: undefined }));
+  };
 
   const handleMediaChange = (
     index: number,
     field: keyof Media,
     value: string,
-  ) =>
+  ) => {
     setMediaList((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
     );
+    setErrors((prev) => {
+      if (!prev.media) return prev;
+      const newMedia = [...prev.media];
+      if (newMedia[index]) newMedia[index] = "";
+      return { ...prev, media: newMedia };
+    });
+  };
 
   const addMediaRow = () =>
     setMediaList((prev) => [...prev, { ...emptyMedia }]);
@@ -118,12 +133,35 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const removeMediaRow = (index: number) =>
     setMediaList((prev) => prev.filter((_, i) => i !== index));
 
+  function validate(): VenueFieldErrors {
+    const next: VenueFieldErrors = {};
+    if (!form.name) next.name = "Venue name is required.";
+    if (!form.description) next.description = "Description is required.";
+    if (!form.price || form.price < 1) next.price = "Price must be at least 1.";
+    if (!form.maxGuests || form.maxGuests < 1)
+      next.maxGuests = "Max guests must be at least 1.";
+    if (!form.city) next.city = "City is required.";
+    if (!form.country) next.country = "Country is required.";
+
+    // Media validation
+    const mediaErrors: string[] = [];
+    mediaList.forEach((item, idx) => {
+      if (item.url && !isValidHttpUrl(item.url)) {
+        mediaErrors[idx] = "Invalid image URL.";
+      }
+    });
+    if (mediaErrors.some(Boolean)) next.media = mediaErrors;
+
+    return next;
+  }
+
   const submitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!form.name || !form.description || !form.city || !form.country) {
-      setErrorMessage("Please fill in all required fields.");
+    const next = validate();
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
       return;
     }
 
@@ -131,13 +169,6 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
       url: item.url.trim(),
       alt: item.alt.trim(),
     }));
-
-    if (normalizedMedia.some((item) => item.url && !isValidHttpUrl(item.url))) {
-      setErrorMessage(
-        "Please enter valid image URLs (including http:// or https://).",
-      );
-      return;
-    }
 
     const payload: VenueData = {
       name: form.name,
@@ -198,14 +229,20 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
             form={form}
             onChange={handleChange}
             onRatingChange={handleRatingChange}
+            errors={errors}
           />
           <VenueMediaSection
             mediaList={mediaList}
             onMediaChange={handleMediaChange}
             onAddRow={addMediaRow}
             onRemoveRow={removeMediaRow}
+            errors={errors.media}
           />
-          <VenueLocationSection form={form} onChange={handleChange} />
+          <VenueLocationSection
+            form={form}
+            onChange={handleChange}
+            errors={errors}
+          />
           <VenueAmenitiesSection amenities={form} onChange={handleChange} />
 
           {errorMessage && (
