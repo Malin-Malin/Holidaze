@@ -7,6 +7,13 @@ type VenueAmenitiesSectionProps = {
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
+/**
+ * Section component for venue amenities checkboxes (wifi, parking, breakfast, pets).
+ * @param {VenueAmenitiesSectionProps} props
+ * @param {VenueFormAmenities} props.amenities - Amenities state object.
+ * @param {(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void} props.onChange - Handler for input changes.
+ * @returns {JSX.Element}
+ */
 const VenueAmenitiesSection = ({
   amenities,
   onChange,

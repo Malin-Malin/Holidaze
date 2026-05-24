@@ -12,12 +12,22 @@ export type AvailabilityCalendarCell = {
   isAvailable: boolean;
 };
 
+/**
+ * Checks if a booking is upcoming (its end date is in the future).
+ * @param {Booking} booking - The booking to check.
+ * @returns {boolean} True if upcoming, false otherwise.
+ */
 export function isUpcomingBooking(booking: Booking) {
   const now = new Date();
   const bookingEnd = new Date(booking.dateTo);
   return bookingEnd >= now;
 }
 
+/**
+ * Builds a set of booked date keys from an array of bookings.
+ * @param {VenueBooking[]} bookings - The bookings to process.
+ * @returns {Set<string>} Set of booked date keys.
+ */
 export function buildBookedDateSet(bookings: VenueBooking[]): Set<string> {
   const result = new Set<string>();
 
@@ -50,6 +60,11 @@ type BuildBookedDateTooltipMapOptions = {
   currentUserEmail?: string;
 };
 
+/**
+ * Builds a map of booked date keys to tooltip strings for calendar display.
+ * @param {BuildBookedDateTooltipMapOptions} options - Options for building the tooltip map.
+ * @returns {Map<string, string>} Map of date keys to tooltip strings.
+ */
 export function buildBookedDateTooltipMap({
   bookings,
   canViewBookedByName = false,
@@ -89,6 +104,13 @@ export function buildBookedDateTooltipMap({
   return result;
 }
 
+/**
+ * Checks if a date range is bookable (no overlap with booked dates).
+ * @param {string} startKey - The start date key (YYYY-MM-DD).
+ * @param {string} endKey - The end date key (YYYY-MM-DD).
+ * @param {Set<string>} bookedDateSet - Set of booked date keys.
+ * @returns {boolean} True if the range is bookable, false otherwise.
+ */
 export function isBookableRange(
   startKey: string,
   endKey: string,
@@ -106,6 +128,13 @@ export function isBookableRange(
   return true;
 }
 
+/**
+ * Checks if a date is inside the selected range (exclusive).
+ * @param {string} dateKey - The date key to check.
+ * @param {string} activeDateFrom - The start of the selected range.
+ * @param {string} activeDateTo - The end of the selected range.
+ * @returns {boolean} True if inside the range, false otherwise.
+ */
 export function isInsideSelectedRange(
   dateKey: string,
   activeDateFrom: string,
@@ -120,6 +149,13 @@ export function isInsideSelectedRange(
   return value > from && value < to;
 }
 
+/**
+ * Checks if a date is before the selected start date (and no end date is selected).
+ * @param {string} dateKey - The date key to check.
+ * @param {string} activeDateFrom - The start of the selected range.
+ * @param {string} activeDateTo - The end of the selected range.
+ * @returns {boolean} True if before the selected start, false otherwise.
+ */
 export function isBeforeSelectedStart(
   dateKey: string,
   activeDateFrom: string,
@@ -129,6 +165,13 @@ export function isBeforeSelectedStart(
   return dateKey < activeDateFrom;
 }
 
+/**
+ * Builds the calendar cell data for the availability calendar grid.
+ * @param {Date} visibleMonth - The month to display.
+ * @param {string} todayKey - The date key for today.
+ * @param {Set<string>} bookedDateSet - Set of booked date keys.
+ * @returns {AvailabilityCalendarCell[]} Array of calendar cell data.
+ */
 export function buildAvailabilityCalendarCells(
   visibleMonth: Date,
   todayKey: string,
@@ -164,6 +207,13 @@ export function buildAvailabilityCalendarCells(
   });
 }
 
+/**
+ * Checks if a given date range overlaps (inclusive) with any existing bookings.
+ * @param {string} from - Start date of the range (YYYY-MM-DD).
+ * @param {string} to - End date of the range (YYYY-MM-DD).
+ * @param {Array<Pick<Booking, "dateFrom" | "dateTo">>} bookings - Array of bookings to check against.
+ * @returns {boolean} True if there is any overlap, false otherwise.
+ */
 export function hasInclusiveBookingOverlap(
   from: string,
   to: string,
@@ -177,4 +227,15 @@ export function hasInclusiveBookingOverlap(
     const bookingEnd = new Date(booking.dateTo);
     return start <= bookingEnd && end >= bookingStart;
   });
+}
+
+/**
+ * Checks if a booking has started.
+ * @param {Booking} booking - The booking to check.
+ * @returns {boolean} True if the booking has started, false otherwise.
+ */
+export function hasBookingStarted(booking: Booking) {
+  const now = new Date();
+  const bookingStart = new Date(booking.dateFrom);
+  return bookingStart <= now;
 }

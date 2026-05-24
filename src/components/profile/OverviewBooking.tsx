@@ -14,6 +14,13 @@ type OverviewBookingProps = {
   isLoading?: boolean;
 };
 
+/**
+ * Component for displaying and managing the user's upcoming bookings.
+ * @param {OverviewBookingProps} props
+ * @param {Booking[]} [props.bookings] - List of bookings to display.
+ * @param {boolean} [props.isLoading] - Loading state.
+ * @returns {JSX.Element}
+ */
 const OverviewBooking = ({
   bookings = [],
   isLoading = false,

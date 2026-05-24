@@ -8,6 +8,14 @@ type RequireAuthProps = {
   requireVenueManager?: boolean;
 };
 
+/**
+ * Component to protect routes that require authentication (and optionally venue manager role).
+ * Redirects to login or profile if requirements are not met.
+ * @param {RequireAuthProps} props
+ * @param {ReactNode} props.children - The protected content.
+ * @param {boolean} [props.requireVenueManager] - If true, requires venue manager role.
+ * @returns {JSX.Element}
+ */
 const RequireAuth = ({
   children,
   requireVenueManager = false,

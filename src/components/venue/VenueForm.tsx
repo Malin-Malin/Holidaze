@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { isFormDirty, isArrayDirty } from "../../utils/isFormDirty";
+import { isFormDirty, isArrayDirty } from "../../utils/form";
 import ConfirmModal from "../ui/ConfirmModal";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,6 @@ import VenueAmenitiesSection from "./form/VenueAmenitiesSection";
 import VenueBasicsSection from "./form/VenueBasicsSection";
 import VenueLocationSection from "./form/VenueLocationSection";
 import VenueMediaSection from "./form/VenueMediaSection";
-
 import Button from "../ui/Button";
 
 import type { Venue, VenueData } from "../../types/venue.types";
@@ -45,6 +44,14 @@ type VenueFieldErrors = Partial<Record<keyof VenueFormState, string>> & {
   media?: string[];
 };
 
+/**
+ * Venue form component for creating or editing a venue.
+ * Handles input, validation, and submission logic.
+ * @param {VenueFormProps} props
+ * @param {string} [props.venueId] - ID of the venue to edit (if in edit mode).
+ * @param {Venue} [props.initialVenue] - Initial venue data for editing.
+ * @returns {JSX.Element}
+ */
 const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
   const navigate = useNavigate();
   const isEditMode = Boolean(venueId);
@@ -70,9 +77,10 @@ const VenueForm = ({ venueId, initialVenue }: VenueFormProps) => {
         breakfast: initialVenue.meta?.breakfast ?? false,
         pets: initialVenue.meta?.pets ?? false,
       };
-      initialMedia = initialVenue.media && initialVenue.media.length > 0
-        ? initialVenue.media
-        : [{ ...emptyMedia }];
+      initialMedia =
+        initialVenue.media && initialVenue.media.length > 0
+          ? initialVenue.media
+          : [{ ...emptyMedia }];
     }
     const formDirty = isFormDirty(form, initialForm);
     const mediaDirty = isArrayDirty(mediaList, initialMedia);

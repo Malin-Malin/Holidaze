@@ -1,12 +1,18 @@
-const RatingInput = ({
-  rating,
-  max = 5,
-  onChange,
-}: {
+type RatingInputProps = {
   rating: number;
   max?: number;
   onChange: (newRating: number) => void;
-}) => {
+};
+
+/**
+ * Star rating input component for selecting a rating value.
+ * @param {RatingInputProps} props
+ * @param {number} props.rating - The current rating value.
+ * @param {number} [props.max=5] - The maximum rating value.
+ * @param {(newRating: number) => void} props.onChange - Handler for rating change.
+ * @returns {JSX.Element}
+ */
+const RatingInput = ({ rating, max = 5, onChange }: RatingInputProps) => {
   // Ensure rating is within bounds
   const clampedRating = Math.max(0, Math.min(max, rating));
 

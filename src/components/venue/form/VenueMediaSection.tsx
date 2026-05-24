@@ -10,6 +10,16 @@ type VenueMediaSectionProps = {
   errors?: string[];
 };
 
+/**
+ * Section component for managing venue media (images and alt text).
+ * @param {VenueMediaSectionProps} props
+ * @param {Media[]} props.mediaList - List of media items.
+ * @param {(index: number, field: keyof Media, value: string) => void} props.onMediaChange - Handler for media changes.
+ * @param {() => void} props.onAddRow - Handler to add a new media row.
+ * @param {(index: number) => void} props.onRemoveRow - Handler to remove a media row.
+ * @param {string[]} [props.errors] - Array of error messages for each media item.
+ * @returns {JSX.Element}
+ */
 const VenueMediaSection = ({
   mediaList,
   onMediaChange,

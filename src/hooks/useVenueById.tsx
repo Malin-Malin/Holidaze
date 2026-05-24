@@ -9,6 +9,11 @@ type UseVenueByIdResult = {
   refresh: () => Promise<void>;
 };
 
+/**
+ * Custom hook to fetch and manage a single venue by its ID.
+ * @param {string | undefined} id - The ID of the venue to fetch.
+ * @returns {UseVenueByIdResult} Venue data, loading state, error message, and refresh function.
+ */
 export function useVenueById(id: string | undefined): UseVenueByIdResult {
   const [venue, setVenue] = useState<Venue | null>(null);
   const [isLoading, setIsLoading] = useState(true);

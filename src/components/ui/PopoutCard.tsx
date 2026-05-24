@@ -7,6 +7,15 @@ type PopoutCardProps = {
   to?: string;
 };
 
+/**
+ * Card component for displaying an icon, title, and text, optionally as a link.
+ * @param {PopoutCardProps} props
+ * @param {ReactNode} [props.icon] - Icon to display.
+ * @param {string} props.title - Card title.
+ * @param {string} props.text - Card text.
+ * @param {string} [props.to] - Optional link destination.
+ * @returns {JSX.Element}
+ */
 const PopoutCard = ({ icon, title, text, to }: PopoutCardProps) => {
   const cardContent = (
     <article className="group flex h-full flex-col rounded-md border border-[var(--border)] bg-[var(--bg)] p-6 text-center shadow-sm transition hover:-translate-y-1 hover:border-[var(--color-honey)]/60 hover:shadow-md">

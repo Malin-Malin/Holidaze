@@ -5,7 +5,12 @@ import { get, put } from "./api";
 
 const PROFILES_ENDPOINT = "/holidaze/profiles";
 
-async function getProfiles() {
+/**
+ * Fetch all profiles from the API.
+ * @returns {Promise<Profile[]>} A promise that resolves to an array of profile objects returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
+async function getProfiles(): Promise<Profile[]> {
   try {
     const response = await get<ApiResponse<Profile[]>>(PROFILES_ENDPOINT);
     return response.data;
@@ -15,7 +20,13 @@ async function getProfiles() {
   }
 }
 
-async function getProfileByName(name: string) {
+/**
+ * Fetch a profile by its name from the API.
+ * @param name The name of the profile to fetch.
+ * @returns {Promise<Profile>} A promise that resolves to the profile object returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
+async function getProfileByName(name: string): Promise<Profile> {
   try {
     const response = await get<ApiResponse<Profile>>(
       `${PROFILES_ENDPOINT}/${name}?_venues=true&_bookings=true`,
@@ -27,7 +38,17 @@ async function getProfileByName(name: string) {
   }
 }
 
-async function updateProfile(name: string, profileData: ProfileData) {
+/**
+ * Update a profile by its name with the provided profile data.
+ * @param name The name of the profile to update.
+ * @param profileData The data to update the profile with.
+ * @returns {Promise<Profile>} A promise that resolves to the updated profile object returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
+async function updateProfile(
+  name: string,
+  profileData: ProfileData,
+): Promise<Profile> {
   try {
     const response = await put<ProfileData, ApiResponse<Profile>>(
       `${PROFILES_ENDPOINT}/${name}`,
@@ -40,8 +61,17 @@ async function updateProfile(name: string, profileData: ProfileData) {
   }
 }
 
-// holidaze/profiles/:name/venues
-async function getVenuesByProfileName(name: string, includeBookings = false) {
+/**
+ * Fetch venues for a profile by its name from the API.
+ * @param name The name of the profile whose venues to fetch.
+ * @param includeBookings Whether to include bookings in the response.
+ * @returns {Promise<Venue[]>} A promise that resolves to an array of venue objects returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
+async function getVenuesByProfileName(
+  name: string,
+  includeBookings = false,
+): Promise<Venue[]> {
   try {
     const query = includeBookings ? "?_bookings=true" : "";
     const response = await get<ApiResponse<Venue[]>>(
@@ -57,8 +87,13 @@ async function getVenuesByProfileName(name: string, includeBookings = false) {
   }
 }
 
-// holidaze/profiles/:name/bookings
-async function getBookingsByProfileName(name: string) {
+/**
+ * Fetch bookings for a profile by its name from the API.
+ * @param name The name of the profile whose bookings to fetch.
+ * @returns {Promise<Booking[]>} A promise that resolves to an array of booking objects returned from the API.
+ * @throws Will throw an error if the API request fails.
+ */
+async function getBookingsByProfileName(name: string): Promise<Booking[]> {
   try {
     const response = await get<ApiResponse<Booking[]>>(
       `${PROFILES_ENDPOINT}/${name}/bookings?_venue=true`,
@@ -73,7 +108,13 @@ async function getBookingsByProfileName(name: string) {
   }
 }
 
-async function searchProfiles(query: string) {
+/**
+ * Search for profiles by a query string.
+ * @param query The search query string.
+ * @returns {Promise<Profile[]>} A promise that resolves to an array of profile objects matching the search query.
+ * @throws Will throw an error if the API request fails.
+ */
+async function searchProfiles(query: string): Promise<Profile[]> {
   try {
     const response = await get<ApiResponse<Profile[]>>(
       `${PROFILES_ENDPOINT}?search=${encodeURIComponent(query)}`,

@@ -1,5 +1,6 @@
-import type { AvailabilityCalendarCell } from "../../utils/booking";
 import Button from "../ui/Button";
+
+import type { AvailabilityCalendarCell } from "../../utils/booking";
 
 type CalendarCellProps = {
   cell: AvailabilityCalendarCell;
@@ -9,6 +10,16 @@ type CalendarCellProps = {
   onSelect: (dateKey: string, isAvailable: boolean) => void;
 };
 
+/**
+ * Calendar cell component for displaying a single day in the availability calendar.
+ * @param {CalendarCellProps} props
+ * @param {AvailabilityCalendarCell} props.cell - Cell data for the day.
+ * @param {string} props.className - CSS class for styling.
+ * @param {string} props.tooltipText - Tooltip text for the cell.
+ * @param {string} props.ariaLabel - Accessible label for the cell.
+ * @param {(dateKey: string, isAvailable: boolean) => void} props.onSelect - Handler for cell selection.
+ * @returns {JSX.Element}
+ */
 const CalendarCell = ({
   cell,
   className,

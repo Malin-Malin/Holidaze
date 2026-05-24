@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
-import { isFormDirty } from "../../utils/isFormDirty";
-import ConfirmModal from "../ui/ConfirmModal";
+import { isFormDirty } from "../../utils/form";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
-import Button from "../ui/Button";
 import { useNavigate, Link } from "react-router-dom";
 
+import ConfirmModal from "../ui/ConfirmModal";
+import Button from "../ui/Button";
 import FormField from "../input/FormField";
 import AuthFormLayout from "./AuthFormLayout";
 
@@ -21,6 +21,11 @@ type RegisterErrors = {
   confirmPassword?: string;
 };
 
+/**
+ * Registration form component for new users.
+ * Handles input, validation, and registration logic.
+ * @returns {JSX.Element}
+ */
 export function RegisterForm() {
   const navigate = useNavigate();
   const [name, setName] = useState("");

@@ -1,3 +1,4 @@
+import type { Media } from "./common.types";
 export interface ApiResponse<T> {
   data: T;
   meta: PaginationMeta;
@@ -16,4 +17,33 @@ interface PaginationMeta {
 export interface LoginRequest {
   email: string;
   password: string;
+}
+
+export interface LoginResponse {
+  name: string;
+  email: string;
+  bio?: string;
+  venueManager?: boolean;
+  avatar?: Media;
+  banner?: Media;
+  accessToken: string;
+}
+
+export interface RegisterResponse {
+  name: string;
+  email: string;
+  bio?: string;
+  venueManager?: boolean;
+  avatar?: Media;
+  banner?: Media;
+}
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  bio?: string;
+  venueManager?: boolean;
+  avatar?: Media;
+  banner?: Media;
 }

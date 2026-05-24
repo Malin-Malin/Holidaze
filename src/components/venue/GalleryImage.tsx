@@ -8,6 +8,13 @@ export type GalleryImageProps = {
   className?: string;
 };
 
+/**
+ * Component for displaying a single gallery image with fallback support.
+ * @param {GalleryImageProps} props
+ * @param {Media} props.image - The image to display.
+ * @param {string} [props.className] - Additional CSS classes.
+ * @returns {JSX.Element}
+ */
 export default function GalleryImage({ image, className }: GalleryImageProps) {
   return (
     <SafeImage

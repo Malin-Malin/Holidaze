@@ -10,6 +10,14 @@ type VenueLocationSectionProps = {
   errors?: Partial<Record<keyof VenueFormState, string>>;
 };
 
+/**
+ * Section component for venue location fields (city and country).
+ * @param {VenueLocationSectionProps} props
+ * @param {VenueFormState} props.form - The form state object.
+ * @param {(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void} props.onChange - Handler for input changes.
+ * @param {Partial<Record<keyof VenueFormState, string>>} [props.errors] - Validation errors.
+ * @returns {JSX.Element}
+ */
 const VenueLocationSection = ({
   form,
   onChange,

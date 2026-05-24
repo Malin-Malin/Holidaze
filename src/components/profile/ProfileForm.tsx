@@ -13,7 +13,7 @@ import { useToast } from "../../hooks/useToast";
 import { useDirtyFormBlocker } from "../../hooks/useDirtyFormBlocker";
 import type { Profile, ProfileData } from "../../types/profile.types";
 import { isValidHttpUrl, toHttpUrl } from "../../utils/url";
-import { isFormDirty } from "../../utils/isFormDirty";
+import { isFormDirty } from "../../utils/form";
 
 type ProfileFormData = {
   avatarUrl: string;
@@ -30,6 +30,13 @@ type ProfileFormProps = {
   initialProfile: Partial<Profile>;
 };
 
+/**
+ * Profile form component for editing user profile details.
+ * Handles avatar, banner, bio, and venue manager status.
+ * @param {ProfileFormProps} props
+ * @param {Partial<Profile>} props.initialProfile - The initial profile data.
+ * @returns {JSX.Element}
+ */
 const ProfileForm = ({ initialProfile }: ProfileFormProps) => {
   const { user, setUserInfo } = useAuth();
   const navigate = useNavigate();

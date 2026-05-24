@@ -12,7 +12,7 @@ import RequireAuth from "./components/auth/RequireAuth";
 
 import AuthProvider from "./context/AuthProvider";
 import ToastProvider from "./context/ToastProvider";
-import { ToastContainer } from "./components/ui/Toast";
+import ToastContainer from "./components/ui/Toast";
 
 import {
   HomePage,

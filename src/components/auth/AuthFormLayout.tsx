@@ -6,6 +6,14 @@ type AuthFormLayoutProps = {
   children: ReactNode;
 };
 
+/**
+ * Layout component for authentication forms, providing a styled section and form wrapper.
+ * @param {AuthFormLayoutProps} props
+ * @param {string} props.title - The title of the form.
+ * @param {(e: React.SubmitEvent<HTMLFormElement>) => void | Promise<void>} props.onSubmit - Form submit handler.
+ * @param {ReactNode} props.children - Form fields and content.
+ * @returns {JSX.Element}
+ */
 const AuthFormLayout = ({ title, onSubmit, children }: AuthFormLayoutProps) => {
   return (
     <section className="auth-page-theme relative h-full min-h-0 w-full overflow-hidden">

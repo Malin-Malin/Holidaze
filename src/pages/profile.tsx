@@ -20,10 +20,7 @@ const ProfilePage = () => {
   const { profile, managedUpcomingBookings, isLoading, errorMessage } =
     useProfileData(user?.name);
   const bannerUrl = profile?.banner?.url?.trim();
-  const bannerSrc = useResolvedImageSrc({
-    src: bannerUrl,
-    fallbackSrc: placeholderProfileBanner,
-  });
+  const bannerSrc = useResolvedImageSrc(bannerUrl, placeholderProfileBanner);
 
   if (isLoading) {
     return <ProfilePageSkeleton />;

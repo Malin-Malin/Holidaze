@@ -12,6 +12,18 @@ type PaginationProps = {
   goToPage: (page: number) => void;
 };
 
+/**
+ * Pagination component for navigating paginated data sets.
+ * @param {PaginationProps} props
+ * @param {number} props.currentPage - The current page number.
+ * @param {number} props.pageCount - Total number of pages.
+ * @param {boolean} props.isFirstPage - If the current page is the first.
+ * @param {boolean} props.isLastPage - If the current page is the last.
+ * @param {() => void} props.goToPreviousPage - Handler for previous page.
+ * @param {() => void} props.goToNextPage - Handler for next page.
+ * @param {(page: number) => void} props.goToPage - Handler for direct page navigation.
+ * @returns {JSX.Element}
+ */
 const Pagination = ({
   currentPage,
   pageCount,

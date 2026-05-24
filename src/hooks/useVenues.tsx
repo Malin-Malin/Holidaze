@@ -23,6 +23,17 @@ type UseVenuesOptions = {
   useRandomPage?: boolean;
 };
 
+/**
+ * Custom hook to fetch and manage a paginated list of venues.
+ * @param {number} [initialPage=1] - The initial page to load.
+ * @param {Object} [options] - Options for filtering, sorting, and pagination.
+ * @param {string} [options.query] - Search query for venues.
+ * @param {number} [options.count] - Number of venues per page.
+ * @param {string} [options.orderBy] - Field to order by.
+ * @param {"asc"|"desc"} [options.orderDirection] - Order direction.
+ * @param {boolean} [options.useRandomPage] - Whether to use a random page.
+ * @returns {UseVenuesResult} Venue data, loading state, error message, and pagination controls.
+ */
 export function useVenues(
   initialPage = 1,
   options: UseVenuesOptions = {},
@@ -105,7 +116,7 @@ export function useVenues(
           currentPage,
           pageSize,
           orderBy,
-          orderDirection
+          orderDirection,
         );
         const matchedVenues = response.data;
 

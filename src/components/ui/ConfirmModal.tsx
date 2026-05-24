@@ -12,6 +12,18 @@ interface ConfirmModalProps {
   onCancel: () => void;
 }
 
+/**
+ * Modal dialog for confirming user actions (e.g., delete, submit).
+ * @param {ConfirmModalProps} props
+ * @param {boolean} props.open - Whether the modal is open.
+ * @param {string} [props.title] - Title of the modal.
+ * @param {string} props.message - Confirmation message.
+ * @param {string} [props.confirmText] - Confirm button text.
+ * @param {string} [props.cancelText] - Cancel button text.
+ * @param {() => void} props.onConfirm - Handler for confirm action.
+ * @param {() => void} props.onCancel - Handler for cancel action.
+ * @returns {JSX.Element | null}
+ */
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   open,
   title = "Are you sure?",

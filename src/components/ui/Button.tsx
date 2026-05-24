@@ -13,6 +13,16 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   "aria-label"?: string;
 };
 
+/**
+ * Button component with customizable variant, size, and width.
+ * @param {ButtonProps} props
+ * @param {ButtonVariant} [props.variant] - Button style variant.
+ * @param {ButtonSize} [props.size] - Button size.
+ * @param {ButtonWidth} [props.width] - Button width.
+ * @param {string} [props.className] - Additional CSS classes.
+ * @param {ReactNode} props.children - Button content.
+ * @returns {JSX.Element}
+ */
 const Button = ({
   variant = "primary",
   size = "md",

@@ -11,6 +11,10 @@ const NAV_LINKS = [
   { href: "/login", label: "Login", notAuthOnly: true },
 ];
 
+/**
+ * Header component with navigation links and hamburger menu for mobile.
+ * @returns {JSX.Element}
+ */
 const Header = () => {
   const { isLoggedIn } = useAuth();
   return (

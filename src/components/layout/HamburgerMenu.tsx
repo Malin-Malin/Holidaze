@@ -16,6 +16,10 @@ const NAV_LINKS = [
   { href: "/login", label: "Login", notAuthOnly: true },
 ];
 
+/**
+ * Hamburger menu component for mobile navigation.
+ * @returns {JSX.Element}
+ */
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

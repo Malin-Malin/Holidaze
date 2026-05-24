@@ -15,6 +15,11 @@ type UseProfileDataResult = {
   refresh: () => Promise<void>;
 };
 
+/**
+ * Extracts upcoming bookings from a list of managed venues.
+ * @param {Venue[]} managedVenues - The list of venues managed by the profile.
+ * @returns {Booking[]} A sorted list of upcoming bookings for the managed venues.
+ */
 function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
   const now = new Date();
 
@@ -40,6 +45,11 @@ function extractUpcomingManagedBookings(managedVenues: Venue[]): Booking[] {
     );
 }
 
+/**
+ * Custom hook to fetch and manage profile data and managed upcoming bookings.
+ * @param {string | undefined} userName - The profile name to fetch data for.
+ * @returns {UseProfileDataResult} Profile data, managed bookings, loading state, error message, and refresh function.
+ */
 export function useProfileData(
   userName: string | undefined,
 ): UseProfileDataResult {
