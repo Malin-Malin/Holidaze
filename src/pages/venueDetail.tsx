@@ -97,9 +97,13 @@ const VenueDetail = () => {
     updated: booking.updated,
   }));
 
+  const venueTitle = venue.name
+    ? `Holidaze | ${venue.name}`
+    : "Holidaze | Venue details";
+
   return (
     <>
-      <title>Holidaze | {venue.name}</title>
+      <title>{venueTitle}</title>
       <meta name="description" content={metaDescription} />
       <section className="pb-10">
         <Gallery media={venue.media} />
@@ -135,7 +139,7 @@ const VenueDetail = () => {
             <p className="pt-2 text-[var(--text)]">{detailsText}</p>
           </section>
           <section className="px-4 text-start md:px-6 lg:w-auto lg:flex-1">
-            <h3>Availability</h3>
+            <h2>Availability</h2>
             <AvailabilityCalendar
               bookings={venue.bookings ?? []}
               selectedDateFrom={selectedDateFrom}
